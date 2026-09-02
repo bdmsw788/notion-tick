@@ -20,4 +20,12 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    rollupOptions: {
+      input: {
+        main: './index.html',
+        church_navigator: './church_building_navigator.html',
+      },
+    },
+  },
 });

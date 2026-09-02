@@ -1,0 +1,8 @@
+node_modules
+.git
+hokuriku-app
+hokuriku-portal
+gospel-seeds
+dist
+*.csv
+*.xlsx

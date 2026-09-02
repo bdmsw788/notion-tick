@@ -121,11 +121,11 @@
                 教会建築・リフォーム総合ナビゲーター
               </h1>
               <span class="bg-gradient-to-r from-amber-500/20 to-amber-400/30 text-amber-200 border border-amber-400/30 text-[11px] px-2.5 py-0.5 rounded-full font-sans font-medium hidden sm:inline-block">
-                🔰 はじめての入門・実践完全版
+                🔰 新米牧師・役員 共通理解エディション v4.0
               </span>
             </div>
             <p class="text-xs text-[#C8B8A6] hidden md:block">
-              「何から始めればいい？」「専門用語がわからない」を、先輩が隣で優しく教えるように徹底解説
+              「初めてで何もわからない」を、メンバー全員が一致して設計士・工務店と対等に話せる力に変える実践システム
             </p>
           </div>
         </div>
@@ -141,6 +141,10 @@
 
         <!-- ユーティリティ -->
         <div class="flex items-center space-x-2">
+          <button onclick="app.openShareModal()" class="px-3 py-1.5 rounded-xl bg-emerald-800/80 hover:bg-emerald-700 text-emerald-100 border border-emerald-500/40 text-xs flex items-center space-x-1.5 transition shadow-xs">
+            <span>📲</span>
+            <span class="font-bold">教会でシェア</span>
+          </button>
           <button onclick="app.openGlossaryModal()" class="px-3 py-1.5 rounded-xl bg-amber-900/60 hover:bg-amber-800 text-amber-200 border border-amber-600/40 text-xs flex items-center space-x-1.5 transition shadow-xs">
             <span>📖</span>
             <span class="font-bold">用語事典</span>
@@ -172,35 +176,44 @@
           <button onclick="app.switchTab('guide')" data-tab="guide" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-white bg-amber-700 font-bold shadow-xs">
             <span>🔰</span><span>ゼロからわかる入門</span>
           </button>
+          <button onclick="app.switchTab('cases')" data-tab="cases" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
+            <span>💡</span><span>先輩の失敗談＆教訓</span>
+          </button>
+          <button onclick="app.switchTab('meetings')" data-tab="meetings" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
+            <span>👥</span><span>建築委員会アジェンダ</span>
+          </button>
+          <button onclick="app.switchTab('rfp')" data-tab="rfp" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
+            <span>🏛️</span><span>設計士要望書(RFP)</span>
+          </button>
           <button onclick="app.switchTab('roadmap')" data-tab="roadmap" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
-            <span>🧭</span><span>1. 工程 & 逆算日程</span>
+            <span>🧭</span><span>工程 & 逆算日程</span>
           </button>
           <button onclick="app.switchTab('budget')" data-tab="budget" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
-            <span>💰</span><span>2. 予算 & 返済CF</span>
+            <span>💰</span><span>予算 & 返済CF</span>
           </button>
           <button onclick="app.switchTab('costReduction')" data-tab="costReduction" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
-            <span>✂️</span><span>3. 見積精査 & VE削減</span>
+            <span>✂️</span><span>見積精査 & VE削減</span>
           </button>
           <button onclick="app.switchTab('property')" data-tab="property" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
-            <span>🏛️</span><span>4. 土地選び & 現地点検</span>
+            <span>🏛️</span><span>土地選び & 点検</span>
           </button>
           <button onclick="app.switchTab('rooms')" data-tab="rooms" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
-            <span>📐</span><span>5. 部屋別 & 音響AV</span>
+            <span>📐</span><span>部屋別 & AV機材</span>
           </button>
           <button onclick="app.switchTab('legal')" data-tab="legal" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
-            <span>⚖️</span><span>6. 非課税 & 書類生成</span>
+            <span>⚖️</span><span>非課税 & 書類生成</span>
           </button>
           <button onclick="app.switchTab('unity')" data-tab="unity" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
-            <span>🤝</span><span>7. 信徒周知 & プレゼン</span>
+            <span>🤝</span><span>信徒周知 & Q&A</span>
           </button>
           <button onclick="app.switchTab('crowdfunding')" data-tab="crowdfunding" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
-            <span>🚀</span><span>8. クラウドファンディング</span>
+            <span>🚀</span><span>クラウドファンディング</span>
           </button>
           <button onclick="app.switchTab('diy')" data-tab="diy" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
-            <span>🔨</span><span>9. 信徒DIY & 安全</span>
+            <span>🔨</span><span>信徒DIY & 安全</span>
           </button>
           <button onclick="app.switchTab('links')" data-tab="links" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
-            <span>📚</span><span>10. 公式根拠リンク集</span>
+            <span>📚</span><span>公式根拠リンク集</span>
           </button>
         </nav>
       </div>
@@ -213,10 +226,9 @@
   <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
 
     <!-- ================================================================ -->
-    <!-- TAB GUIDE (新設): ゼロからわかる会堂建築 入門ツアー                 -->
+    <!-- TAB GUIDE: ゼロからわかる会堂建築 入門ツアー                     -->
     <!-- ================================================================ -->
     <div id="tab-guide" class="tab-content space-y-6">
-      <!-- 導入メッセージ -->
       <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
         <div class="flex items-start gap-4 border-b border-[#F0E6D8] pb-6">
           <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center text-2xl font-bold shrink-0">
@@ -262,7 +274,7 @@
                 </p>
               </div>
               <p>
-                結果として、本体工事費にプラスして**「約30〜40%の付帯費用・諸経費」**が必ず上乗せされます。本アプリの【タブ2：予算シミュレーター】では、これらの見落としがちな項目を最初からすべて組み込んで計算できるようにしてあります。
+                結果として、本体工事費にプラスして**「約30〜40%の付帯費用・諸経費」**が必ず上乗せされます。本アプリの【予算シミュレーター】では、これらの見落としがちな項目を最初からすべて組み込んで計算できるようにしてあります。
               </p>
             </div>
           </div>
@@ -295,9 +307,6 @@
                   建物を建てるには「幅4メートル以上の道路に接していなければならない」という大原則があります。もし前面道路が3メートルしかない場合、将来の道路拡幅のために、<strong>道路の中心から2メートル後退した線まで敷地を道路として差し出さなければなりません</strong>。70坪あると思っていた土地が、実質55坪しか使えなくなることもあるのです。
                 </p>
               </div>
-              <p>
-                土地を検討するときは、不動産屋さんに「教会（礼拝堂）として建築可能か」「道路後退（セットバック）で何平米削られるか」を必ず事前に役所へ確認してもらいましょう。【タブ4】の現地チェックシートを片手に見学に行くと安心です。
-              </p>
             </div>
           </div>
 
@@ -317,7 +326,7 @@
             </button>
             <div id="story3-content" class="hidden p-5 sm:p-6 bg-white border-t border-[#E8DAC7] text-xs sm:text-sm text-[#4A3B2C] leading-relaxed space-y-3">
               <p>
-                教会建築を一般のハウスメーカーに頼むと、普通の住宅や会議室と同じ感覚で設計されてしまい、後から大問題になることがよくあります。教会特有の「音の課題」があるからです。
+                教会建築を一般のハウスメーカーに頼むと、普通の住宅や会議室と同じ感覚で設計されてしまい、後から大問題になることがよくあります。
               </p>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
                 <div class="bg-[#FAF6FF] p-3.5 rounded-xl border border-purple-200">
@@ -333,9 +342,6 @@
                   </p>
                 </div>
               </div>
-              <p>
-                また、ドラムのキック音やベースの重低音は壁を簡単にすり抜けて近隣に届くため、二重サッシや吸音パネルの配置が不可欠です。【タブ5】で各部屋の詳しい設計ポイントを確認してみましょう。
-              </p>
             </div>
           </div>
 
@@ -355,18 +361,15 @@
             </button>
             <div id="story4-content" class="hidden p-5 sm:p-6 bg-white border-t border-[#E8DAC7] text-xs sm:text-sm text-[#4A3B2C] leading-relaxed space-y-3">
               <p>
-                宗教法人が自分たちの礼拝のために土地や建物を取得した場合、登記にかかる「登録免許税」や「不動産取得税」、毎年の「固定資産税」が非課税になります。これは数百万単位の大きな支援です。
+                宗教法人が自分たちの礼拝のために土地や建物を取得した場合、登記にかかる「登録免許税」や「不動産取得税」、毎年の「固定資産税」が非課税になります。
               </p>
               <div class="bg-[#F2FAF7] p-4 rounded-xl border border-teal-300 space-y-2">
                 <strong class="text-teal-950 block text-xs sm:text-sm">⚠️ 絶対の鉄則：登記申請をする「前」に知事証明を取ること！</strong>
                 <p class="text-xs text-[#2A5239]">
-                  登記所で「登録免許税を免除してください」と認めてもらうには、都道府県知事が発行する「境内建物および境内地証明書」という紙を登記申請書に添えて提出しなければなりません。<br>
-                  もし「急いでいるから先に登記を済ませて、後から証明書を出して返金してもらおう」と考えても、<strong>税務署や法務局は絶対に還付してくれません（還付規定が法律にないため）</strong>。必ず【売買契約・着工 ➔ 都道府県知事へ申請 ➔ 証明書受領 ➔ 登記申請】という順番を死守してください！
+                  登記所で「登録免許税を免除してください」と認めてもらうには、都道府県知事が発行する「境内建物および境内地証明書」という紙を添付して提出しなければなりません。<br>
+                  もし「急いでいるから先に登記を済ませて、後から証明書を出して返金してもらおう」と考えても、<strong>税務署や法務局は絶対に還付してくれません</strong>。必ず【売買契約・着工 ➔ 都道府県知事へ申請 ➔ 証明書受領 ➔ 登記申請】という順番を死守してください！
                 </p>
               </div>
-              <p>
-                【タブ6】では、知事宛てに提出する申請書や、そのために必要な役員会議事録の文面をワンクリックで自動作成できるツールを用意しています。
-              </p>
             </div>
           </div>
 
@@ -392,15 +395,12 @@
                 <strong class="text-amber-900 block text-xs sm:text-sm">💡 不安の正体は「情報が見えないこと」と「強制される恐れ」</strong>
                 <p class="text-xs text-[#695342]">
                   信徒が反対したり消極的になるのは、教会を愛していないからではなく、「多額の借金で教会が潰れないか心配」「献金を無理に割り当てられるのではないか」という恐れがあるからです。<br>
-                  ・「借金は月々の一般献金の15〜20%以下に抑える安全な返済計画にする（タブ2参照）」<br>
+                  ・「借金は月々の一般献金の15〜20%以下に抑える安全な返済計画にする」<br>
                   ・「献金は強制ではなく、祈りによる神様との個人的な応答である」<br>
-                  ・「お金だけでなく、DIY作業やお茶出し、お祈りなど、誰もが自分のできる形で参加できる（タブ9参照）」<br>
+                  ・「お金だけでなく、DIY作業やお茶出し、お祈りなど、誰もが自分のできる形で参加できる」<br>
                   ということを、数字と具体的な言葉で透明に伝えることが何よりの安心になります。
                 </p>
               </div>
-              <p>
-                【タブ7】には、信徒説明会でそのまま配れるサマリー資料や、よく出る質問への優しい回答例、信徒アンケートのテンプレートを揃えています。
-              </p>
             </div>
           </div>
         </div>
@@ -409,15 +409,259 @@
         <div class="mt-8 bg-gradient-to-r from-amber-800 to-amber-900 text-white p-6 rounded-2xl shadow-warm flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <h3 class="font-serif font-bold text-base sm:text-lg text-amber-100">
-              準備はできましたか？ 実際のステップへ進みましょう。
+              次は、先輩たちの生々しいリアル失敗談をチェックしましょう！
             </h3>
             <p class="text-xs text-amber-200/80 mt-1">
-              まずは全体のスケジュールが見える【1. 工程 & 逆算日程】か、概算見積もりが出る【2. 予算 & 返済CF】へお進みください。
+              「近隣騒音トラブル」「予算オーバー事件」「音響卓のミス」など、事前に知っていれば防げる教訓をまとめました。
             </p>
           </div>
-          <button onclick="app.switchTab('roadmap')" class="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs whitespace-nowrap transition shadow-sm">
-            工程ロードマップを見る ➔
+          <button onclick="app.switchTab('cases')" class="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs whitespace-nowrap transition shadow-sm">
+            先輩の失敗談＆教訓を見る ➔
           </button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ================================================================ -->
+    <!-- TAB CASES (新設): 先輩教会の生々しいリアル失敗談＆教訓集          -->
+    <!-- ================================================================ -->
+    <div id="tab-cases" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
+        <div class="border-b border-[#F0E6D8] pb-6">
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-rose-800 bg-rose-50 px-3 py-1 rounded-full mb-2">
+            Real Case Studies & Hard Lessons
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-[#3A2A1D]">先輩教会の生々しいリアル失敗談 ＆ 奇跡の教訓集</h2>
+          <p class="text-xs sm:text-sm text-[#735A45] mt-1.5">
+            教科書には書いていない、実際に先輩牧師や役員が血と涙を流して学んだ5つの落とし穴。これを事前に読むだけで、トラブルの9割を回避できます。
+          </p>
+        </div>
+
+        <div class="mt-6 space-y-6">
+          <!-- Case 1 -->
+          <div class="bg-[#FFFDF7] border-2 border-amber-300/80 rounded-2xl p-5 sm:p-6 shadow-xs">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-bold bg-rose-600 text-white px-2.5 py-0.5 rounded-full">失敗例 1</span>
+              <h3 class="font-bold text-base sm:text-lg text-[#3A2A1D]">「日曜朝の近隣トラブル事件」〜毎週警察を呼ばれて礼拝にならなかった教会〜</h3>
+            </div>
+            <div class="text-xs sm:text-sm text-[#4A3B2C] space-y-3 leading-relaxed mt-3">
+              <div class="bg-[#FBF4E8] p-4 rounded-xl border border-amber-200">
+                <strong class="text-rose-900 block mb-1">😱 何が起きたか？</strong>
+                閑静な住宅街に念願の独立会堂を新築。しかし「ドラムの低音」と「日曜朝の讃美歌」、さらに教会員が「ちょっとだけなら」と会堂前の路上に車を停めたことで近隣住民が大激怒。毎週日曜の礼拝中にパトカーがサイレンを鳴らして駆けつけ、牧師が礼拝を中断して頭を下げる事態に…。
+              </div>
+              <div class="bg-[#F2FAF5] p-4 rounded-xl border border-emerald-200">
+                <strong class="text-emerald-950 block mb-1">✨ 先輩からの教訓 ＆ 私たちが取るべき対策</strong>
+                1. <strong>ドラムの重低音は壁を突き抜ける：</strong>電子ドラムにするか、ドラム防音シールド＋浮き床構造にする。<br>
+                2. <strong>路上駐車ゼロの徹底：</strong>近隣のコインパーキングや月極駐車場を教会負担で借り上げ、「路上駐車は教会として絶対に禁止」と周知徹底する。<br>
+                3. <strong>近隣清掃と笑顔の挨拶：</strong>毎週日曜の礼拝前後に周辺道路のゴミ拾いを行い、町内会のイベントにも積極的に顔を出して良い隣人関係を築く。
+              </div>
+            </div>
+          </div>
+
+          <!-- Case 2 -->
+          <div class="bg-[#FFFDF7] border-2 border-amber-300/80 rounded-2xl p-5 sm:p-6 shadow-xs">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-bold bg-rose-600 text-white px-2.5 py-0.5 rounded-full">失敗例 2</span>
+              <h3 class="font-bold text-base sm:text-lg text-[#3A2A1D]">「予算1.5倍で計画頓挫寸前事件」〜建築士のこだわりと役員会の空中分解〜</h3>
+            </div>
+            <div class="text-xs sm:text-sm text-[#4A3B2C] space-y-3 leading-relaxed mt-3">
+              <div class="bg-[#FBF4E8] p-4 rounded-xl border border-amber-200">
+                <strong class="text-rose-900 block mb-1">😱 何が起きたか？</strong>
+                有名な建築士に設計を依頼したところ、美しく芸術的なデザインの模型が完成して大盛り上がり。しかし、いざ工務店から見積もりを取ると、予算6,000万円に対して「見積額9,500万円」。役員会では「誰がこんな無茶な設計にしたんだ」「祈りが足りない」と互いに非難し合い、建設計画が2年間凍結してしまった…。
+              </div>
+              <div class="bg-[#F2FAF5] p-4 rounded-xl border border-emerald-200">
+                <strong class="text-emerald-950 block mb-1">✨ 先輩からの教訓 ＆ 私たちが取るべき対策</strong>
+                1. <strong>予算上限（キャップ）を書面で渡す：</strong>設計士との契約時に「総額○千万円を1円でも超える設計は受け付けない」と明記した要望書（RFP）を手渡す。<br>
+                2. <strong>基本設計の段階で概算見積もりを取る：</strong>最終図面ができてから見積もるのではなく、間取りが決まった段階で工務店に概算を出してもらう。<br>
+                3. <strong>VE（バリューエンジニアリング）の知恵：</strong>建物の形をシンプルな箱型にし、照明やエアコンを施主支給することで1,500万円のコストカットに成功した教会もあります。
+              </div>
+            </div>
+          </div>
+
+          <!-- Case 3 -->
+          <div class="bg-[#FFFDF7] border-2 border-amber-300/80 rounded-2xl p-5 sm:p-6 shadow-xs">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-bold bg-rose-600 text-white px-2.5 py-0.5 rounded-full">失敗例 3</span>
+              <h3 class="font-bold text-base sm:text-lg text-[#3A2A1D]">「知事証明を後回しにして200万円を失いかけた事件」〜登記期限の恐怖〜</h3>
+            </div>
+            <div class="text-xs sm:text-sm text-[#4A3B2C] space-y-3 leading-relaxed mt-3">
+              <div class="bg-[#FBF4E8] p-4 rounded-xl border border-amber-200">
+                <strong class="text-rose-900 block mb-1">😱 何が起きたか？</strong>
+                建物が完成し、引き渡しを急ぐあまり、司法書士から「急ぎ登記を入れましょう」と言われるがまま登記手続きを進めようとした。牧師がふと先輩に電話したところ「知事証明は取ったのか！？登記の前じゃないと登録免許税200万円が非課税にならないぞ！」と言われ、慌てて登記をストップ。もし1日遅れていたら200万円をドブに捨てるところだった…。
+              </div>
+              <div class="bg-[#F2FAF5] p-4 rounded-xl border border-emerald-200">
+                <strong class="text-emerald-950 block mb-1">✨ 先輩からの教訓 ＆ 私たちが取るべき対策</strong>
+                1. <strong>着工と同時に知事証明の準備を始める：</strong>都道府県庁の宗教法人担当課に相談し、必要書類（議事録、図面、週報等）を揃えておく。<br>
+                2. <strong>司法書士に「知事証明を添付して非課税登記すること」を念押し：</strong>教会物件の登記に慣れていない一般の司法書士だと、知事証明の存在を知らない場合もあります。
+              </div>
+            </div>
+          </div>
+
+          <!-- Case 4 -->
+          <div class="bg-[#FFFDF7] border-2 border-amber-300/80 rounded-2xl p-5 sm:p-6 shadow-xs">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-bold bg-rose-600 text-white px-2.5 py-0.5 rounded-full">失敗例 4</span>
+              <h3 class="font-bold text-base sm:text-lg text-[#3A2A1D]">「音響卓をガラス部屋に入れて大失敗した事件」〜オペレーターの悲鳴〜</h3>
+            </div>
+            <div class="text-xs sm:text-sm text-[#4A3B2C] space-y-3 leading-relaxed mt-3">
+              <div class="bg-[#FBF4E8] p-4 rounded-xl border border-amber-200">
+                <strong class="text-rose-900 block mb-1">😱 何が起きたか？</strong>
+                「テレビ局のスタジオみたいでかっこいいから」と、礼拝堂の後ろにガラス窓付きの密閉された音響室を作った。しかし、礼拝が始まるとオペレーターはガラスで遮られた部屋の中にいるため「礼拝堂の会衆に音がどう聞こえているか」が全く分からず、ハウリングや爆音が多発。結局、献堂から半年後に壁とガラスを撤去する追加工事（100万円）を行う羽目に…。
+              </div>
+              <div class="bg-[#F2FAF5] p-4 rounded-xl border border-emerald-200">
+                <strong class="text-emerald-950 block mb-1">✨ 先輩からの教訓 ＆ 私たちが取るべき対策</strong>
+                1. <strong>音響卓は礼拝堂内の後方オープン配置が絶対鉄則：</strong>自分の耳で信徒と同じ音を聴きながらフェーダーを操作する。<br>
+                2. <strong>密閉が必要なのは「母子室」だけ：</strong>赤ちゃんの泣き声を遮る母子室と、音響卓のブースを混同してはいけません。
+              </div>
+            </div>
+          </div>
+
+          <!-- Case 5 -->
+          <div class="bg-[#FFFDF7] border-2 border-amber-300/80 rounded-2xl p-5 sm:p-6 shadow-xs">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-bold bg-rose-600 text-white px-2.5 py-0.5 rounded-full">失敗例 5</span>
+              <h3 class="font-bold text-base sm:text-lg text-[#3A2A1D]">「大人の席数を優先して子ども部屋を削り、若いファミリーが去った事件」</h3>
+            </div>
+            <div class="text-xs sm:text-sm text-[#4A3B2C] space-y-3 leading-relaxed mt-3">
+              <div class="bg-[#FBF4E8] p-4 rounded-xl border border-amber-200">
+                <strong class="text-rose-900 block mb-1">😱 何が起きたか？</strong>
+                「少しでも多くの人が礼拝できるように」と、敷地ギリギリまで礼拝堂を広くし、母子室は物置のような3畳、子ども部屋（CS教室）はゼロに。すると、新会堂ができてから若い子育て世代の夫婦が「赤ちゃんが泣くと居場所がない」「子どもが伸び伸び過ごせない」と次々に教会を離れてしまい、数年後に高齢化が急速に進んでしまった…。
+              </div>
+              <div class="bg-[#F2FAF5] p-4 rounded-xl border border-emerald-200">
+                <strong class="text-emerald-950 block mb-1">✨ 先輩からの教訓 ＆ 私たちが取るべき対策</strong>
+                1. <strong>次の世代（子ども・母子）ファーストの空間設計：</strong>礼拝堂の席数が多少減っても、明るく清潔で完全防音の母子室と、子どもたちが遊べるスペースを死守する。<br>
+                2. <strong>可動式間仕切りの活用：</strong>平日は子ども広場、日曜は分級教室や愛餐会カフェとして使える多目的ホールを設ける。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 bg-gradient-to-r from-amber-800 to-amber-900 text-white p-6 rounded-2xl shadow-warm flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <h3 class="font-serif font-bold text-base sm:text-lg text-amber-100">
+              失敗を防ぐには、建築委員会の「会議の進め方」が鍵です！
+            </h3>
+            <p class="text-xs text-amber-200/80 mt-1">
+              役員会・建築委員会でそのまま使える「全5回の議事アジェンダ」をチェックしましょう。
+            </p>
+          </div>
+          <button onclick="app.switchTab('meetings')" class="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs whitespace-nowrap transition shadow-sm">
+            建築委員会アジェンダを見る ➔
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ================================================================ -->
+    <!-- TAB MEETINGS (新設): 建築委員会・役員会 会議進行アジェンダ       -->
+    <!-- ================================================================ -->
+    <div id="tab-meetings" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
+        <div class="border-b border-[#F0E6D8] pb-6">
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-indigo-800 bg-indigo-50 px-3 py-1 rounded-full mb-2">
+            Committee Facilitation & Meeting Agendas
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-[#3A2A1D]">建築委員会・役員会 会議進行アジェンダ ＆ 合意形成マスター</h2>
+          <p class="text-xs sm:text-sm text-[#735A45] mt-1.5">
+            「委員会に集まったけれど、何から議論すればいいかわからない…」を防ぐための実践ツール。全5回のテーマとアジェンダをワンクリックで出力・LINE共有できます。
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+          <!-- 回数選択ナビ -->
+          <div class="space-y-2">
+            <label class="block text-xs font-bold text-[#523F2F] mb-1">進行ステップを選択</label>
+            <button onclick="app.selectMeetingStep(1)" id="mStepBtn-1" class="w-full text-left p-3.5 rounded-2xl border transition flex items-center justify-between text-xs sm:text-sm font-bold bg-amber-800 text-white border-amber-900 shadow-xs">
+              <span>第1回：ビジョン共有と現状分析</span>
+              <span>➔</span>
+            </button>
+            <button onclick="app.selectMeetingStep(2)" id="mStepBtn-2" class="w-full text-left p-3.5 rounded-2xl border transition flex items-center justify-between text-xs sm:text-sm font-bold bg-[#FBF8F3] text-[#3A2A1D] border-[#EBE1D4] hover:bg-[#F5EFEB]">
+              <span>第2回：予算と限界値（借入返済診断）</span>
+              <span>➔</span>
+            </button>
+            <button onclick="app.selectMeetingStep(3)" id="mStepBtn-3" class="w-full text-left p-3.5 rounded-2xl border transition flex items-center justify-between text-xs sm:text-sm font-bold bg-[#FBF8F3] text-[#3A2A1D] border-[#EBE1D4] hover:bg-[#F5EFEB]">
+              <span>第3回：部屋の使い勝手と優先順位</span>
+              <span>➔</span>
+            </button>
+            <button onclick="app.selectMeetingStep(4)" id="mStepBtn-4" class="w-full text-left p-3.5 rounded-2xl border transition flex items-center justify-between text-xs sm:text-sm font-bold bg-[#FBF8F3] text-[#3A2A1D] border-[#EBE1D4] hover:bg-[#F5EFEB]">
+              <span>第4回：建築士・施工会社選びとコンペ</span>
+              <span>➔</span>
+            </button>
+            <button onclick="app.selectMeetingStep(5)" id="mStepBtn-5" class="w-full text-left p-3.5 rounded-2xl border transition flex items-center justify-between text-xs sm:text-sm font-bold bg-[#FBF8F3] text-[#3A2A1D] border-[#EBE1D4] hover:bg-[#F5EFEB]">
+              <span>第5回：信徒総会リハーサル・質疑対策</span>
+              <span>➔</span>
+            </button>
+
+            <div class="mt-4 bg-[#FFFDF7] p-4 rounded-2xl border border-amber-200 text-xs text-[#695342] space-y-2">
+              <strong class="text-amber-900 block font-bold">💡 会議を成功させる3大原則</strong>
+              <p>1. <strong>祈りで始め、祈りで終わる：</strong>議論が白熱しても、神様の導きに立ち返る時間を必ず取る。</p>
+              <p>2. <strong>発言しにくい人の声を拾う：</strong>声の大きい人だけでなく、女性や青年、シニアの意見を順番に聞く。</p>
+              <p>3. <strong>決定事項と次回宿題をメモ：</strong>決まったこと・保留にしたことをその場で確認する。</p>
+            </div>
+          </div>
+
+          <!-- アジェンダ詳細＆コピー -->
+          <div class="lg:col-span-2 bg-[#FBF8F3] p-6 rounded-3xl border border-[#EBE1D4] flex flex-col justify-between shadow-xs">
+            <div>
+              <div class="flex items-center justify-between border-b border-[#EBE1D4] pb-3 mb-4">
+                <div class="flex items-center gap-2">
+                  <span class="w-7 h-7 rounded-full bg-amber-700 text-white flex items-center justify-center font-bold text-xs" id="meetingStepNumDisplay">1</span>
+                  <h3 class="font-bold text-base sm:text-lg text-[#3A2A1D]" id="meetingStepTitleDisplay">第1回：ビジョン共有と現状分析</h3>
+                </div>
+                <button onclick="app.copyMeetingAgenda()" class="px-3.5 py-1.5 rounded-xl bg-amber-800 hover:bg-amber-900 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition">
+                  <span>📋</span> <span>アジェンダをコピー</span>
+                </button>
+              </div>
+
+              <div id="meetingAgendaDetailArea" class="space-y-4 text-xs sm:text-sm text-[#4A3B2C] leading-relaxed"></div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-[#EBE1D4] text-[11px] text-[#8C7461]">
+              ※「アジェンダをコピー」を押すと、LINEグループや案内メールにそのまま貼り付けられるフォーマットでコピーされます。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ================================================================ -->
+    <!-- TAB RFP (新設): 設計士・工務店向け 要望書（RFP）自動作成        -->
+    <!-- ================================================================ -->
+    <div id="tab-rfp" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
+        <div class="border-b border-[#F0E6D8] pb-6">
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full mb-2">
+            Request For Proposal (RFP) Generator
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-[#3A2A1D]">設計士・工務店向け「施主（教会）要望書（RFP）」自動作成ツール</h2>
+          <p class="text-xs sm:text-sm text-[#735A45] mt-1.5">
+            建築士や工務店に「お任せ」にすると、住宅用の感覚で設計されて予算オーバーや音の失敗が起きます。教会側の要件をプロに100%伝える正式な「要望書」を瞬時に生成します。
+          </p>
+        </div>
+
+        <div class="mt-6 bg-[#FBF8F3] p-5 sm:p-6 rounded-3xl border border-[#EBE1D4]">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#EBE1D4] pb-4 mb-4">
+            <div>
+              <span class="text-[11px] font-bold text-emerald-900 bg-emerald-100 px-2.5 py-0.5 rounded-full">Architect Briefing Document</span>
+              <h3 class="text-base sm:text-lg font-bold text-[#2A4735] mt-1">
+                教会要望書（RFP）プレビュー
+              </h3>
+            </div>
+            <button onclick="app.copyRfpDocument()" class="px-4 py-2 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition">
+              <span>📋</span> <span>要望書テキストをコピー</span>
+            </button>
+          </div>
+
+          <pre id="rfpDocumentContent" class="bg-white p-5 rounded-2xl border border-[#E2D4C0] text-xs text-[#38281B] font-mono whitespace-pre-wrap leading-relaxed max-h-96 overflow-y-auto shadow-inner"></pre>
+        </div>
+
+        <div class="mt-6 bg-gradient-to-br from-[#FFFDF7] to-[#FBF6EE] p-5 rounded-2xl border border-amber-200 text-xs text-[#523F2F] space-y-2">
+          <strong class="text-amber-900 block font-bold">💡 設計士・工務店に渡すときのコツ</strong>
+          <p>・初回の打ち合わせで、この要望書をプリントアウトして手渡してください。「ここまで要件が整理されている施主は素晴らしい！」とプロからも一目置かれます。</p>
+          <p>・複数社にコンペ（相見積もり）を依頼する場合も、まったく同じこの要望書を渡すことで、公平な提案と見積もりの比較が可能になります。</p>
         </div>
       </div>
     </div>
@@ -835,26 +1079,6 @@
           </div>
         </div>
 
-        <div class="mt-6 bg-[#FFFDF7] border border-amber-200/80 p-5 rounded-2xl shadow-xs">
-          <h3 class="text-sm font-bold text-amber-950 flex items-center gap-2 mb-2">
-            <span>📢</span> 近隣住民と良い関係を築くための「3大注意点」
-          </h3>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-amber-900">
-            <div class="bg-white p-3.5 rounded-xl border border-amber-200 shadow-2xs">
-              <strong>1. 日曜朝の路上駐車</strong><br>
-              近隣トラブルの8割はこれです。「1台くらいなら」が積み重なると大問題に。近隣月極の確保を徹底しましょう。
-            </div>
-            <div class="bg-white p-3.5 rounded-xl border border-amber-200 shadow-2xs">
-              <strong>2. ドラムや賛美の重低音</strong><br>
-              休日の朝にゆっくり寝ていたいご近所にとって、ドラムのキック音はストレスになります。二重サッシ等の防音を設計に入れましょう。
-            </div>
-            <div class="bg-white p-3.5 rounded-xl border border-amber-200 shadow-2xs">
-              <strong>3. ドア開閉音・会堂前の談笑</strong><br>
-              礼拝後の会堂前での立ち話や車のドアを閉める音に配慮し、挨拶とマナーを信徒間で共有しましょう。
-            </div>
-          </div>
-        </div>
-
         <div class="mt-8 border-t border-[#F0E6D8] pt-6">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-base sm:text-lg font-bold text-[#3A2A1D] flex items-center gap-2">
@@ -864,7 +1088,6 @@
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="propertyChecklistContainer"></div>
         </div>
-
       </div>
     </div>
 
@@ -999,56 +1222,6 @@
           </div>
         </div>
 
-        <!-- 3大税金非課税 -->
-        <div class="mt-8">
-          <h3 class="text-base sm:text-lg font-bold text-[#3A2A1D] mb-4 flex items-center gap-2">
-            <span>🏛️</span> 宗教法人不動産の3大税金 非課税手続き一覧
-          </h3>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-[#FBF8F3] border border-[#EBE1D4] p-5 rounded-2xl space-y-3 shadow-2xs">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-teal-800 bg-teal-100 px-2.5 py-0.5 rounded-full">登記申請前</span>
-                <span class="text-[11px] text-[#8C7461]">登録免許税法 第4条</span>
-              </div>
-              <h4 class="font-bold text-[#3A2A1D]">登録免許税の非課税（知事証明）</h4>
-              <p class="text-xs text-[#695342] leading-relaxed">
-                登記申請の<strong>前</strong>に、都道府県知事へ「境内地・境内建物証明」を申請し、証明書を取得して法務局へ提出します。
-              </p>
-              <div class="text-[11px] bg-[#FFF8EE] p-3 rounded-xl border border-amber-200 text-amber-900">
-                <strong>⚠️超重要：</strong>登記完了後に知事証明を出しても還付されません。必ず<strong>登記申請の前</strong>に証明書を取得してください！
-              </div>
-            </div>
-
-            <div class="bg-[#FBF8F3] border border-[#EBE1D4] p-5 rounded-2xl space-y-3 shadow-2xs">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-teal-800 bg-teal-100 px-2.5 py-0.5 rounded-full">取得後60日以内</span>
-                <span class="text-[11px] text-[#8C7461]">地方税法 第73条の4</span>
-              </div>
-              <h4 class="font-bold text-[#3A2A1D]">不動産取得税の非課税</h4>
-              <p class="text-xs text-[#695342] leading-relaxed">
-                不動産取得後、都道府県税事務所へ「不動産取得税非課税申告書」を提出します。知事証明書の写しや礼拝写真を添付します。
-              </p>
-              <div class="text-[11px] bg-white p-3 rounded-xl border border-[#EBE1D4] text-[#695342]">
-                <strong>注意：</strong>納期限前に速やかに非課税申告を行いましょう。
-              </div>
-            </div>
-
-            <div class="bg-[#FBF8F3] border border-[#EBE1D4] p-5 rounded-2xl space-y-3 shadow-2xs">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-teal-800 bg-teal-100 px-2.5 py-0.5 rounded-full">毎年1月1日基準</span>
-                <span class="text-[11px] text-[#8C7461]">地方税法 第348条</span>
-              </div>
-              <h4 class="font-bold text-[#3A2A1D]">固定資産税・都市計画税の非課税</h4>
-              <p class="text-xs text-[#695342] leading-relaxed">
-                市町村税務課へ申告。税務課職員による<strong>現地実地調査</strong>が行われ、礼拝堂や看板が確認されて認定されます。
-              </p>
-              <div class="text-[11px] bg-white p-3 rounded-xl border border-[#EBE1D4] text-[#695342]">
-                <strong>按分に注意：</strong>牧師館（居住部分）は課税対象。宗教活動に供する部分のみが非課税になります。
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div class="mt-8 border-t border-[#F0E6D8] pt-6">
           <h3 class="text-base sm:text-lg font-bold text-[#3A2A1D] mb-2 flex items-center gap-2">
             <span>📄</span> 「境内地・境内建物証明願（知事証明）」必要書類一覧
@@ -1060,7 +1233,7 @@
 
 
     <!-- ================================================================ -->
-    <!-- TAB 7: 信徒周知 & プレゼンレポーター                            -->
+    <!-- TAB 7: 信徒周知 & Q&A                                            -->
     <!-- ================================================================ -->
     <div id="tab-unity" class="tab-content hidden space-y-6">
       <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
@@ -1068,9 +1241,9 @@
           <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-50 px-3 py-1 rounded-full mb-2">
             Church Unity & Congregational Communication
           </span>
-          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-[#3A2A1D]">信徒周知・合意形成 ＆ プレゼンレポーター</h2>
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-[#3A2A1D]">信徒周知・合意形成 ＆ 不安解消Q&A</h2>
           <p class="text-xs sm:text-sm text-[#735A45] mt-1.5">
-            会堂建築で一番大切なのは「信徒の一致」です。教会員の不安に寄り添い、ビジョンを分かち合うための資料自動生成とQ&A集です。
+            会堂建築で一番大切なのは「信徒の一致」です。教会員の不安に寄り添い、ビジョンを分かち合うための資料とQ&A集です。
           </p>
         </div>
 
@@ -1088,29 +1261,6 @@
             </button>
           </div>
           <div id="presentationSummaryPreview" class="bg-white p-5 rounded-2xl border border-[#E2D4C0] text-xs sm:text-sm text-[#38281B] leading-relaxed space-y-3 font-sans shadow-2xs"></div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mt-8">
-          <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4] text-center shadow-2xs">
-            <div class="w-8 h-8 mx-auto bg-amber-100 text-amber-900 rounded-full flex items-center justify-center font-bold text-xs mb-2">1</div>
-            <h4 class="font-bold text-sm text-[#3A2A1D]">ビジョン祈祷会</h4>
-            <p class="text-xs text-[#6E5745] mt-1">「なぜ今会堂が必要か」を祈りの中で数ヶ月間分かち合う。</p>
-          </div>
-          <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4] text-center shadow-2xs">
-            <div class="w-8 h-8 mx-auto bg-amber-100 text-amber-900 rounded-full flex items-center justify-center font-bold text-xs mb-2">2</div>
-            <h4 class="font-bold text-sm text-[#3A2A1D]">信徒説明会 & ワークショップ</h4>
-            <p class="text-xs text-[#6E5745] mt-1">「どんな部屋がほしいか」を車座になって語り合う。</p>
-          </div>
-          <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4] text-center shadow-2xs">
-            <div class="w-8 h-8 mx-auto bg-amber-100 text-amber-900 rounded-full flex items-center justify-center font-bold text-xs mb-2">3</div>
-            <h4 class="font-bold text-sm text-[#3A2A1D]">アンケート意見集約</h4>
-            <p class="text-xs text-[#6E5745] mt-1">言いにくい不安を匿名アンケートで丁寧に拾い上げる。</p>
-          </div>
-          <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4] text-center shadow-2xs">
-            <div class="w-8 h-8 mx-auto bg-amber-100 text-amber-900 rounded-full flex items-center justify-center font-bold text-xs mb-2">4</div>
-            <h4 class="font-bold text-sm text-[#3A2A1D]">総会（会員会）決議</h4>
-            <p class="text-xs text-[#6E5745] mt-1">納得の上で正式決議。建築通信を毎月発行。</p>
-          </div>
         </div>
 
         <div class="mt-8">
@@ -1234,20 +1384,6 @@
                   駐車場の防草シート・砂利敷きや庭のフェンス、ウッドデッキは信徒の共同作業にぴったり。
                 </div>
               </li>
-              <li class="flex items-start gap-2.5 bg-white p-3 rounded-xl border border-emerald-200 shadow-2xs">
-                <span class="text-emerald-700 font-bold">✔</span>
-                <div>
-                  <strong>家具・棚の組み立て、講壇ステージの化粧仕上げ</strong><br>
-                  IKEA等の家具組み立てや、木工が得意な信徒による本棚・講壇の製作。
-                </div>
-              </li>
-              <li class="flex items-start gap-2.5 bg-white p-3 rounded-xl border border-emerald-200 shadow-2xs">
-                <span class="text-emerald-700 font-bold">✔</span>
-                <div>
-                  <strong>弱電配線（LANケーブル、音響マイクコードの配管・モール敷設）</strong><br>
-                  ※100V以上の強電と離して配線すること。
-                </div>
-              </li>
             </ul>
           </div>
 
@@ -1285,41 +1421,9 @@
                   2m以上の高所作業は転落死亡事故リスクが極めて高いです。プロの足場と安全帯が必須。
                 </div>
               </li>
-              <li class="flex items-start gap-2.5 bg-white p-3 rounded-xl border border-rose-200 shadow-2xs">
-                <span class="text-rose-700 font-bold">✖</span>
-                <div>
-                  <strong>消防用設備（火災報知器、誘導灯）の移設・配線</strong><br>
-                  消防設備士資格が必要。違反すると消防検査に合格せず建物が使用できなくなります。
-                </div>
-              </li>
             </ul>
           </div>
         </div>
-
-        <div class="mt-8 border-t border-[#F0E6D8] pt-6">
-          <h3 class="text-base sm:text-lg font-bold text-[#3A2A1D] mb-4 flex items-center gap-2">
-            <span>🛡️</span> 信徒DIYワークショップを安全に成功させる4つの鉄則
-          </h3>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs sm:text-sm">
-            <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4] shadow-2xs">
-              <div class="font-bold text-[#3A2A1D] mb-1">1. ボランティア行事保険の加入</div>
-              <p class="text-[#695342] text-xs">社会福祉協議会等で加入できる「ボランティア行事用保険（1人1日数百円）」。怪我や塗料付着の物損も補償。</p>
-            </div>
-            <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4] shadow-2xs">
-              <div class="font-bold text-[#3A2A1D] mb-1">2. 養生（マスキング）が8割</div>
-              <p class="text-[#695342] text-xs">塗る時間より「マスキングテープとマスカーを貼る時間」が重要。ここを丁寧にやれば失敗しません。</p>
-            </div>
-            <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4] shadow-2xs">
-              <div class="font-bold text-[#3A2A1D] mb-1">3. 全員が参加できる役割分担</div>
-              <p class="text-[#695342] text-xs">力仕事だけでなく、テープ剥がし、掃除、お茶出し、写真撮影など子どもやシニアも一緒に活躍。</p>
-            </div>
-            <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4] shadow-2xs">
-              <div class="font-bold text-[#3A2A1D] mb-1">4. 安全保護具の完全着用</div>
-              <p class="text-[#695342] text-xs">保護メガネ（塗料の目入り防止）、防塵マスク、滑り止め軍手、汚れてもよい長袖長ズボンの着用を義務付け。</p>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
 
@@ -1366,13 +1470,6 @@
                 </a>
                 <p class="text-[#7A634F] mt-1">宗教法人が自己の宗教の用に供する不動産の登記に関する非課税条文。</p>
               </li>
-              <li class="bg-white p-3 rounded-xl border border-[#EBE1D4] shadow-2xs">
-                <a href="https://laws.e-gov.go.jp/law/325AC0000000226#Mp-At_348" target="_blank" rel="noopener noreferrer" class="font-bold text-amber-800 hover:underline flex items-center justify-between">
-                  <span>e-Gov法令：地方税法 第348条（固定資産税の非課税）</span>
-                  <span>↗</span>
-                </a>
-                <p class="text-[#7A634F] mt-1">第2項第3号「宗教法人が専らその本来の用に供する宗教法人法第3条に規定する境内建物及び境内地」。</p>
-              </li>
             </ul>
           </div>
 
@@ -1389,66 +1486,22 @@
                 <p class="text-[#7A634F] mt-1">特殊建築物（集会場など）への用途変更における確認申請不要面積（200㎡以下）の基準。</p>
               </li>
               <li class="bg-white p-3 rounded-xl border border-[#EBE1D4] shadow-2xs">
-                <a href="https://laws.e-gov.go.jp/law/325AC0000000201#Mp-At_42" target="_blank" rel="noopener noreferrer" class="font-bold text-blue-800 hover:underline flex items-center justify-between">
-                  <span>e-Gov法令：建築基準法 第42条・43条（道路の定義と接道義務）</span>
-                  <span>↗</span>
-                </a>
-                <p class="text-[#7A634F] mt-1">道路付け要件、2項道路のセットバック義務の法規定。</p>
-              </li>
-              <li class="bg-white p-3 rounded-xl border border-[#EBE1D4] shadow-2xs">
                 <a href="https://disaportal.gsi.go.jp/" target="_blank" rel="noopener noreferrer" class="font-bold text-blue-800 hover:underline flex items-center justify-between">
                   <span>国土地理院：ハザードマップポータルサイト（重ねるハザードマップ）</span>
                   <span>↗</span>
                 </a>
                 <p class="text-[#7A634F] mt-1">全国の洪水浸水想定区域、土砂災害警戒区域、津波、液状化リスクを網羅。</p>
               </li>
-              <li class="bg-white p-3 rounded-xl border border-[#EBE1D4] shadow-2xs">
-                <a href="https://laws.e-gov.go.jp/law/336CO0000000037#Mp-At_1" target="_blank" rel="noopener noreferrer" class="font-bold text-blue-800 hover:underline flex items-center justify-between">
-                  <span>e-Gov法令：消防法施行令 別表第一（11項：教会等の消防設備基準）</span>
-                  <span>↗</span>
-                </a>
-                <p class="text-[#7A634F] mt-1">教会（神社・寺院・教会）の消火器具、自動火災報知設備、誘導灯の設置基準。</p>
-              </li>
             </ul>
           </div>
-
-          <div class="bg-[#FBF8F3] p-6 rounded-3xl border border-[#EBE1D4] space-y-3 md:col-span-2">
-            <h3 class="font-bold text-base text-[#3A2A1D] flex items-center gap-2">
-              <span>🤝</span> 資金調達・保険・クラウドファンディング
-            </h3>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-              <div class="bg-white p-3.5 rounded-xl border border-[#EBE1D4] shadow-2xs">
-                <a href="https://www.jfc.go.jp/n/finance/search/socialbusiness.html" target="_blank" rel="noopener noreferrer" class="font-bold text-emerald-800 hover:underline flex items-center justify-between">
-                  <span>日本政策金融公庫：ソーシャルビジネス支援</span>
-                  <span>↗</span>
-                </a>
-                <p class="text-[#7A634F] mt-1">NPOや公益的活動・地域共生に取り組む団体への融資制度案内。</p>
-              </div>
-              <div class="bg-white p-3.5 rounded-xl border border-[#EBE1D4] shadow-2xs">
-                <a href="https://www.fukushihoken.co.jp/fukushi/front/council/volunteer_activities.html" target="_blank" rel="noopener noreferrer" class="font-bold text-emerald-800 hover:underline flex items-center justify-between">
-                  <span>全国社会福祉協議会：ボランティア行事用保険</span>
-                  <span>↗</span>
-                </a>
-                <p class="text-[#7A634F] mt-1">信徒DIYワークショップ開催時の傷害・賠償責任をカバーする公式保険。</p>
-              </div>
-              <div class="bg-white p-3.5 rounded-xl border border-[#EBE1D4] shadow-2xs">
-                <a href="https://readyfor.jp/" target="_blank" rel="noopener noreferrer" class="font-bold text-indigo-800 hover:underline flex items-center justify-between">
-                  <span>READYFOR：社会・文化・宗教プロジェクト</span>
-                  <span>↗</span>
-                </a>
-                <p class="text-[#7A634F] mt-1">宗教法人や歴史的建築物、地域共生チャペルの実績が豊富なプラットフォーム。</p>
-              </div>
-            </div>
-          </div>
         </div>
-
       </div>
     </div>
 
   </main>
 
   <!-- ========================================== -->
-  <!-- 用語事典 モーダル（新設）                 -->
+  <!-- 用語事典 モーダル                         -->
   <!-- ========================================== -->
   <div id="glossaryModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl shadow-2xl border border-amber-200 max-w-2xl w-full max-h-[85vh] flex flex-col overflow-hidden animate-fadeIn">
@@ -1462,7 +1515,7 @@
 
       <!-- 検索窓 -->
       <div class="p-3 bg-[#FAF7F2] border-b border-[#EBE2D5]">
-        <input type="text" id="glossarySearchInput" oninput="app.filterGlossary(this.value)" placeholder="用語を検索（例：セットバック、知事証明、坪単価）" class="w-full bg-white border border-[#D5C2AD] rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500">
+        <input type="text" id="glossarySearchInput" oninput="app.filterGlossary(this.value)" placeholder="用語を検索（例：セットバック、瑕疵担保、知事証明、坪単価）" class="w-full bg-white border border-[#D5C2AD] rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500">
       </div>
 
       <!-- 用語リスト -->
@@ -1470,6 +1523,41 @@
 
       <div class="p-3 bg-[#FAF7F2] border-t border-[#EBE2D5] text-right">
         <button onclick="app.closeGlossaryModal()" class="px-4 py-2 rounded-xl bg-amber-800 text-white text-xs font-bold hover:bg-amber-900 transition">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- シェア モーダル（新設）                   -->
+  <!-- ========================================== -->
+  <div id="shareModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl shadow-2xl border border-amber-200 max-w-lg w-full overflow-hidden">
+      <div class="bg-gradient-to-r from-emerald-900 to-teal-950 text-white p-5 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">📲</span>
+          <h3 class="font-serif font-bold text-base text-emerald-100">教会メンバーにシェア（LINE・メール）</h3>
+        </div>
+        <button onclick="app.closeShareModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-sm transition">✕</button>
+      </div>
+
+      <div class="p-5 sm:p-6 space-y-4 text-xs sm:text-sm text-[#4A3B2C]">
+        <p class="text-xs text-[#7A634F] leading-relaxed">
+          役員会や建築委員会、信徒グループのLINEに以下のメッセージとURLを一発で送信・コピーできます。全員が同じ土台でスムーズに話し合えるようになります。
+        </p>
+
+        <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4] space-y-2">
+          <label class="block text-xs font-bold text-[#3A2A1D]">シェア文面プレビュー</label>
+          <textarea id="shareTextContent" rows="5" class="w-full bg-white border border-[#D5C2AD] rounded-xl p-2.5 text-xs text-[#38281B] font-sans leading-relaxed"></textarea>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 pt-2">
+          <button onclick="app.shareViaLine()" class="p-2.5 rounded-xl bg-[#06C755] hover:bg-[#05b34c] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition">
+            <span>💬</span> <span>LINEで送る</span>
+          </button>
+          <button onclick="app.copyShareMessage()" class="p-2.5 rounded-xl bg-amber-800 hover:bg-amber-900 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition">
+            <span>📋</span> <span>文面をコピー</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -1485,13 +1573,13 @@
         「主が家を建てるのでなければ、建てる者の勤労はむなしい。」（詩篇 127:1）
       </p>
       <div class="flex flex-wrap items-center justify-center gap-4 text-[11px] text-[#A89482] pt-2">
-        <span>🔰 初心者完全特化ストーリー解説</span>
+        <span>🔰 新米牧師・役員 共通理解マスター</span>
+        <span>•</span>
+        <span>設計士向け要望書(RFP)自動出力</span>
         <span>•</span>
         <span>公的根拠法令リンク完備</span>
         <span>•</span>
         <span>ブラウザ自動保存対応</span>
-        <span>•</span>
-        <span>A4帳票印刷・PDF出力対応</span>
       </div>
       <p class="text-[10px] text-[#7A6756] pt-1">
         ※本システムは教会建築の実務・法令・税務の標準的基準を提供するものです。個別の法規制や非課税手続きは各自治体・所轄庁・建築士にご相談ください。
@@ -1505,9 +1593,10 @@
   <script>
     class ChurchBuildingApp {
       constructor() {
-        this.storageKey = 'church_building_app_data_v3';
+        this.storageKey = 'church_building_app_data_v4';
         this.data = this.loadData();
         this.currentDraftType = 'cert';
+        this.currentMeetingStep = 1;
         this.init();
       }
 
@@ -1608,8 +1697,10 @@
         this.generateLegalDrafts();
         this.renderPresentationSummary();
         this.renderGlossaryList();
+        this.selectMeetingStep(1);
+        this.renderRfpDocument();
+        this.updateShareText();
 
-        // 開閉状態の復元
         if (this.data.openStories) {
           Object.keys(this.data.openStories).forEach(k => {
             if (this.data.openStories[k]) {
@@ -1660,6 +1751,239 @@
           this.data.openStories[id] = false;
         }
         this.saveData();
+      }
+
+      // ================================================================
+      // シェア機能
+      // ================================================================
+      openShareModal() {
+        this.updateShareText();
+        document.getElementById('shareModal').classList.remove('hidden');
+      }
+
+      closeShareModal() {
+        document.getElementById('shareModal').classList.add('hidden');
+      }
+
+      updateShareText() {
+        const url = window.location.origin + window.location.pathname;
+        const text = `【会堂建築・リフォーム総合ナビゲーター】\n教会の会堂建築・リフォームを検討するにあたり、とても分かりやすく実践的なナビゲーターを共有します。\n\n・初めてでもわかる「5つの基本ストーリー」\n・先輩教会の生々しいリアル失敗談\n・予算＆返済キャッシュフロー診断\n・建築委員会アジェンダ＆設計士要望書\n\nぜひ一度みんなで見てみましょう！\n👉 ${url}`;
+        const area = document.getElementById('shareTextContent');
+        if (area) area.value = text;
+      }
+
+      shareViaLine() {
+        const text = document.getElementById('shareTextContent').value;
+        const lineUrl = `https://line.me/R/msg/text/?${encodeURIComponent(text)}`;
+        window.open(lineUrl, '_blank');
+      }
+
+      copyShareMessage() {
+        const text = document.getElementById('shareTextContent').value;
+        navigator.clipboard.writeText(text).then(() => {
+          alert('シェア用メッセージをコピーしました！LINEやメールに貼り付けて送信してください。');
+          this.closeShareModal();
+        });
+      }
+
+      // ================================================================
+      // 建築委員会アジェンダ
+      // ================================================================
+      getMeetingStepsData() {
+        return [
+          {
+            step: 1,
+            title: '第1回：ビジョン共有と現状分析',
+            goal: '「なぜ今会堂が必要なのか」を言語化し、全教会員への最初のメッセージの骨子を作る。',
+            questions: [
+              '現在の会堂の最大の限界は何か？（老朽化・耐震・母子室なし・駐車場・バリアフリー・音漏れ）',
+              '新会堂が建つことで、誰が一番祝福されるか？（子どもたち、未就学児連れの家族、地域のシニア、新来者）',
+              'どんな雰囲気の会堂を目指すか？（木目の温もり、ステンドグラス、地域カフェ風、シンプルな現代風）'
+            ],
+            decisions: [
+              '新会堂ビジョンステートメントのドラフト作成',
+              '建築委員会メンバーの役割分担（財務、広報、設計窓口、祈祷担当）'
+            ]
+          },
+          {
+            step: 2,
+            title: '第2回：予算と限界値（借入返済診断）',
+            goal: '「いくらまでなら教会会計が安全か」の客観的な上限ラインを委員会全員で合意する。',
+            questions: [
+              '現在の教会の月間一般経常収入はいくらか？（建築献金を除く普段の献金）',
+              '月々のローン返済額が一般収入の20%以下に収まっているか？（タブ2のキャッシュフロー診断を確認）',
+              '手元資金、一時献金目標、5年間の定期積立でどれくらい集められるか？'
+            ],
+            decisions: [
+              '総事業費の「絶対上限予算（これ以上は絶対にかけない）」の決定',
+              '金融機関・公庫・教団本部からの借入想定額の上限決定'
+            ]
+          },
+          {
+            step: 3,
+            title: '第3回：部屋の使い勝手と優先順位',
+            goal: '限られた坪数・予算の中で、「何を最優先にし、何を諦めるか」を明確にする。',
+            questions: [
+              '礼拝堂の定員席数は何席必要か？（現在の出席者の1.5倍程度が標準）',
+              '母子室の完全遮音（二重ガラス窓・独立音量）は死守できているか？',
+              '音響卓は礼拝堂内の後方オープン配置になっているか？（密閉部屋はNG）',
+              '洗礼槽は常設か、組み立て式簡易プールか？'
+            ],
+            decisions: [
+              '部屋別優先順位リスト（必須項目 vs 予算があれば欲しい項目）の合意',
+              '設計士要望書（RFP）の骨子承認'
+            ]
+          },
+          {
+            step: 4,
+            title: '第4回：建築士・施工会社選びとコンペ',
+            goal: '教会の心を理解してくれる設計士・工務店を選定し、相見積もりを依頼する。',
+            questions: [
+              'クリスチャン建築士に頼むか、実績のある一般建築士に頼むか？（それぞれのメリット・デメリット）',
+              '同じ設計図・仕様書で2〜3社に同一条件で見積もりを出してもらう準備はできたか？',
+              '見積書の「一式」を分解してもらい、諸経費比率（12〜18%）を確認する方針を共有しているか？'
+            ],
+            decisions: [
+              '設計事務所の決定（またはコンペ実施要項の決定）',
+              '工務店選定のスケジュール決定'
+            ]
+          },
+          {
+            step: 5,
+            title: '第5回：信徒総会リハーサル・質疑対策',
+            goal: '全信徒への説明会や会員総会で、不安に寄り添い一致して議決を迎える。',
+            questions: [
+              '「借金して大丈夫？」「なぜ今のままじゃダメ？」という質問に数字で優しく答えられるか？',
+              '「献金の強制はない、各自の祈りの応答である」というメッセージが明確か？',
+              'お祈りやDIYなど、お金以外でも全員が参加できる道が用意されているか？'
+            ],
+            decisions: [
+              '総会配布資料（サマリーレジュメ）の完成',
+              '信徒総会・起工式の日程決定'
+            ]
+          }
+        ];
+      }
+
+      selectMeetingStep(stepNum) {
+        this.currentMeetingStep = stepNum;
+        const steps = this.getMeetingStepsData();
+        const current = steps.find(s => s.step === stepNum) || steps[0];
+
+        for (let i = 1; i <= 5; i++) {
+          const btn = document.getElementById(`mStepBtn-${i}`);
+          if (btn) {
+            if (i === stepNum) {
+              btn.className = 'w-full text-left p-3.5 rounded-2xl border transition flex items-center justify-between text-xs sm:text-sm font-bold bg-amber-800 text-white border-amber-900 shadow-xs';
+            } else {
+              btn.className = 'w-full text-left p-3.5 rounded-2xl border transition flex items-center justify-between text-xs sm:text-sm font-bold bg-[#FBF8F3] text-[#3A2A1D] border-[#EBE1D4] hover:bg-[#F5EFEB]';
+            }
+          }
+        }
+
+        document.getElementById('meetingStepNumDisplay').textContent = current.step;
+        document.getElementById('meetingStepTitleDisplay').textContent = current.title;
+
+        const area = document.getElementById('meetingAgendaDetailArea');
+        area.innerHTML = `
+          <div class="bg-amber-50 p-3.5 rounded-xl border border-amber-200">
+            <strong class="text-amber-900 block font-bold text-xs">🎯 この会議のゴール</strong>
+            <p class="text-xs text-[#523F2F] mt-0.5">${current.goal}</p>
+          </div>
+
+          <div>
+            <strong class="text-[#3A2A1D] block font-bold text-xs mb-2">❓ 会議で話し合うべき問い（ディスカッションテーマ）</strong>
+            <ul class="space-y-1.5 text-xs text-[#695342] list-disc list-inside bg-white p-3 rounded-xl border border-[#EBE1D4]">
+              ${current.questions.map(q => `<li>${q}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div>
+            <strong class="text-[#3A2A1D] block font-bold text-xs mb-2">✅ この会議で決定・合意すべきこと</strong>
+            <ul class="space-y-1.5 text-xs text-[#695342] list-disc list-inside bg-white p-3 rounded-xl border border-[#EBE1D4]">
+              ${current.decisions.map(d => `<li><strong>${d}</strong></li>`).join('')}
+            </ul>
+          </div>
+        `;
+      }
+
+      copyMeetingAgenda() {
+        const steps = this.getMeetingStepsData();
+        const current = steps.find(s => s.step === this.currentMeetingStep) || steps[0];
+
+        const text = `【建築委員会・役員会 会議アジェンダ】
+テーマ：${current.title}
+目標（ゴール）：${current.goal}
+
+■ 話し合うテーマ：
+${current.questions.map((q, i) => `${i + 1}. ${q}`).join('\n')}
+
+■ 決定・合意事項：
+${current.decisions.map((d, i) => `${i + 1}. ${d}`).join('\n')}
+
+※祈りをもって心を一つにして進めましょう。`;
+
+        navigator.clipboard.writeText(text).then(() => {
+          alert('アジェンダをコピーしました！LINEや議事録にご活用ください。');
+        });
+      }
+
+      // ================================================================
+      // 設計士要望書 (RFP)
+      // ================================================================
+      renderRfpDocument() {
+        const pre = document.getElementById('rfpDocumentContent');
+        if (!pre) return;
+
+        const church = this.data.legalDraftData.churchName || '宗教法人 ○○キリスト教会';
+        const capacity = this.data.budgetConfig.capacity || '50';
+        const totalCost = document.getElementById('budgetTotalDisplay') ? document.getElementById('budgetTotalDisplay').textContent : '6,000';
+
+        const selectedRooms = [];
+        const roomsDef = this.getRoomDefinitions();
+        roomsDef.forEach(r => {
+          if (this.data.roomsSelected[r.id]) {
+            selectedRooms.push(`・${r.name}（約${r.tsuboBase}坪）：${r.features[0]}`);
+          }
+        });
+
+        const rfpText = `【新会堂建築・リフォーム 施主要望書（RFP）】
+
+作成日： 令和○○年○○月○○日
+施主： ${church}（建築委員会）
+
+1. 基本方針とビジョン
+・私たちは、単に信徒が集まるだけでなく、「次世代（子ども・母子）を育み、地域社会に開かれた温かい教会」を目指しています。
+・日曜日の礼拝を中心に、平日はカフェ、子ども食堂、祈祷会など多目的に利用できる空間構成を希望します。
+
+2. 想定規模・定員
+・礼拝堂定員： 約 ${capacity} 席（将来的な増加を見越した空間）
+・延床面積目安： 約 40〜50 坪（敷地条件に応じてご提案ください）
+・構造： 木造2階建 または 鉄骨造（コストと遮音のバランスを重視）
+
+3. 必須諸室・機能要件
+${selectedRooms.join('\n')}
+
+4. 音響・防音に関する特別要件（⚠️重要）
+・礼拝堂ではアコースティック楽器、電子ドラム、ボーカル等のバンド演奏を行います。近隣への音漏れ防止（二重サッシ・遮音壁）を重視してください。
+・母子室は、赤ちゃんの泣き声が礼拝堂に漏れない「完全遮音構造（二重ガラスFIX窓＋密閉ドア）」とし、室内に礼拝音声スピーカーを設置してください。
+・音響オペレーター卓は、密閉した部屋に入れず、礼拝堂内の後方オープンスペースに配置してください。ステージとの間に床下配線ピットを設けてください。
+
+5. コスト・工期に関する上限条件
+・総事業予算上限： 約 ${totalCost} 万円（消費税・付帯工事・諸経費含む）
+・希望竣工時期： ${this.data.targetDedicationMonth || '2028年4月'}
+・VE（バリューエンジニアリング）提案、施主支給（照明・エアコン・音響機器）の受け入れにご協力いただける施工体制を希望します。
+
+以上`;
+
+        pre.textContent = rfpText;
+      }
+
+      copyRfpDocument() {
+        const text = document.getElementById('rfpDocumentContent').textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          alert('設計士向け要望書（RFP）をコピーしました！プリントアウトやメール送信用にご利用ください。');
+        });
       }
 
       // ================================================================
@@ -1716,6 +2040,26 @@
             term: '返済負担率（へんさいふたんりつ）',
             reading: 'へんさいふたんりつ',
             desc: '教会の月々の普通の献金収入のうち、何％がローンの返済に消えていくかという割合。一般に15〜20%以下なら安全で健全、25%を超えると普段の教会の活動や牧師の謝儀を圧迫して危険水準と判定されます。'
+          },
+          {
+            term: '建築確認済証・検査済証（かくにんずみしょう・けんさずみしょう）',
+            reading: 'けんちくかくにん',
+            desc: '建てる前に役所や検査機関が「法律に合致している」と認めた証明書が確認済証。完成後に実際に検査して合格した証明書が検査済証です。中古物件を買う際、この検査済証がないと銀行から融資を受けられないケースが非常に多いので最重要確認書類です。'
+          },
+          {
+            term: '瑕疵担保責任保険（かしたんぽせきにんほけん）',
+            reading: 'かしたんぽほけん',
+            desc: '新築後10年間に、万が一雨漏りや建物の傾きなどの重大な欠陥（瑕疵）が見つかった場合、工務店が潰れていても保険金で直してもらえる公的な保険。住宅瑕疵保険法人への登録が必要です。'
+          },
+          {
+            term: '着工金・中間金（ちゃっこうきん・ちゅうかんきん）',
+            reading: 'ちゃっこうきん',
+            desc: '工事代金の支払いスケジュール。通常「契約時 10%」「着工時 30%」「上棟・中間時 30%」「引渡し時 30%」のように分割して支払います。教会側に資金がいついくら必要になるかを銀行や教団と合わせておく必要があります。'
+          },
+          {
+            term: 'クリスチャン建築士と一般建築士の比較',
+            reading: 'くりすちゃんけんちくし',
+            desc: 'クリスチャン建築士は教会の心や典礼、母子室・音響の重要性を最初から理解してくれる強みがあります。一方、地元の一般建築士は役所や地元工務店との折衝に強い場合があります。どちらの場合も教会側が「要望書（RFP）」をしっかり渡すことが成功の鍵です。'
           },
           {
             term: 'ボランティア行事用保険',
@@ -1789,6 +2133,9 @@
       getSearchIndex() {
         return [
           { title: 'ゼロからわかる入門ストーリー（5つの基本）', tab: 'guide', elId: 'tab-guide' },
+          { title: '先輩教会の生々しいリアル失敗談＆教訓集', tab: 'cases', elId: 'tab-cases' },
+          { title: '建築委員会・役員会 会議アジェンダ（全5回）', tab: 'meetings', elId: 'tab-meetings' },
+          { title: '設計士・工務店向け要望書（RFP）自動作成', tab: 'rfp', elId: 'tab-rfp' },
           { title: '全体ロードマップ・工程一覧', tab: 'roadmap', elId: 'roadmapPhasesContainer' },
           { title: '逆算スケジュールジェネレーター', tab: 'roadmap', elId: 'scheduleTimelineBar' },
           { title: '予算シミュレーター・本体工事・坪単価', tab: 'budget', elId: 'budgetTotalDisplay' },
@@ -1798,22 +2145,17 @@
           { title: '用途地域・第一種低層の罠', tab: 'property', elId: 'tab-property' },
           { title: '接道義務・4m未満道路セットバック', tab: 'property', elId: 'tab-property' },
           { title: '駐車場台数カリキュレーター', tab: 'property', elId: 'propCarResult' },
-          { title: '近隣騒音・路上駐車トラブル防止', tab: 'property', elId: 'tab-property' },
           { title: '現地内覧スマホチェックシート', tab: 'property', elId: 'propertyChecklistContainer' },
           { title: '礼拝堂・天井高・残響時間・照明設計', tab: 'rooms', elId: 'roomsCardsContainer' },
           { title: '母子室（ナーサリー）完全遮音・FIX窓・設備', tab: 'rooms', elId: 'roomsCardsContainer' },
           { title: '音響映像ブース・後方オープンの理由', tab: 'rooms', elId: 'roomsCardsContainer' },
           { title: '音響・映像（AV）推奨機材構成シミュレーター', tab: 'rooms', elId: 'avRecommendationContainer' },
-          { title: '洗礼槽（常設バプテスマプール vs 移動式）', tab: 'rooms', elId: 'roomsCardsContainer' },
           { title: '知事証明願（登録免許税非課税手続き）', tab: 'legal', elId: 'tab-legal' },
-          { title: '固定資産税・不動産取得税の非課税申告', tab: 'legal', elId: 'tab-legal' },
           { title: '境内地非課税書類ドラフター（申請書・議事録自動作成）', tab: 'legal', elId: 'docChurchName' },
-          { title: '用途変更200㎡ルール・建築確認', tab: 'legal', elId: 'tab-legal' },
-          { title: '消防法（11項）基準・自火報・避難', tab: 'legal', elId: 'tab-legal' },
           { title: '信徒説明会プレゼン資料ジェネレーター', tab: 'unity', elId: 'presentationSummaryPreview' },
           { title: '信徒の不安解消 Q&A（借金・高齢化・献金）', tab: 'unity', elId: 'unityQnaContainer' },
           { title: 'クラウドファンディング目標額・手取りシミュレーター', tab: 'crowdfunding', elId: 'cfGoalInput' },
-          { title: '信徒DIYできること vs プロ限定工事（電気・耐力壁）', tab: 'diy', elId: 'tab-diy' },
+          { title: '信徒DIYできること vs プロ限定工事', tab: 'diy', elId: 'tab-diy' },
           { title: '公式根拠リンク集（文化庁・国交省・総務省・e-Gov）', tab: 'links', elId: 'tab-links' }
         ];
       }
@@ -1965,7 +2307,7 @@
             desc: '教会の心を理解してくれる建築士を選び、部屋の配置や音響・防音を具体化します。',
             tasks: [
               { id: 't3_1', title: '教会の意図を理解できる設計事務所／建築士の選定と契約', detail: '住宅だけでなく集会所や防音の知識があり、教会の祈りに共感してくれるパートナーを選びます。' },
-              { id: 't3_2', title: '各部屋の機能要望書（礼拝堂、母子室、音響ブース、洗礼槽等）の提出', detail: '「母子室の完全遮音」「音響ブースの開放配置」など、教会特有の要件を明確に伝えます。' },
+              { id: 't3_2', title: '施主要望書（RFP）の提出と各部屋の機能要望の伝達', detail: '「母子室の完全遮音」「音響ブースの開放配置」など、教会特有の要件を書面で伝えます。' },
               { id: 't3_3', title: '防音・音響計画（ドラム遮音・残響時間・配信用PoE配線ピット）の決定', detail: '近隣への音漏れ対策と、スピーチが明瞭に聞こえる残響時間（約1秒）を計算します。' },
               { id: 't3_4', title: '役所（建築指導課・消防署予防課）との事前協議（用途変更・消防設備）', detail: '200㎡超の用途変更申請や、自動火災報知設備・誘導灯の設置基準を消防署と確認します。' }
             ]
@@ -2157,6 +2499,7 @@
         this.updateFunding();
         this.calcCashflowLoan();
         this.renderPresentationSummary();
+        this.renderRfpDocument();
       }
 
       renderCostItems() {
@@ -2755,6 +3098,7 @@
         this.data.roomsSelected[id] = !this.data.roomsSelected[id];
         this.saveData();
         this.renderRooms();
+        this.renderRfpDocument();
       }
 
       updateRoomCalc() {
@@ -2892,6 +3236,7 @@
 `;
 
         this.updateDraftDisplay();
+        this.renderRfpDocument();
       }
 
       switchDraftTab(type) {

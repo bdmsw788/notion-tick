@@ -183,6 +183,9 @@
           <button onclick="app.switchTab('guide')" data-tab="guide" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-white bg-amber-700 font-bold shadow-xs">
             <span>🌱</span><span>ビジョン＆入門</span>
           </button>
+          <button onclick="app.switchTab('realCases')" data-tab="realCases" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
+            <span>📖</span><span>実例ドキュメント & 相場</span>
+          </button>
           <button onclick="app.switchTab('cases')" data-tab="cases" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
             <span>💡</span><span>先輩の失敗談＆教訓</span>
           </button>
@@ -1702,6 +1705,62 @@
         };
       }
 
+
+      calcFairPriceBenchmark() {
+        const structure = document.getElementById('fpStructureSelect').value;
+        const tsubo = parseFloat(document.getElementById('fpTsuboInput').value) || 45;
+        const estimateMan = parseFloat(document.getElementById('fpEstimateInput').value) || 4500;
+        const tsuboPrice = Math.round(estimateMan / tsubo);
+
+        document.getElementById('fpCalculatedTsuboPrice').textContent = tsuboPrice.toLocaleString();
+
+        let minFair = 90;
+        let maxFair = 120;
+        let structName = '木造';
+
+        if (structure === 'steel') {
+          minFair = 110;
+          maxFair = 150;
+          structName = '鉄骨造';
+        } else if (structure === 'rc') {
+          minFair = 140;
+          maxFair = 190;
+          structName = 'RC造';
+        } else if (structure === 'renovation') {
+          minFair = 40;
+          maxFair = 75;
+          structName = 'リノベーション';
+        }
+
+        document.getElementById('fpStandardRangeText').textContent = `坪 ${minFair} 〜 ${maxFair} 万円`;
+
+        const statusEl = document.getElementById('fpStatusText');
+        const adviceEl = document.getElementById('fpAdviceText');
+        const cardEl = document.getElementById('fairPriceResultCard');
+
+        if (tsuboPrice < minFair * 0.75) {
+          cardEl.className = 'mt-4 bg-amber-950/60 p-4 rounded-2xl border border-amber-500/50 flex flex-col sm:flex-row items-center justify-between gap-4';
+          statusEl.className = 'text-sm font-bold text-amber-300 mt-1';
+          statusEl.textContent = '判定： ⚠️ 相場よりかなり安めです（要仕様確認）';
+          adviceEl.textContent = '後から追加工事の請求が発生しないか、防音設備や空調が含まれているか仕様書を細かく点検してください。';
+        } else if (tsuboPrice <= maxFair) {
+          cardEl.className = 'mt-4 bg-emerald-950/60 p-4 rounded-2xl border border-emerald-500/50 flex flex-col sm:flex-row items-center justify-between gap-4';
+          statusEl.className = 'text-sm font-bold text-emerald-300 mt-1';
+          statusEl.textContent = '判定： 🟢 非常に適正な相場水準です';
+          adviceEl.textContent = `${structName}教会の標準相場（坪${minFair}〜${maxFair}万円）の範囲に綺麗に収まっています。`;
+        } else if (tsuboPrice <= maxFair * 1.25) {
+          cardEl.className = 'mt-4 bg-yellow-950/60 p-4 rounded-2xl border border-yellow-500/50 flex flex-col sm:flex-row items-center justify-between gap-4';
+          statusEl.className = 'text-sm font-bold text-yellow-300 mt-1';
+          statusEl.textContent = '判定： 🟡 やや高め（VEコスト削減の余地あり）';
+          adviceEl.textContent = '建物の形状単純化や、照明・エアコンの施主支給、音響の分離発注で数百万円下がる余地があります。';
+        } else {
+          cardEl.className = 'mt-4 bg-rose-950/60 p-4 rounded-2xl border border-rose-500/50 flex flex-col sm:flex-row items-center justify-between gap-4';
+          statusEl.className = 'text-sm font-bold text-rose-300 mt-1';
+          statusEl.textContent = '判定： 🔴 割高水準です（見積もりの精査・相見積もり推奨）';
+          adviceEl.textContent = '工務店の一式見積もりの内訳解体を要求するか、同じ図面で別の施工会社に相見積もりを取ることを強くお勧めします。';
+        }
+      }
+
       init() {
         this.renderRoadmap();
         this.renderVeList();
@@ -1721,6 +1780,7 @@
         this.renderPresentationSummary();
         this.renderGlossaryList();
         this.selectMeetingStep(1);
+        this.calcFairPriceBenchmark();
         this.renderRfpDocument();
         this.updateShareText();
 
@@ -2185,6 +2245,9 @@ ${selectedRooms.join('\n')}
       // ================================================================
       getSearchIndex() {
         return [
+          { title: '会堂建築 4大リアル実例ドキュメンタリー', tab: 'realCases', elId: 'tab-realCases' },
+          { title: '見積もり相場判定チェッカー（坪単価妥当性）', tab: 'realCases', elId: 'fairPriceResultCard' },
+          { title: '献金＆借入の黄金比率ベンチマーク', tab: 'realCases', elId: 'tab-realCases' },
           { title: 'ゼロからわかる入門ストーリー（5つの基本）', tab: 'guide', elId: 'tab-guide' },
           { title: '夢の新会堂スタイル・ムードボード', tab: 'guide', elId: 'moodboardGrid' },
           { title: '先輩教会の生々しいリアル失敗談＆教訓集', tab: 'cases', elId: 'tab-cases' },

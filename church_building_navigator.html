@@ -484,6 +484,342 @@
 
 
     <!-- ================================================================ -->
+
+    <!-- ================================================================ -->
+    <!-- TAB REALCASES (新設): 実例ドキュメンタリー ＆ 相場・献金チェッカー  -->
+    <!-- ================================================================ -->
+    <div id="tab-realCases" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
+        <div class="border-b border-[#F0E6D8] pb-6">
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-900 bg-[#FEF3C7] px-3 py-1 rounded-full mb-2">
+            Real Stories, Hardships & Fair Price Benchmark
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-[#3A2A1D]">
+            会堂建築 4大リアル実例 ＆ 見積もり・献金相場チェッカー
+          </h2>
+          <p class="text-xs sm:text-sm text-[#735A45] mt-1.5 leading-relaxed">
+            「完成した綺麗な写真だけ見ても、そこに至るまでの大変さやリアルなお金が分からない」「見積もりをもらっても妥当なのか高すぎるのか判断できない」という悩みに真正面から応える、生々しいプロセスと数字の完全公開です。
+          </p>
+        </div>
+
+        <!-- ツール 1: 見積もり妥当性・相場チェッカー -->
+        <div class="mt-6 bg-gradient-to-br from-[#38271B] via-[#4A3424] to-[#2B1D13] text-white p-6 sm:p-7 rounded-3xl shadow-warm-lg border border-amber-900/50">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-900/60 pb-4 mb-4">
+            <div>
+              <span class="text-xs font-bold text-amber-300 uppercase tracking-wider">Fair Price Benchmark</span>
+              <h3 class="text-lg sm:text-xl font-bold text-[#FFF8ED] mt-1 flex items-center gap-2">
+                <span>⚖️</span> 「この見積もりって妥当？」相場判定チェッカー
+              </h3>
+              <p class="text-xs text-amber-200/80">延床坪数と提示された工事見積額を入れると、全国の教会建築相場と比較して妥当性を一発判定します。</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+            <div>
+              <label class="block font-bold text-amber-200 mb-1">① 建物の構造・種別</label>
+              <select id="fpStructureSelect" onchange="app.calcFairPriceBenchmark()" class="w-full bg-[#20140B] text-white border border-[#5C4330] rounded-xl p-2.5 font-medium">
+                <option value="wood" selected>木造（標準的な教会建築）</option>
+                <option value="steel">鉄骨造（S造・大スパン空間）</option>
+                <option value="rc">鉄筋コンクリート（RC造）</option>
+                <option value="renovation">中古建物全面リノベーション</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-amber-200 mb-1">② 延床面積（坪数）</label>
+              <div class="flex items-center gap-2">
+                <input type="number" id="fpTsuboInput" value="45" min="10" max="300" onchange="app.calcFairPriceBenchmark()" class="w-full bg-[#20140B] text-amber-300 border border-[#5C4330] rounded-xl p-2 font-bold text-sm">
+                <span class="text-xs">坪</span>
+              </div>
+            </div>
+            <div>
+              <label class="block font-bold text-amber-200 mb-1">③ 提示された工事見積額（税抜）</label>
+              <div class="flex items-center gap-2">
+                <input type="number" id="fpEstimateInput" value="4500" step="50" min="500" max="50000" onchange="app.calcFairPriceBenchmark()" class="w-full bg-[#20140B] text-amber-300 border border-[#5C4330] rounded-xl p-2 font-bold text-sm">
+                <span class="text-xs">万円</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 判定結果表示 -->
+          <div id="fairPriceResultCard" class="mt-4 bg-white/10 p-4 rounded-2xl border border-white/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <div class="text-xs text-amber-200">計算された坪単価： <span class="text-xl font-bold text-amber-300">¥<span id="fpCalculatedTsuboPrice">100</span> 万/坪</span></div>
+              <div id="fpStatusText" class="text-sm font-bold text-emerald-300 mt-1">判定： 非常に適正な相場水準です</div>
+              <p id="fpAdviceText" class="text-xs text-amber-100/80 mt-0.5">木造教会の標準相場（坪90〜120万円）の範囲に綺麗に収まっています。</p>
+            </div>
+            <div class="text-right whitespace-nowrap bg-black/30 px-4 py-2 rounded-xl border border-white/10 text-xs">
+              <span class="text-amber-200/70 block text-[10px]">この構造の標準相場目安</span>
+              <span class="font-bold text-white text-sm" id="fpStandardRangeText">坪 90 〜 120 万円</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ツール 2: 献金・借入の黄金比率ベンチマーク -->
+        <div class="mt-8 bg-gradient-to-br from-[#FBF8F3] to-[#F5EFEB] p-6 rounded-3xl border border-[#EBE1D4]">
+          <h3 class="text-base sm:text-lg font-bold text-[#3A2A1D] flex items-center gap-2 mb-2">
+            <span>📊</span> 他の教会はどう集めている？「献金＆資金調達の黄金比率」
+          </h3>
+          <p class="text-xs text-[#7A634F] mb-4">
+            「いくら献金をお願いすればいいかわからない」「無理な目標で信徒が疲弊しないか」という不安に答える、全国の健全な教会の平均データです。
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+            <div class="bg-white p-4 rounded-2xl border border-[#E2D6C5] shadow-2xs space-y-2">
+              <div class="text-amber-900 font-bold text-sm flex items-center gap-1.5">
+                <span>🏆</span> 資金調達の「黄金比率」
+              </div>
+              <p class="text-[#695342] leading-relaxed">
+                ・<strong>自己資金（手元＋献金）：50〜60%</strong><br>
+                ・<strong>借入金（公庫・地銀・教団）：40〜50%</strong><br>
+                ※借入金が60%を超えると、月々の返済が普段の教会活動（牧師謝儀・宣教費）を圧迫するリスクが高まります。
+              </p>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-[#E2D6C5] shadow-2xs space-y-2">
+              <div class="text-amber-900 font-bold text-sm flex items-center gap-1.5">
+                <span>💰</span> 一時献金（着工時）の目安相場
+              </div>
+              <p class="text-[#695342] leading-relaxed">
+                ・<strong>シニア・役員層：</strong> 10万〜50万円 / 人<br>
+                ・<strong>一般現役世代：</strong> 5万〜20万円 / 人<br>
+                ・<strong>青年・学生層：</strong> 1万〜3万円 / 人<br>
+                ※「金額の割り当て」は絶対にせず、「祈りの中で各自が神様に応答する」形を徹底することが結束の秘訣です。
+              </p>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-[#E2D6C5] shadow-2xs space-y-2">
+              <div class="text-amber-900 font-bold text-sm flex items-center gap-1.5">
+                <span>📅</span> 定期積立献金（3〜5年）の目安
+              </div>
+              <p class="text-[#695342] leading-relaxed">
+                ・<strong>月額相場：</strong> 5,000円〜15,000円 / 口<br>
+                ・<strong>積立期間：</strong> 3年間〜5年間<br>
+                （例：25人が月1万円を5年続けると、それだけで<strong>1,500万円</strong>の確実な自己資金が積み上がります！）
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4大リアル実例ドキュメンタリー -->
+        <div class="mt-8 border-t border-[#F0E6D8] pt-6">
+          <div class="mb-4">
+            <span class="text-xs font-bold text-amber-800 bg-[#FEF3C7] px-2.5 py-0.5 rounded-full uppercase">Real Case Studies</span>
+            <h3 class="text-xl font-serif font-bold text-[#3A2A1D] mt-1">
+              先輩教会の4大リアル実例ドキュメンタリー（苦難と実際の決算書）
+            </h3>
+            <p class="text-xs text-[#7A634F] mt-0.5">規模・地域・スタイルの異なる4つの教会が、どんな壁にぶつかり、どう乗り越えたかの生々しい記録です。</p>
+          </div>
+
+          <div class="space-y-6">
+            <!-- Case A -->
+            <div class="border border-[#E2D6C5] rounded-3xl overflow-hidden bg-[#FDFBF7] shadow-xs">
+              <div class="bg-[#F5EFEB] p-4 sm:p-5 border-b border-[#E2D6C5] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <span class="text-[11px] font-bold bg-amber-800 text-white px-2.5 py-0.5 rounded-full">事例 A：地方・車社会の木造新築</span>
+                  <h4 class="text-base sm:text-lg font-bold text-[#3A2A1D] mt-1">
+                    のぞみキリスト教会（出席40人・シニア中心）
+                  </h4>
+                  <p class="text-xs text-[#7A634F]">「農地転用1年半の壁」と「高齢信徒の借金不安」を祈りで乗り越えた平屋チャペル</p>
+                </div>
+                <div class="text-right whitespace-nowrap bg-white px-4 py-2 rounded-xl border border-[#E2D6C5]">
+                  <span class="text-[10px] text-[#8C7461] block">総事業費</span>
+                  <span class="text-lg font-bold text-amber-900">5,200 万円</span>
+                </div>
+              </div>
+
+              <div class="p-5 sm:p-6 space-y-4 text-xs sm:text-sm text-[#4A3B2C] leading-relaxed">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="bg-white p-4 rounded-2xl border border-[#E2D6C5] space-y-2">
+                    <strong class="text-rose-900 block font-bold text-xs flex items-center gap-1">
+                      <span>⚡</span> 直面した一番の大変さ（泥臭い葛藤）
+                    </strong>
+                    <p class="text-xs text-[#695342]">
+                      郊外で手頃な土地を見つけたが「農業振興地域（青地）」で、農地転用許可が下りるまでに1年半の行政交渉。さらに信徒の過半数が年金生活のシニアだったため「教会が借金を背負って大丈夫なのか」「自分たちが天に召された後、若い人に重荷を残さないか」と役員会が1年間紛糾した。
+                    </p>
+                  </div>
+                  <div class="bg-white p-4 rounded-2xl border border-[#E2D6C5] space-y-2">
+                    <strong class="text-emerald-900 block font-bold text-xs flex items-center gap-1">
+                      <span>✨</span> どう乗り越えたか？（知恵と奇跡）
+                    </strong>
+                    <p class="text-xs text-[#695342]">
+                      毎月「返済シミュレーション説明会」を開き、月々返済を12万円（一般会計の16%）に抑える安全計画を可視化。平屋のバリアフリー設計にして「シニアが靴のまま礼拝できる喜び」を共有。最後は信徒全員でペンキ塗りと駐車場砂利敷きをDIYし、結束が深まった。
+                    </p>
+                  </div>
+                </div>
+
+                <div class="bg-[#F7F2E8] p-4 rounded-2xl border border-[#E8DAC7]">
+                  <strong class="text-[#3A2A1D] block font-bold text-xs mb-2">📊 リアルな収支決算書の内訳</strong>
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                    <div>土地（70坪）：<strong>1,200万</strong></div>
+                    <div>本体工事（木造平屋38坪）：<strong>2,800万</strong></div>
+                    <div>駐車場舗装・外構：<strong>500万</strong></div>
+                    <div>音響・備品・諸経費：<strong>700万</strong></div>
+                  </div>
+                  <div class="mt-2 pt-2 border-t border-[#E0D0BE] text-xs text-[#523F2F]">
+                    <strong>【調達の内訳】：</strong> 手元積立 1,500万 ＋ 一時献金 1,200万 ＋ 公庫・教団借入 2,000万 ＋ クラファン・バザー 500万
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Case B -->
+            <div class="border border-[#E2D6C5] rounded-3xl overflow-hidden bg-[#FDFBF7] shadow-xs">
+              <div class="bg-[#F5EFEB] p-4 sm:p-5 border-b border-[#E2D6C5] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <span class="text-[11px] font-bold bg-indigo-800 text-white px-2.5 py-0.5 rounded-full">事例 B：都市部狭小地の鉄骨3階建て</span>
+                  <h4 class="text-base sm:text-lg font-bold text-[#3A2A1D] mt-1">
+                    グレースコミュニティ教会（出席80人・若者ファミリー中心）
+                  </h4>
+                  <p class="text-xs text-[#7A634F]">「近隣住民の反対運動」と「予算高騰」を模型と5年積立で克服した現代型チャペル</p>
+                </div>
+                <div class="text-right whitespace-nowrap bg-white px-4 py-2 rounded-xl border border-[#E2D6C5]">
+                  <span class="text-[10px] text-[#8C7461] block">総事業費</span>
+                  <span class="text-lg font-bold text-indigo-950">1億1,000 万円</span>
+                </div>
+              </div>
+
+              <div class="p-5 sm:p-6 space-y-4 text-xs sm:text-sm text-[#4A3B2C] leading-relaxed">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="bg-white p-4 rounded-2xl border border-[#E2D6C5] space-y-2">
+                    <strong class="text-rose-900 block font-bold text-xs flex items-center gap-1">
+                      <span>⚡</span> 直面した一番の大変さ（泥臭い葛藤）
+                    </strong>
+                    <p class="text-xs text-[#695342]">
+                      住宅密集地で着工前に「日曜朝に賛美やドラムがうるさい」「路上駐車で迷惑だ」と近隣住民から建築反対の署名運動が勃発。さらに当初見積もりが1億3,500万円と予算を2,500万円もオーバーし、計画が頓挫しかけた。
+                    </p>
+                  </div>
+                  <div class="bg-white p-4 rounded-2xl border border-[#E2D6C5] space-y-2">
+                    <strong class="text-emerald-900 block font-bold text-xs flex items-center gap-1">
+                      <span>✨</span> どう乗り越えたか？（知恵と奇跡）
+                    </strong>
+                    <p class="text-xs text-[#695342]">
+                      建築士とともに防音構造（二重サッシ・浮き床）の模型を作って住民説明会を3回開催。近隣の月極駐車場を6台借り上げ「路上駐車厳禁ルール」を制定。VE（建物を箱型にし照明・エアコンを施主支給）で2,500万円の削減に成功した。
+                    </p>
+                  </div>
+                </div>
+
+                <div class="bg-[#F7F2E8] p-4 rounded-2xl border border-[#E8DAC7]">
+                  <strong class="text-[#3A2A1D] block font-bold text-xs mb-2">📊 リアルな収支決算書の内訳</strong>
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                    <div>土地（42坪）：<strong>4,500万</strong></div>
+                    <div>本体工事（鉄骨3階建75坪）：<strong>5,000万</strong></div>
+                    <div>防音・AV配信設備：<strong>800万</strong></div>
+                    <div>設計・登記・諸経費：<strong>700万</strong></div>
+                  </div>
+                  <div class="mt-2 pt-2 border-t border-[#E0D0BE] text-xs text-[#523F2F]">
+                    <strong>【調達の内訳】：</strong> 手元資金 3,000万 ＋ 5年間積立（月1万×50人）3,000万 ＋ 地銀プロパー融資 5,000万
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Case C -->
+            <div class="border border-[#E2D6C5] rounded-3xl overflow-hidden bg-[#FDFBF7] shadow-xs">
+              <div class="bg-[#F5EFEB] p-4 sm:p-5 border-b border-[#E2D6C5] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <span class="text-[11px] font-bold bg-emerald-800 text-white px-2.5 py-0.5 rounded-full">事例 C：中古ビル購入＋全面リノベーション</span>
+                  <h4 class="text-base sm:text-lg font-bold text-[#3A2A1D] mt-1">
+                    オリーブチャペル（出席30人・地域共生カフェ型）
+                  </h4>
+                  <p class="text-xs text-[#7A634F]">「用途変更200㎡ルールの壁」と「老朽配管トラブル」をクリアした街角オープン教会</p>
+                </div>
+                <div class="text-right whitespace-nowrap bg-white px-4 py-2 rounded-xl border border-[#E2D6C5]">
+                  <span class="text-[10px] text-[#8C7461] block">総事業費</span>
+                  <span class="text-lg font-bold text-emerald-900">3,800 万円</span>
+                </div>
+              </div>
+
+              <div class="p-5 sm:p-6 space-y-4 text-xs sm:text-sm text-[#4A3B2C] leading-relaxed">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="bg-white p-4 rounded-2xl border border-[#E2D6C5] space-y-2">
+                    <strong class="text-rose-900 block font-bold text-xs flex items-center gap-1">
+                      <span>⚡</span> 直面した一番の大変さ（泥臭い葛藤）
+                    </strong>
+                    <p class="text-xs text-[#695342]">
+                      築35年の元文具店ビルを購入したが、解体してみると給排水管が錆びて階下に漏水事故が発生。さらに用途変更の確認申請を出すと耐震補強で数千万円かかると判明し、絶体絶命の危機に。
+                    </p>
+                  </div>
+                  <div class="bg-white p-4 rounded-2xl border border-[#E2D6C5] space-y-2">
+                    <strong class="text-emerald-900 block font-bold text-xs flex items-center gap-1">
+                      <span>✨</span> どう乗り越えたか？（知恵と奇跡）
+                    </strong>
+                    <p class="text-xs text-[#695342]">
+                      教会に詳しい建築士のアドバイスで、集会所部分の床面積を「198㎡（200㎡以下）」に調整し、確認申請不要の合法リノベを実現。平日は地域子ども食堂・カフェとして開き、クラウドファンディングで地域住民からも500万円の支援を集めた。
+                    </p>
+                  </div>
+                </div>
+
+                <div class="bg-[#F7F2E8] p-4 rounded-2xl border border-[#E8DAC7]">
+                  <strong class="text-[#3A2A1D] block font-bold text-xs mb-2">📊 リアルな収支決算書の内訳</strong>
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                    <div>中古ビル購入（鉄骨2階）：<strong>2,200万</strong></div>
+                    <div>解体・内装改修工事：<strong>1,100万</strong></div>
+                    <div>厨房・消防設備（自火報）：<strong>250万</strong></div>
+                    <div>登記・諸経費：<strong>250万</strong></div>
+                  </div>
+                  <div class="mt-2 pt-2 border-t border-[#E0D0BE] text-xs text-[#523F2F]">
+                    <strong>【調達の内訳】：</strong> 手元 1,000万 ＋ 一時献金 800万 ＋ 公庫ソーシャルビジネス融資 1,500万 ＋ クラファン 500万
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Case D -->
+            <div class="border border-[#E2D6C5] rounded-3xl overflow-hidden bg-[#FDFBF7] shadow-xs">
+              <div class="bg-[#F5EFEB] p-4 sm:p-5 border-b border-[#E2D6C5] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <span class="text-[11px] font-bold bg-amber-700 text-white px-2.5 py-0.5 rounded-full">事例 D：賃貸テナント居抜き改装</span>
+                  <h4 class="text-base sm:text-lg font-bold text-[#3A2A1D] mt-1">
+                    ライフスプリング教会（出席20人・開拓伝道教会）
+                  </h4>
+                  <p class="text-xs text-[#7A634F]">「宗教法人はお断り」の門前払いを乗り越え、徹底的な施主支給で立ち上げた初期会堂</p>
+                </div>
+                <div class="text-right whitespace-nowrap bg-white px-4 py-2 rounded-xl border border-[#E2D6C5]">
+                  <span class="text-[10px] text-[#8C7461] block">総事業費</span>
+                  <span class="text-lg font-bold text-amber-950">1,200 万円</span>
+                </div>
+              </div>
+
+              <div class="p-5 sm:p-6 space-y-4 text-xs sm:text-sm text-[#4A3B2C] leading-relaxed">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="bg-white p-4 rounded-2xl border border-[#E2D6C5] space-y-2">
+                    <strong class="text-rose-900 block font-bold text-xs flex items-center gap-1">
+                      <span>⚡</span> 直面した一番の大変さ（泥臭い葛藤）
+                    </strong>
+                    <p class="text-xs text-[#695342]">
+                      駅前の空きテナントに問い合わせるも、「宗教はお断り」「不特定多数が出入りすると他の店に迷惑」と不動産会社から5連続で審査落ち。限られた開拓資金の中で退去時の原状回復トラブルも怖かった。
+                    </p>
+                  </div>
+                  <div class="bg-white p-4 rounded-2xl border border-[#E2D6C5] space-y-2">
+                    <strong class="text-emerald-900 block font-bold text-xs flex items-center gap-1">
+                      <span>✨</span> どう乗り越えたか？（知恵と奇跡）
+                    </strong>
+                    <p class="text-xs text-[#695342]">
+                      牧師が「地域の子育て支援とカルチャー教室も兼ねる」事業企画書を作成し、オーナーへ直談判して信用を獲得。床は接着剤を使わない置敷きカーペット、照明や音響はすべてネットで購入して信徒で設置し、工務店費用を極小化した。
+                    </p>
+                  </div>
+                </div>
+
+                <div class="bg-[#F7F2E8] p-4 rounded-2xl border border-[#E8DAC7]">
+                  <strong class="text-[#3A2A1D] block font-bold text-xs mb-2">📊 リアルな収支決算書の内訳</strong>
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                    <div>敷金保証金・仲介料：<strong>220万</strong></div>
+                    <div>間仕切り・解体・電気工事：<strong>530万</strong></div>
+                    <div>音響・プロジェクター（施主支給）：<strong>250万</strong></div>
+                    <div>椅子・看板・予備費：<strong>200万</strong></div>
+                  </div>
+                  <div class="mt-2 pt-2 border-t border-[#E0D0BE] text-xs text-[#523F2F]">
+                    <strong>【調達の内訳】：</strong> 開拓支援金 400万 ＋ 有志信徒の一時献金 300万 ＋ 無利子個人借入 500万
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- TAB CASES: 先輩教会の生々しいリアル失敗談＆教訓集                -->
     <!-- ================================================================ -->
     <div id="tab-cases" class="tab-content hidden space-y-6">
@@ -1707,13 +2043,24 @@
       }
 
 
-      calcFairPriceBenchmark() {
-        const structure = document.getElementById('fpStructureSelect').value;
-        const tsubo = parseFloat(document.getElementById('fpTsuboInput').value) || 45;
-        const estimateMan = parseFloat(document.getElementById('fpEstimateInput').value) || 4500;
+            calcFairPriceBenchmark() {
+        const structEl = document.getElementById('fpStructureSelect');
+        const tsuboEl = document.getElementById('fpTsuboInput');
+        const estEl = document.getElementById('fpEstimateInput');
+        const calcPriceEl = document.getElementById('fpCalculatedTsuboPrice');
+        const rangeEl = document.getElementById('fpStandardRangeText');
+        const statusEl = document.getElementById('fpStatusText');
+        const adviceEl = document.getElementById('fpAdviceText');
+        const cardEl = document.getElementById('fairPriceResultCard');
+
+        if (!structEl || !tsuboEl || !estEl || !calcPriceEl) return;
+
+        const structure = structEl.value;
+        const tsubo = parseFloat(tsuboEl.value) || 45;
+        const estimateMan = parseFloat(estEl.value) || 4500;
         const tsuboPrice = Math.round(estimateMan / tsubo);
 
-        document.getElementById('fpCalculatedTsuboPrice').textContent = tsuboPrice.toLocaleString();
+        calcPriceEl.textContent = tsuboPrice.toLocaleString();
 
         let minFair = 90;
         let maxFair = 120;
@@ -1733,11 +2080,9 @@
           structName = 'リノベーション';
         }
 
-        document.getElementById('fpStandardRangeText').textContent = `坪 ${minFair} 〜 ${maxFair} 万円`;
+        if (rangeEl) rangeEl.textContent = `坪 ${minFair} 〜 ${maxFair} 万円`;
 
-        const statusEl = document.getElementById('fpStatusText');
-        const adviceEl = document.getElementById('fpAdviceText');
-        const cardEl = document.getElementById('fairPriceResultCard');
+        if (!statusEl || !adviceEl || !cardEl) return;
 
         if (tsuboPrice < minFair * 0.75) {
           cardEl.className = 'mt-4 bg-amber-950/60 p-4 rounded-2xl border border-amber-500/50 flex flex-col sm:flex-row items-center justify-between gap-4';
@@ -3527,7 +3872,7 @@ ${selectedRooms.join('\n')}
       }
     }
 
-    const app = new ChurchBuildingApp();
+    window.app = new ChurchBuildingApp();
   </script>
 </body>
 </html>

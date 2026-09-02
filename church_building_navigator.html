@@ -8,10 +8,10 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Google Fonts: Inter & BIZ UDPGothic & Noto Serif JP -->
+  <!-- Google Fonts: Inter & BIZ UDPGothic & Noto Serif JP & Shippori Mincho -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Inter:wght@400;500;600;700&family=Noto+Serif+JP:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Noto+Serif+JP:wght@500;600;700;900&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
   
   <script>
     tailwind.config = {
@@ -19,28 +19,34 @@
         extend: {
           fontFamily: {
             sans: ['"BIZ UDPGothic"', 'Inter', 'sans-serif'],
-            serif: ['"Noto Serif JP"', 'serif'],
+            serif: ['"Noto Serif JP"', '"Shippori Mincho"', 'serif'],
           },
           colors: {
-            navy: {
-              50: '#F0F4F8',
-              100: '#D9E2EC',
-              200: '#BCCCDC',
-              700: '#1E3A8A',
-              800: '#1E293B',
-              900: '#0F172A',
+            warm: {
+              50: '#FDFBF7',
+              100: '#F9F5EE',
+              200: '#F1E9DB',
+              300: '#E5D6C1',
+              800: '#4A3B2C',
+              900: '#2C2219',
             },
-            gold: {
-              50: '#FFFDF5',
-              100: '#FEF9C3',
-              500: '#EAB308',
-              600: '#CA8A04',
-              700: '#A16207',
-            },
-            emerald: {
-              700: '#047857',
-              800: '#065F46',
+            chapel: {
+              wood: '#6B4423',
+              wooddark: '#3D2612',
+              cream: '#FAF7F2',
+              gold: '#C59B27',
+              amber: '#D97706',
+              softamber: '#FEF3C7',
+              navy: '#1B2A47',
+              sage: '#2E5A44',
+              softsage: '#E8F3ED',
+              rose: '#9E2A2B',
+              softrose: '#FBEBEB',
             }
+          },
+          boxShadow: {
+            'warm': '0 4px 20px -2px rgba(74, 59, 44, 0.08), 0 2px 6px -1px rgba(74, 59, 44, 0.04)',
+            'warm-lg': '0 10px 30px -3px rgba(74, 59, 44, 0.12), 0 4px 10px -2px rgba(74, 59, 44, 0.06)',
           }
         }
       }
@@ -52,8 +58,8 @@
     @media print {
       body {
         background: white !important;
-        color: black !important;
-        font-size: 11pt;
+        color: #1a1a1a !important;
+        font-size: 10.5pt;
       }
       .no-print {
         display: none !important;
@@ -67,98 +73,142 @@
       }
     }
     
-    /* スクロールバー装飾 */
+    /* スクロールバー装飾（温かみのあるトーン） */
     ::-webkit-scrollbar {
       width: 8px;
       height: 8px;
     }
     ::-webkit-scrollbar-track {
-      background: #F1F5F9;
+      background: #F5EFEB;
     }
     ::-webkit-scrollbar-thumb {
-      background: #CBD5E1;
+      background: #D5C5B5;
       border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #94A3B8;
+      background: #B8A28D;
+    }
+
+    /* ステンドグラス風微細グラデーションボーダー */
+    .stained-glass-border {
+      border-image: linear-gradient(to right, #D97706, #C59B27, #2E5A44, #1B2A47, #9E2A2B) 1;
+    }
+
+    /* 検索ハイライト用アニメーション */
+    @keyframes highlightPulse {
+      0% { background-color: rgba(254, 243, 199, 1); transform: scale(1.01); }
+      50% { background-color: rgba(254, 240, 138, 0.8); }
+      100% { background-color: transparent; transform: scale(1); }
+    }
+    .search-highlight {
+      animation: highlightPulse 2.5s ease-out;
     }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-blue-200">
+<body class="bg-[#FAF7F2] text-[#2C2219] font-sans min-h-screen flex flex-col selection:bg-amber-100 selection:text-amber-900">
+
+  <!-- ========================================== -->
+  <!-- 聖句バナー（温かな祈りの導入）             -->
+  <!-- ========================================== -->
+  <div class="bg-gradient-to-r from-[#241B14] via-[#3A291E] to-[#241B14] text-[#EADCC9] text-xs py-1.5 px-4 text-center border-b border-[#4D3728] flex items-center justify-center gap-2 no-print">
+    <span class="text-amber-400">✝</span>
+    <span class="font-serif italic tracking-wide">「知恵によって家は建てられ、英知によって堅く立てられる。」</span>
+    <span class="text-[11px] text-amber-300/80 font-serif">（箴言 24:3）</span>
+  </div>
 
   <!-- ========================================== -->
   <!-- ヘッダー                                   -->
   <!-- ========================================== -->
-  <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white border-b border-indigo-900/50 shadow-lg sticky top-0 z-50 no-print">
+  <header class="bg-gradient-to-b from-[#2E2016] to-[#1F150E] text-white border-b border-amber-950/60 shadow-warm-lg sticky top-0 z-50 no-print">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
+      <div class="flex items-center justify-between h-18 py-2 gap-3">
         <!-- ロゴ＆タイトル -->
-        <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-md shadow-amber-500/20 text-slate-950 font-bold text-xl">
+        <div class="flex items-center space-x-3.5">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-300 via-amber-500 to-amber-700 flex items-center justify-center shadow-md shadow-amber-950/40 text-slate-950 font-bold text-2xl border border-amber-200/50">
             ✝
           </div>
           <div>
             <div class="flex items-center space-x-2">
-              <h1 class="font-serif font-bold text-lg sm:text-xl tracking-tight text-white flex items-center gap-2">
+              <h1 class="font-serif font-bold text-lg sm:text-xl tracking-tight text-[#FFF8ED] flex items-center gap-2">
                 教会建築・リフォーム総合ナビゲーター
               </h1>
-              <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs px-2 py-0.5 rounded-full font-sans font-medium">
-                実務・設計完全版
+              <span class="bg-gradient-to-r from-amber-500/20 to-amber-400/30 text-amber-200 border border-amber-400/30 text-[11px] px-2.5 py-0.5 rounded-full font-sans font-medium hidden sm:inline-block">
+                実務・設計・法務 v2.0
               </span>
             </div>
-            <p class="text-xs text-slate-300 hidden sm:block">
-              祈りから献堂まで。初めての会堂新築・購入・リノベーションを導く総合プロジェクト支援
+            <p class="text-xs text-[#C8B8A6] hidden md:block">
+              祈りから献堂まで。初めての会堂新築・購入・リノベーションを導くWeb実践支援システム
             </p>
           </div>
         </div>
 
-        <!-- ユーティリティボタン -->
-        <div class="flex items-center space-x-2">
-          <button onclick="window.print()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 text-xs flex items-center space-x-1 transition shadow-sm" title="現在の内容を印刷・PDF保存">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-            <span class="hidden md:inline">印刷 / PDF保存</span>
-          </button>
-          <button onclick="app.resetAllData()" class="px-3 py-1.5 rounded-lg bg-slate-800/60 hover:bg-red-950/40 text-slate-300 hover:text-red-300 border border-slate-700 text-xs transition" title="データを初期状態に戻す">
-            初期化
-          </button>
-          <div class="text-xs text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2.5 py-1 rounded-md hidden lg:flex items-center space-x-1.5">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>ブラウザ自動保存中</span>
+        <!-- クイック検索バー（機能追加） -->
+        <div class="relative flex-1 max-w-xs hidden lg:block">
+          <div class="relative">
+            <input type="text" id="globalSearchInput" oninput="app.handleSearch(this.value)" placeholder="機能・法令・部屋・DIYを検索..." class="w-full bg-[#3D2C20]/90 text-xs text-amber-50 placeholder-amber-200/50 rounded-xl px-3.5 py-2 pl-9 border border-[#5A412F] focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-[#4A3627] transition shadow-inner">
+            <svg class="w-4 h-4 text-amber-300/60 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
           </div>
+          <!-- 検索ドロップダウン -->
+          <div id="searchResultsDropdown" class="hidden absolute left-0 right-0 top-11 bg-white text-slate-800 rounded-xl shadow-2xl border border-amber-200 max-h-72 overflow-y-auto z-50 text-xs py-1"></div>
+        </div>
+
+        <!-- ユーティリティ操作群 -->
+        <div class="flex items-center space-x-2">
+          <!-- データ共有（エクスポート・インポート） -->
+          <button onclick="app.exportDataJson()" class="px-2.5 py-1.5 rounded-xl bg-[#3D2C20] hover:bg-[#4E3929] text-amber-200 border border-[#5C4330] text-xs flex items-center space-x-1 transition shadow-xs" title="シミュレーションデータをJSONファイル保存（共有用）">
+            <svg class="w-3.5 h-3.5 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+            <span class="hidden sm:inline">保存</span>
+          </button>
+          <label class="px-2.5 py-1.5 rounded-xl bg-[#3D2C20] hover:bg-[#4E3929] text-amber-200 border border-[#5C4330] text-xs flex items-center space-x-1 transition shadow-xs cursor-pointer" title="保存したJSONファイルを読み込み">
+            <svg class="w-3.5 h-3.5 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            <span class="hidden sm:inline">読込</span>
+            <input type="file" id="importJsonFileInput" onchange="app.importDataJson(event)" accept=".json" class="hidden">
+          </label>
+          <!-- 印刷ボタン -->
+          <button onclick="window.print()" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white font-medium text-xs flex items-center space-x-1.5 transition shadow-sm" title="現在の内容をA4印刷・PDF保存">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+            <span class="hidden md:inline">印刷 / PDF</span>
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- メインタブバー（横スクロール可能） -->
-    <div class="bg-slate-950/90 border-t border-slate-800/80 backdrop-blur-md">
+    <!-- ステンドグラス調の繊細な光のアクセントバー -->
+    <div class="h-1 w-full bg-gradient-to-r from-amber-500 via-rose-500 via-indigo-400 via-emerald-500 to-amber-500 opacity-80"></div>
+
+    <!-- メインタブバー（横スクロール可能・温もりピルデザイン） -->
+    <div class="bg-[#241A12]/95 border-t border-[#3B2A1D] backdrop-blur-md">
       <div class="max-w-7xl mx-auto px-2 sm:px-4">
         <nav class="flex space-x-1 overflow-x-auto py-2 text-xs font-medium no-scrollbar" id="tabNav">
-          <button onclick="app.switchTab('roadmap')" data-tab="roadmap" class="tab-btn px-3 py-2 rounded-lg whitespace-nowrap transition flex items-center space-x-1.5 text-white bg-indigo-600 font-bold shadow-sm">
-            <span>🧭</span><span>1. ロードマップ・工程</span>
+          <button onclick="app.switchTab('roadmap')" data-tab="roadmap" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-white bg-amber-700 font-bold shadow-xs">
+            <span>🧭</span><span>1. 工程 & 逆算日程</span>
           </button>
-          <button onclick="app.switchTab('budget')" data-tab="budget" class="tab-btn px-3 py-2 rounded-lg whitespace-nowrap transition flex items-center space-x-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800">
-            <span>💰</span><span>2. 予算・資金シミュレーター</span>
+          <button onclick="app.switchTab('budget')" data-tab="budget" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
+            <span>💰</span><span>2. 予算 & 返済CF</span>
           </button>
-          <button onclick="app.switchTab('costReduction')" data-tab="costReduction" class="tab-btn px-3 py-2 rounded-lg whitespace-nowrap transition flex items-center space-x-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800">
-            <span>✂️</span><span>3. 見積精査 & VEコスト削減</span>
+          <button onclick="app.switchTab('costReduction')" data-tab="costReduction" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
+            <span>✂️</span><span>3. 見積精査 & VE削減</span>
           </button>
-          <button onclick="app.switchTab('property')" data-tab="property" class="tab-btn px-3 py-2 rounded-lg whitespace-nowrap transition flex items-center space-x-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800">
-            <span>🏛️</span><span>4. 土地・物件選び & 現地点検</span>
+          <button onclick="app.switchTab('property')" data-tab="property" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
+            <span>🏛️</span><span>4. 土地選び & 現地点検</span>
           </button>
-          <button onclick="app.switchTab('rooms')" data-tab="rooms" class="tab-btn px-3 py-2 rounded-lg whitespace-nowrap transition flex items-center space-x-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800">
-            <span>📐</span><span>5. 部屋別・音響・防音設計</span>
+          <button onclick="app.switchTab('rooms')" data-tab="rooms" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
+            <span>📐</span><span>5. 部屋別 & 音響AV</span>
           </button>
-          <button onclick="app.switchTab('legal')" data-tab="legal" class="tab-btn px-3 py-2 rounded-lg whitespace-nowrap transition flex items-center space-x-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800">
-            <span>⚖️</span><span>6. 行政・法務 & 境内地非課税</span>
+          <button onclick="app.switchTab('legal')" data-tab="legal" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
+            <span>⚖️</span><span>6. 非課税 & 書類生成</span>
           </button>
-          <button onclick="app.switchTab('unity')" data-tab="unity" class="tab-btn px-3 py-2 rounded-lg whitespace-nowrap transition flex items-center space-x-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800">
-            <span>🤝</span><span>7. 信徒周知 & 一致・祈り</span>
+          <button onclick="app.switchTab('unity')" data-tab="unity" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
+            <span>🤝</span><span>7. 信徒周知 & プレゼン</span>
           </button>
-          <button onclick="app.switchTab('crowdfunding')" data-tab="crowdfunding" class="tab-btn px-3 py-2 rounded-lg whitespace-nowrap transition flex items-center space-x-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800">
+          <button onclick="app.switchTab('crowdfunding')" data-tab="crowdfunding" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
             <span>🚀</span><span>8. クラウドファンディング</span>
           </button>
-          <button onclick="app.switchTab('diy')" data-tab="diy" class="tab-btn px-3 py-2 rounded-lg whitespace-nowrap transition flex items-center space-x-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800">
-            <span>🔨</span><span>9. 信徒DIY & 安全ガイド</span>
+          <button onclick="app.switchTab('diy')" data-tab="diy" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
+            <span>🔨</span><span>9. 信徒DIY & 安全</span>
+          </button>
+          <button onclick="app.switchTab('links')" data-tab="links" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
+            <span>📚</span><span>10. 公式根拠リンク集</span>
           </button>
         </nav>
       </div>
@@ -168,57 +218,86 @@
   <!-- ========================================== -->
   <!-- メインコンテンツ領域                       -->
   <!-- ========================================== -->
-  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
 
     <!-- ================================================================ -->
-    <!-- TAB 1: 全体ロードマップ & 工程タスク                            -->
+    <!-- TAB 1: 全体ロードマップ & 逆算タイムライン                        -->
     <!-- ================================================================ -->
     <div id="tab-roadmap" class="tab-content space-y-6">
       <!-- 概要カード -->
-      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#F0E6D8] pb-6">
           <div>
-            <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-md mb-2">
-              Phase Navigation
+            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-800 bg-[#FEF3C7] px-3 py-1 rounded-full mb-2">
+              Phase 1 to 6 & Schedule Planner
             </span>
-            <h2 class="text-2xl font-serif font-bold text-slate-900">会堂建築・リフォーム 全体ロードマップ</h2>
-            <p class="text-sm text-slate-600 mt-1">
-              構想から祈り、土地選定、設計、見積もり、工事、そして献堂式に至る標準的な進行スケジュールとチェックリストです。
+            <h2 class="text-2xl sm:text-3xl font-serif font-bold text-[#3A2A1D]">会堂建築・リフォーム 全体ロードマップ</h2>
+            <p class="text-xs sm:text-sm text-[#735A45] mt-1.5">
+              祈りのビジョン共有から土地選定、設計、見積もり、工事、そして献堂式に至る標準的な進行スケジュールとチェックリストです。
             </p>
           </div>
           <!-- 進捗メーター -->
-          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-center gap-4 min-w-[240px]">
+          <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4] flex items-center gap-4 min-w-[240px] shadow-xs">
             <div class="relative w-14 h-14 flex items-center justify-center">
               <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
-                <path class="text-slate-200" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                <path id="roadmapProgressCircle" class="text-indigo-600 transition-all duration-500" stroke-dasharray="0, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="text-amber-100" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path id="roadmapProgressCircle" class="text-amber-600 transition-all duration-500" stroke-dasharray="0, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
               </svg>
-              <span id="roadmapProgressPercent" class="absolute text-sm font-bold text-slate-800">0%</span>
+              <span id="roadmapProgressPercent" class="absolute text-sm font-bold text-[#4A3828]">0%</span>
             </div>
             <div>
-              <div class="text-xs text-slate-500 font-medium">全タスク進捗状況</div>
-              <div class="text-sm font-bold text-slate-900"><span id="roadmapCompletedCount">0</span> / <span id="roadmapTotalCount">24</span> 完了</div>
+              <div class="text-xs text-[#8A715D] font-medium">全タスク進捗状況</div>
+              <div class="text-sm font-bold text-[#3A2A1D]"><span id="roadmapCompletedCount">0</span> / <span id="roadmapTotalCount">24</span> 完了</div>
             </div>
           </div>
         </div>
 
+        <!-- Webアプリ機能：逆算スケジュールジェネレーター -->
+        <div class="mt-6 bg-gradient-to-br from-[#FFF9F2] to-[#FAF2E6] p-5 sm:p-6 rounded-2xl border border-[#E8DAC7] shadow-xs">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+            <div>
+              <h3 class="text-base font-bold text-[#423122] flex items-center gap-2">
+                <span>📅</span> 目標献堂式からの「逆算タイムライン」ジェネレーター
+              </h3>
+              <p class="text-xs text-[#7A634F] mt-0.5">希望の献堂年月を指定すると、各工程のデッドライン（期限）を自動計算して表示します。</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-[#574332]">目標献堂年月:</span>
+              <input type="month" id="targetDedicationMonth" value="2028-04" onchange="app.generateScheduleTimeline()" class="bg-white border border-[#D5C2AD] rounded-xl px-3 py-1.5 text-xs font-bold text-[#3D2D1F] focus:ring-2 focus:ring-amber-500 shadow-xs">
+            </div>
+          </div>
+          <!-- 逆算タイムラインバー -->
+          <div id="scheduleTimelineBar" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 text-xs">
+            <!-- JS動的レンダリング -->
+          </div>
+        </div>
+
         <!-- 6大ステージ・アコーディオン -->
-        <div class="mt-6 space-y-4" id="roadmapPhasesContainer">
+        <div class="mt-8 space-y-4" id="roadmapPhasesContainer">
           <!-- JSでレンダリング -->
         </div>
       </div>
 
       <!-- 落とし穴アラート -->
-      <div class="bg-amber-50 border-l-4 border-amber-500 p-5 rounded-r-xl shadow-sm">
-        <div class="flex items-start gap-3">
-          <span class="text-2xl">⚠️</span>
+      <div class="bg-[#FFFDF5] border-l-4 border-amber-500 p-6 rounded-2xl shadow-warm border border-amber-200/60">
+        <div class="flex items-start gap-3.5">
+          <span class="text-3xl">💡</span>
           <div>
-            <h4 class="text-sm font-bold text-amber-900">初めての会堂建築で最も多い3大失敗</h4>
-            <ul class="text-xs sm:text-sm text-amber-800 mt-2 space-y-1.5 list-disc list-inside">
-              <li><strong>信徒の合意形成不足：</strong> 牧師や一部の役員だけで進めてしまい、途中で教会員の不安や反発が起きてプロジェクトが停滞する（→タブ7「信徒周知」を参照）。</li>
-              <li><strong>予算漏れ（本体工事以外の費用）：</strong> 建物本体の見積もりだけで進め、地盤改良・外構・音響映像・知事証明申請費・引越し予備費が足りなくなる（→タブ2「予算シミュレーター」を参照）。</li>
-              <li><strong>土地の法規制見落とし：</strong> 用途地域制限や幅員4m未満道路のセットバック、駐車場不足、近隣騒音トラブル（→タブ4「土地選び」を参照）。</li>
-            </ul>
+            <h4 class="text-sm font-bold text-[#543818]">初めての会堂建築で絶対に知っておくべき「3大つまずき」と神様の知恵</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 mt-3 text-xs text-[#6E4F28]">
+              <div class="bg-white p-3.5 rounded-xl border border-amber-200/80 shadow-xs">
+                <strong class="text-amber-900 block mb-1">1. 信徒の合意形成不足</strong>
+                牧師や一部の役員だけで進めてしまい、信徒が置き去りに。「なぜ今会堂が必要か」を祈りの中で丁寧に分かち合いましょう。（→タブ7参照）
+              </div>
+              <div class="bg-white p-3.5 rounded-xl border border-amber-200/80 shadow-xs">
+                <strong class="text-amber-900 block mb-1">2. 建物本体以外の費用漏れ</strong>
+                地盤改良（100〜200万）、音響映像（150万〜）、知事証明申請・登記、予備費を見落とすと資金ショートを起こします。（→タブ2参照）
+              </div>
+              <div class="bg-white p-3.5 rounded-xl border border-amber-200/80 shadow-xs">
+                <strong class="text-amber-900 block mb-1">3. 用途地域と近隣対策の罠</strong>
+                低層住居地域の建築規制や幅員4m未満道路のセットバック、日曜朝の路上駐車や賛美の音漏れは最優先で対策が必要です。（→タブ4参照）
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -226,33 +305,33 @@
 
 
     <!-- ================================================================ -->
-    <!-- TAB 2: 精密 予算・資金シミュレーター                             -->
+    <!-- TAB 2: 精密 予算 & 返済キャッシュフロー                           -->
     <!-- ================================================================ -->
     <div id="tab-budget" class="tab-content hidden space-y-6">
-      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-        <div class="border-b border-slate-100 pb-5">
-          <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md mb-2">
-            Financial Simulation
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
+        <div class="border-b border-[#F0E6D8] pb-6">
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full mb-2">
+            Budgeting & Cashflow Simulator
           </span>
-          <h2 class="text-2xl font-serif font-bold text-slate-900">超精密 予算＆資金調達シミュレーター</h2>
-          <p class="text-sm text-slate-600 mt-1">
-            建築形態（新築／中古リフォーム／テナント）と礼拝出席人数を選ぶと、本体・付帯・音響・諸経費・予備費を含む現実的な総予算と調達計画が自動試算されます。
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-[#3A2A1D]">超精密 予算 ＆ 借入金返済シミュレーター</h2>
+          <p class="text-xs sm:text-sm text-[#735A45] mt-1.5">
+            建築形態（新築／中古リフォーム／テナント）と出席人数を選ぶと、本体・付帯・音響・諸経費・予備費を含む総予算と、月々の返済負担率が自動試算されます。
           </p>
         </div>
 
         <!-- 基本前提条件の設定 -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 bg-slate-50 p-5 rounded-xl border border-slate-200">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 bg-[#FBF8F3] p-5 rounded-2xl border border-[#EBE1D4]">
           <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1.5">① 建築・取得の形態</label>
-            <select id="budgetTypeSelect" onchange="app.updateBudgetModel()" class="w-full text-sm font-medium bg-white border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            <label class="block text-xs font-bold text-[#523F2F] mb-1.5">① 建築・取得の形態</label>
+            <select id="budgetTypeSelect" onchange="app.updateBudgetModel()" class="w-full text-xs sm:text-sm font-medium bg-white border border-[#D5C2AD] rounded-xl p-2.5 focus:ring-2 focus:ring-amber-500 shadow-xs">
               <option value="new_build">土地購入 ＋ 完全新築（木造・鉄骨）</option>
               <option value="renovation_purchase">中古ビル・戸建て購入 ＋ 全面リノベ</option>
               <option value="tenant_lease">賃貸テナント入居 ＋ 内装改修</option>
             </select>
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1.5">② 想定礼拝出席人数（定員）</label>
-            <select id="budgetCapacitySelect" onchange="app.updateBudgetModel()" class="w-full text-sm font-medium bg-white border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            <label class="block text-xs font-bold text-[#523F2F] mb-1.5">② 想定礼拝出席人数（定員）</label>
+            <select id="budgetCapacitySelect" onchange="app.updateBudgetModel()" class="w-full text-xs sm:text-sm font-medium bg-white border border-[#D5C2AD] rounded-xl p-2.5 focus:ring-2 focus:ring-amber-500 shadow-xs">
               <option value="30">約 30人（延床 25坪 / 82㎡）</option>
               <option value="50" selected>約 50人（延床 40坪 / 132㎡）</option>
               <option value="100">約 100人（延床 75坪 / 248㎡）</option>
@@ -260,8 +339,8 @@
             </select>
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1.5">③ 仕様グレード</label>
-            <select id="budgetGradeSelect" onchange="app.updateBudgetModel()" class="w-full text-sm font-medium bg-white border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            <label class="block text-xs font-bold text-[#523F2F] mb-1.5">③ 仕様グレード</label>
+            <select id="budgetGradeSelect" onchange="app.updateBudgetModel()" class="w-full text-xs sm:text-sm font-medium bg-white border border-[#D5C2AD] rounded-xl p-2.5 focus:ring-2 focus:ring-amber-500 shadow-xs">
               <option value="standard" selected>標準・実用的（コスト重視＋必要防音）</option>
               <option value="high">高品質（本格遮音・無垢材・高機能音響）</option>
               <option value="economy">徹底コストカット（DIY・施主支給併用）</option>
@@ -269,52 +348,114 @@
           </div>
         </div>
 
-        <!-- 予算総額サマリーカード -->
+        <!-- 予算総額サマリーカード（温かみのあるチャペルオーク調） -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-          <div class="lg:col-span-2 bg-gradient-to-br from-slate-900 to-indigo-950 text-white p-6 rounded-2xl shadow-md flex flex-col justify-between">
+          <div class="lg:col-span-2 bg-gradient-to-br from-[#382618] via-[#4D3624] to-[#2B1C10] text-white p-6 sm:p-7 rounded-3xl shadow-warm-lg flex flex-col justify-between border border-amber-900/50">
             <div class="flex items-center justify-between">
               <div>
-                <span class="text-xs font-semibold text-amber-400 uppercase tracking-wider">Estimated Total Project Budget</span>
-                <div class="text-3xl sm:text-4xl font-serif font-bold text-white mt-1">
-                  ¥<span id="budgetTotalDisplay">0</span> <span class="text-lg font-sans font-normal text-slate-300">万円</span>
+                <span class="text-xs font-semibold text-amber-300 uppercase tracking-wider">Estimated Total Project Budget</span>
+                <div class="text-3xl sm:text-4xl font-serif font-bold text-[#FFF7ED] mt-1.5">
+                  ¥<span id="budgetTotalDisplay">0</span> <span class="text-lg font-sans font-normal text-amber-200/80">万円</span>
                 </div>
               </div>
               <div class="text-right">
-                <div class="text-xs text-slate-300">坪単価（本体工事目安）</div>
-                <div class="text-xl font-bold text-amber-300">¥<span id="budgetTsuboUnitPriceDisplay">0</span> <span class="text-xs">万/坪</span></div>
+                <div class="text-xs text-amber-200/70">坪単価（本体工事目安）</div>
+                <div class="text-xl sm:text-2xl font-bold text-amber-300">¥<span id="budgetTsuboUnitPriceDisplay">0</span> <span class="text-xs">万/坪</span></div>
               </div>
             </div>
 
             <!-- 内訳バー -->
             <div class="mt-6">
-              <div class="text-xs text-slate-300 mb-2 flex justify-between">
+              <div class="text-xs text-amber-100/80 mb-2 flex justify-between">
                 <span>総額の内訳比率</span>
-                <span id="budgetRatioBreakdownText" class="text-slate-400"></span>
+                <span id="budgetRatioBreakdownText" class="text-amber-200/60 font-mono"></span>
               </div>
-              <div class="h-3 w-full bg-slate-800 rounded-full overflow-hidden flex" id="budgetProgressBar">
+              <div class="h-3.5 w-full bg-[#20140B] rounded-full overflow-hidden flex p-0.5" id="budgetProgressBar">
                 <!-- JSで動的色分けバー挿入 -->
               </div>
             </div>
           </div>
 
           <!-- 調達ギャップカード -->
-          <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-between">
+          <div class="bg-[#FBF8F3] p-6 rounded-3xl border border-[#EBE1D4] flex flex-col justify-between shadow-xs">
             <div>
-              <div class="text-xs font-bold text-slate-500 uppercase">資金調達と必要額のバランス</div>
+              <div class="text-xs font-bold text-[#7A634F] uppercase">資金調達と必要額のバランス</div>
               <div class="mt-2 flex items-baseline gap-2">
-                <span id="fundingGapBadge" class="px-2.5 py-1 text-xs font-bold rounded-full bg-slate-200 text-slate-700">計算中</span>
+                <span id="fundingGapBadge" class="px-3 py-1 text-xs font-bold rounded-full bg-slate-200 text-slate-700">計算中</span>
               </div>
-              <div class="mt-3 space-y-1 text-xs text-slate-600">
-                <div class="flex justify-between"><span>総事業費：</span><span class="font-bold text-slate-800" id="summaryTotalCost">0万円</span></div>
-                <div class="flex justify-between"><span>調達見込合計：</span><span class="font-bold text-emerald-700" id="summaryFundingTotal">0万円</span></div>
-                <div class="flex justify-between border-t border-slate-200 pt-1 text-sm font-bold">
+              <div class="mt-3 space-y-1.5 text-xs text-[#523F2F]">
+                <div class="flex justify-between"><span>総事業費：</span><span class="font-bold text-[#3A2A1D]" id="summaryTotalCost">0万円</span></div>
+                <div class="flex justify-between"><span>調達見込合計：</span><span class="font-bold text-emerald-800" id="summaryFundingTotal">0万円</span></div>
+                <div class="flex justify-between border-t border-[#E8DEC7] pt-1.5 text-sm font-bold">
                   <span id="gapLabel">資金差額：</span>
                   <span id="gapAmount">0万円</span>
                 </div>
               </div>
             </div>
-            <div class="mt-4 text-[11px] text-slate-400">
-              ※調達側（手元資金・献金・融資・クラファン）は下記フォームで自由に調整できます。
+            <div class="mt-4 text-[11px] text-[#8C7461]">
+              ※手元資金・献金・融資・クラファンは下記フォームで自由に調整できます。
+            </div>
+          </div>
+        </div>
+
+        <!-- Webアプリ機能：長期借入金＆キャッシュフロー返済シミュレーター -->
+        <div class="mt-8 bg-gradient-to-br from-[#F5F8F6] to-[#EBF3ED] p-6 rounded-3xl border border-[#D0E2D6] shadow-xs">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#D0E2D6] pb-4">
+            <div>
+              <span class="text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">Financial Health Check</span>
+              <h3 class="text-lg font-bold text-[#1E432E] mt-1 flex items-center gap-2">
+                <span>📊</span> 長期ローン返済 ＆ 教会会計キャッシュフロー診断
+              </h3>
+              <p class="text-xs text-[#426951]">借入金が教会の月々の経常会計に無理のない負担になっているかを科学的に判定します。</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4">
+            <!-- 返済条件入力 -->
+            <div class="space-y-3 text-xs bg-white p-4 rounded-2xl border border-[#D0E2D6]">
+              <div>
+                <label class="block font-bold text-[#2A5239] mb-1">想定借入金利（年利 %）</label>
+                <input type="number" id="cfLoanRate" value="2.0" step="0.1" min="0.5" max="5.0" onchange="app.calcCashflowLoan()" class="w-full border rounded-lg p-2 font-bold text-sm">
+                <span class="text-[10px] text-slate-500">※教団貸付・信金・公庫の目安：1.5〜2.5%</span>
+              </div>
+              <div>
+                <label class="block font-bold text-[#2A5239] mb-1">返済期間（年数）</label>
+                <select id="cfLoanYears" onchange="app.calcCashflowLoan()" class="w-full border rounded-lg p-2 font-bold text-sm">
+                  <option value="15">15年 返済（短期・利息少）</option>
+                  <option value="20" selected>20年 返済（標準）</option>
+                  <option value="25">25年 返済</option>
+                  <option value="30">30年 返済（月額負担小）</option>
+                </select>
+              </div>
+              <div>
+                <label class="block font-bold text-[#2A5239] mb-1">教会の「月間一般経常収入（月定献金等）」</label>
+                <div class="flex items-center gap-1.5">
+                  <input type="number" id="cfMonthlyIncome" value="80" step="5" min="20" max="500" onchange="app.calcCashflowLoan()" class="w-24 border rounded-lg p-2 font-bold text-sm text-right">
+                  <span class="text-xs">万円 / 月</span>
+                </div>
+                <span class="text-[10px] text-slate-500">※建築献金を除く、普段の経常活動収入</span>
+              </div>
+            </div>
+
+            <!-- 計算結果 ＆ 負担率診断 -->
+            <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div class="bg-white p-4 rounded-2xl border border-[#D0E2D6] text-center flex flex-col justify-between">
+                <div class="text-xs text-slate-500 font-medium">月々のローン返済額</div>
+                <div class="text-2xl font-bold text-[#1E432E] mt-1">¥<span id="cfMonthlyPaymentDisplay">0</span> <span class="text-xs font-normal">円/月</span></div>
+                <div class="text-[11px] text-slate-400 mt-1">年間：約<span id="cfYearlyPaymentDisplay">0</span>万円</div>
+              </div>
+
+              <div class="bg-white p-4 rounded-2xl border border-[#D0E2D6] text-center flex flex-col justify-between">
+                <div class="text-xs text-slate-500 font-medium">総支払利息の目安</div>
+                <div class="text-2xl font-bold text-amber-700 mt-1">¥<span id="cfTotalInterestDisplay">0</span> <span class="text-xs font-normal">万円</span></div>
+                <div class="text-[11px] text-slate-400 mt-1">元金＋利息の総支払額</div>
+              </div>
+
+              <div id="cfBurdenCard" class="p-4 rounded-2xl border flex flex-col justify-between text-center transition">
+                <div class="text-xs font-bold" id="cfBurdenTitle">会計返済負担率</div>
+                <div class="text-3xl font-extrabold mt-1" id="cfBurdenRateDisplay">0%</div>
+                <div class="text-[11px] font-medium mt-1 leading-tight" id="cfBurdenMessage">計算中</div>
+              </div>
             </div>
           </div>
         </div>
@@ -323,8 +464,8 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
           <!-- 支出（コスト）詳細 -->
           <div class="space-y-4">
-            <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2 border-b border-slate-200 pb-2">
-              <span>🧾</span> 費用（支出）の内訳・微調整
+            <h3 class="text-base sm:text-lg font-bold text-[#3A2A1D] flex items-center gap-2 border-b border-[#F0E6D8] pb-2.5">
+              <span>🧾</span> 費用（支出）の10大内訳・微調整
             </h3>
             <div id="costItemsContainer" class="space-y-3">
               <!-- JS動的生成 -->
@@ -333,28 +474,28 @@
 
           <!-- 収入（資金調達）計画 -->
           <div class="space-y-4">
-            <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2 border-b border-slate-200 pb-2">
+            <h3 class="text-base sm:text-lg font-bold text-[#3A2A1D] flex items-center gap-2 border-b border-[#F0E6D8] pb-2.5">
               <span>🏦</span> 資金調達（収入）計画シミュレーター
             </h3>
-            <div class="space-y-4 bg-slate-50 p-5 rounded-xl border border-slate-200">
+            <div class="space-y-4 bg-[#FBF8F3] p-5 rounded-2xl border border-[#EBE1D4]">
               <div>
-                <label class="flex justify-between text-xs font-bold text-slate-700 mb-1">
+                <label class="flex justify-between text-xs font-bold text-[#523F2F] mb-1.5">
                   <span>① 現在の手元教会資金（建築積立金等）</span>
-                  <span class="text-indigo-600"><span id="fundSavingsDisplay">1,000</span> 万円</span>
+                  <span class="text-amber-800"><span id="fundSavingsDisplay">1,000</span> 万円</span>
                 </label>
-                <input type="range" id="fundSavingsInput" min="0" max="10000" step="50" value="1000" oninput="app.updateFunding()" class="w-full accent-indigo-600">
+                <input type="range" id="fundSavingsInput" min="0" max="10000" step="50" value="1000" oninput="app.updateFunding()" class="w-full accent-amber-700">
               </div>
 
               <div>
-                <label class="flex justify-between text-xs font-bold text-slate-700 mb-1">
+                <label class="flex justify-between text-xs font-bold text-[#523F2F] mb-1.5">
                   <span>② 信徒・支援者の一時献金（着工時目標）</span>
-                  <span class="text-indigo-600"><span id="fundOneTimeDisplay">800</span> 万円</span>
+                  <span class="text-amber-800"><span id="fundOneTimeDisplay">800</span> 万円</span>
                 </label>
-                <input type="range" id="fundOneTimeInput" min="0" max="5000" step="50" value="800" oninput="app.updateFunding()" class="w-full accent-indigo-600">
+                <input type="range" id="fundOneTimeInput" min="0" max="5000" step="50" value="800" oninput="app.updateFunding()" class="w-full accent-amber-700">
               </div>
 
-              <div class="bg-white p-3 rounded-lg border border-slate-200 space-y-2">
-                <span class="text-xs font-bold text-slate-700 block">③ 信徒定期積立献金（月額 × 人数 × 期間）</span>
+              <div class="bg-white p-3.5 rounded-xl border border-[#E2D6C5] space-y-2 shadow-2xs">
+                <span class="text-xs font-bold text-[#523F2F] block">③ 信徒定期積立献金（月額 × 人数 × 期間）</span>
                 <div class="grid grid-cols-3 gap-2 text-xs">
                   <div>
                     <span class="text-slate-500 block">積立信徒数</span>
@@ -369,26 +510,26 @@
                     <input type="number" id="fundPledgeYears" value="5" min="1" max="10" onchange="app.updateFunding()" class="w-full border rounded p-1 text-center font-bold">
                   </div>
                 </div>
-                <div class="text-right text-xs font-bold text-emerald-700">
+                <div class="text-right text-xs font-bold text-emerald-800 pt-1">
                   積立小計： <span id="fundPledgeTotalDisplay">1,500</span> 万円
                 </div>
               </div>
 
               <div>
-                <label class="flex justify-between text-xs font-bold text-slate-700 mb-1">
+                <label class="flex justify-between text-xs font-bold text-[#523F2F] mb-1.5">
                   <span>④ 金融機関・日本政策金融公庫・教団本部借入</span>
-                  <span class="text-indigo-600"><span id="fundLoanDisplay">2,000</span> 万円</span>
+                  <span class="text-amber-800"><span id="fundLoanDisplay">2,000</span> 万円</span>
                 </label>
-                <input type="range" id="fundLoanInput" min="0" max="15000" step="100" value="2000" oninput="app.updateFunding()" class="w-full accent-indigo-600">
-                <p class="text-[11px] text-slate-500 mt-0.5">※宗教法人融資は信金・地銀・教団互助会が中心。月々の返済可能額（一般会計余力）を必ず確認。</p>
+                <input type="range" id="fundLoanInput" min="0" max="15000" step="100" value="2000" oninput="app.updateFunding()" class="w-full accent-amber-700">
+                <p class="text-[11px] text-slate-500 mt-0.5">※上記キャッシュフロー診断で返済負担率20%以内を確認。</p>
               </div>
 
               <div>
-                <label class="flex justify-between text-xs font-bold text-slate-700 mb-1">
+                <label class="flex justify-between text-xs font-bold text-[#523F2F] mb-1.5">
                   <span>⑤ クラウドファンディング調達想定</span>
-                  <span class="text-indigo-600"><span id="fundCfDisplay">300</span> 万円</span>
+                  <span class="text-amber-800"><span id="fundCfDisplay">300</span> 万円</span>
                 </label>
-                <input type="range" id="fundCfInput" min="0" max="1500" step="20" value="300" oninput="app.updateFunding()" class="w-full accent-indigo-600">
+                <input type="range" id="fundCfInput" min="0" max="1500" step="20" value="300" oninput="app.updateFunding()" class="w-full accent-amber-700">
               </div>
             </div>
           </div>
@@ -402,66 +543,66 @@
     <!-- TAB 3: 見積精査 & VEコスト削減                                   -->
     <!-- ================================================================ -->
     <div id="tab-costReduction" class="tab-content hidden space-y-6">
-      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-        <div class="border-b border-slate-100 pb-5">
-          <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-rose-700 bg-rose-50 px-2.5 py-1 rounded-md mb-2">
-            Value Engineering & Negotiation
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
+        <div class="border-b border-[#F0E6D8] pb-6">
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-rose-800 bg-rose-50 px-3 py-1 rounded-full mb-2">
+            Value Engineering & Smart Negotiation
           </span>
-          <h2 class="text-2xl font-serif font-bold text-slate-900">見積もり精査 ＆ VE（バリューエンジニアリング）コスト削減術</h2>
-          <p class="text-sm text-slate-600 mt-1">
-            工務店・設計事務所からの見積もりを徹底的に精査し、品質を落とさずに数百万円単位で値段を下げるための具体策とシミュレーターです。
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-[#3A2A1D]">見積もり精査 ＆ VE（バリューエンジニアリング）コスト削減術</h2>
+          <p class="text-xs sm:text-sm text-[#735A45] mt-1.5">
+            工務店・設計事務所からの見積もりを丁寧に読み解き、教会の品位や安全性を落とさずに数百万円単位で値段を下げるための具体策シミュレーターです。
           </p>
         </div>
 
-        <!-- VE削減シミュレーター カウンター -->
-        <div class="bg-gradient-to-r from-rose-950 via-slate-900 to-slate-900 text-white p-6 rounded-2xl mt-6 shadow-md flex flex-col md:flex-row items-center justify-between gap-4">
+        <!-- VE削減シミュレーター カウンター（温かみのあるテラコッタ） -->
+        <div class="bg-gradient-to-r from-[#4A1E1E] via-[#5C2626] to-[#3B1414] text-white p-6 sm:p-7 rounded-3xl mt-6 shadow-warm-lg flex flex-col md:flex-row items-center justify-between gap-4 border border-rose-900/50">
           <div>
-            <div class="text-xs font-semibold text-rose-300 uppercase tracking-wider">Total Potential Cost Savings</div>
-            <div class="text-3xl sm:text-4xl font-serif font-bold text-white mt-1">
-              - ¥<span id="veTotalSavedDisplay">0</span> <span class="text-lg font-sans font-normal text-slate-300">万円 削減可能</span>
+            <div class="text-xs font-semibold text-rose-200 uppercase tracking-wider">Total Potential Cost Savings</div>
+            <div class="text-3xl sm:text-4xl font-serif font-bold text-[#FFF5F5] mt-1">
+              - ¥<span id="veTotalSavedDisplay">0</span> <span class="text-lg font-sans font-normal text-rose-200">万円 削減可能</span>
             </div>
-            <p class="text-xs text-slate-300 mt-1">
-              下記のチェック項目を選択すると、リアルタイムに削減可能額が積算されます。
+            <p class="text-xs text-rose-200/80 mt-1">
+              下記のチェック項目を選択すると、リアルタイムに削減可能額が積算され、タブ2の総予算へ自動反映されます。
             </p>
           </div>
-          <div class="bg-rose-900/40 border border-rose-700/50 px-4 py-3 rounded-xl text-center min-w-[200px]">
+          <div class="bg-rose-950/60 border border-rose-700/60 px-5 py-3.5 rounded-2xl text-center min-w-[200px] shadow-inner">
             <div class="text-xs text-rose-200">選択中のVE施策数</div>
             <div class="text-2xl font-bold text-amber-300"><span id="veCheckedCount">0</span> / 10 項目 適用</div>
           </div>
         </div>
 
         <!-- VE施策チェックリスト -->
-        <div class="mt-6 space-y-4" id="veItemsListContainer">
+        <div class="mt-8 space-y-4" id="veItemsListContainer">
           <!-- JS動的レンダリング -->
         </div>
 
         <!-- 見積もり精査のプロの技術 -->
-        <div class="mt-8 border-t border-slate-200 pt-6">
-          <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <span>🔍</span> 工務店・設計事務所の見積書をチェックする極意
+        <div class="mt-10 border-t border-[#F0E6D8] pt-6">
+          <h3 class="text-base sm:text-lg font-bold text-[#3A2A1D] mb-4 flex items-center gap-2">
+            <span>🔍</span> 工務店・設計事務所の見積書をチェックする3大極意
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-              <div class="font-bold text-slate-900 mb-1 flex items-center gap-1.5">
+            <div class="bg-[#FBF8F3] p-5 rounded-2xl border border-[#EBE1D4] shadow-2xs">
+              <div class="font-bold text-[#3A2A1D] mb-1.5 flex items-center gap-1.5">
                 <span class="text-rose-600">●</span> 「一式（いっしき）」の徹底解体
               </div>
-              <p class="text-slate-600 leading-relaxed">
-                「音響工事一式 300万円」「外構工事一式 200万円」といった表記はブラックボックスです。必ず「品名・数量・単価」の内訳明細書の提出を依頼しましょう。
+              <p class="text-[#695342] leading-relaxed text-xs">
+                「音響工事一式 300万円」「外構工事一式 200万円」といった表記はブラックボックスです。「品名・仕様・数量・単価」の内訳明細書を提出してもらいましょう。
               </p>
             </div>
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-              <div class="font-bold text-slate-900 mb-1 flex items-center gap-1.5">
+            <div class="bg-[#FBF8F3] p-5 rounded-2xl border border-[#EBE1D4] shadow-2xs">
+              <div class="font-bold text-[#3A2A1D] mb-1.5 flex items-center gap-1.5">
                 <span class="text-rose-600">●</span> 諸経費比率の確認
               </div>
-              <p class="text-slate-600 leading-relaxed">
-                共通仮設費・現場管理費・一般管理費が、直接工事費の何％になっているか確認（適正は計12〜18％）。25％を超える場合は根拠を質問して交渉材料にします。
+              <p class="text-[#695342] leading-relaxed text-xs">
+                共通仮設費・現場管理費・一般管理費が、直接工事費の何％か確認（適正は計12〜18％）。25％を超える場合は内訳根拠を確認して交渉材料にします。
               </p>
             </div>
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-              <div class="font-bold text-slate-900 mb-1 flex items-center gap-1.5">
+            <div class="bg-[#FBF8F3] p-5 rounded-2xl border border-[#EBE1D4] shadow-2xs">
+              <div class="font-bold text-[#3A2A1D] mb-1.5 flex items-center gap-1.5">
                 <span class="text-rose-600">●</span> 同一条件での相見積もり
               </div>
-              <p class="text-slate-600 leading-relaxed">
+              <p class="text-[#695342] leading-relaxed text-xs">
                 必ず「同じ仕様書・同じ図面」を揃えて2〜3社に渡します。条件がバラバラだと比較できません。多すぎると工務店が敬遠するため3社程度がベストです。
               </p>
             </div>
@@ -476,55 +617,55 @@
     <!-- TAB 4: 土地・物件選び & 現地点検                                  -->
     <!-- ================================================================ -->
     <div id="tab-property" class="tab-content hidden space-y-6">
-      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-        <div class="border-b border-slate-100 pb-5">
-          <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md mb-2">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
+        <div class="border-b border-[#F0E6D8] pb-6">
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-blue-800 bg-blue-50 px-3 py-1 rounded-full mb-2">
             Site & Real Estate Guide
           </span>
-          <h2 class="text-2xl font-serif font-bold text-slate-900">不動産・土地・物件選びの基準 ＆ 現地点検シート</h2>
-          <p class="text-sm text-slate-600 mt-1">
-            教会の土地・建物探しは一般的な住宅とは全く異なります。用途地域制限、接道義務、騒音トラブル防止、駐車台数計算などの専門知識をまとめました。
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-[#3A2A1D]">不動産・土地・物件選びの基準 ＆ 現地点検シート</h2>
+          <p class="text-xs sm:text-sm text-[#735A45] mt-1.5">
+            教会の土地・建物探しは一般的な住宅とは全く異なります。用途地域制限、接道義務、騒音トラブル防止、駐車台数計算などの専門知識と、スマホで使える下見シートです。
           </p>
         </div>
 
         <!-- 3大重要チェック：用途地域・接道・駐車場 -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-            <h4 class="text-sm font-bold text-slate-900 flex items-center gap-1.5 mb-2">
+          <div class="bg-[#FBF8F3] p-5 rounded-2xl border border-[#EBE1D4]">
+            <h4 class="text-sm font-bold text-[#3A2A1D] flex items-center gap-1.5 mb-2">
               <span>🗺️</span> 用途地域の罠
             </h4>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              <strong>第一種低層住居専用地域</strong>などでは、兼用住宅でない独立した集会施設の建築が制限されたり、厳格な高さ制限（10m/12m）・北側斜線規制があります。必ず役所の建築指導課で「宗教施設・集会所の可否」を事前確認してください。
+            <p class="text-xs text-[#695342] leading-relaxed">
+              <strong>第一種低層住居専用地域</strong>では、兼用住宅でない独立した集会施設の建築が制限されたり、厳格な高さ制限（10m/12m）・北側斜線規制があります。必ず役所の建築指導課で「集会所・宗教施設の建築可否」を事前確認してください。
             </p>
           </div>
 
-          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-            <h4 class="text-sm font-bold text-slate-900 flex items-center gap-1.5 mb-2">
+          <div class="bg-[#FBF8F3] p-5 rounded-2xl border border-[#EBE1D4]">
+            <h4 class="text-sm font-bold text-[#3A2A1D] flex items-center gap-1.5 mb-2">
               <span>🛣️</span> 接道義務と道路幅員
             </h4>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              建築基準法上の道路に<strong>2m以上（延床規模によっては4m以上）接道</strong>している必要があります。幅員4m未満の道路（2項道路）は<strong>セットバック（道路中心から2m後退）</strong>で敷地面積が狭小化します。
+            <p class="text-xs text-[#695342] leading-relaxed">
+              建築基準法上の道路に<strong>2m以上（延床規模により4m以上）接道</strong>している必要があります。幅員4m未満の道路（2項道路）は<strong>セットバック（道路中心から2m後退）</strong>で敷地が削られるため注意。
             </p>
           </div>
 
-          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-            <h4 class="text-sm font-bold text-slate-900 flex items-center gap-1.5 mb-2">
+          <div class="bg-[#FBF8F3] p-5 rounded-2xl border border-[#EBE1D4]">
+            <h4 class="text-sm font-bold text-[#3A2A1D] flex items-center gap-1.5 mb-2">
               <span>🚗</span> 駐車場台数カリキュレーター
             </h4>
             <div class="space-y-2 mt-2">
               <div class="flex items-center justify-between text-xs">
-                <span>礼拝出席者数:</span>
-                <input type="number" id="propCarMembers" value="50" onchange="app.calcCarPark()" class="w-16 border rounded p-1 text-center font-bold">
+                <span class="text-[#523F2F]">礼拝出席者数:</span>
+                <input type="number" id="propCarMembers" value="50" onchange="app.calcCarPark()" class="w-16 border rounded-lg p-1 text-center font-bold">
               </div>
               <div class="flex items-center justify-between text-xs">
-                <span>車社会度:</span>
-                <select id="propCarRate" onchange="app.calcCarPark()" class="border rounded p-1 text-xs">
+                <span class="text-[#523F2F]">車社会度:</span>
+                <select id="propCarRate" onchange="app.calcCarPark()" class="border rounded-lg p-1 text-xs">
                   <option value="0.7">地方・車社会（70%）</option>
                   <option value="0.4" selected>準都市部（40%）</option>
                   <option value="0.15">駅近・大都市（15%）</option>
                 </select>
               </div>
-              <div class="text-right text-xs font-bold text-blue-700 pt-1 border-t border-slate-200">
+              <div class="text-right text-xs font-bold text-amber-800 pt-1.5 border-t border-[#EBE1D4]">
                 必要台数目安: <span id="propCarResult" class="text-sm">20</span> 台分
               </div>
             </div>
@@ -532,20 +673,20 @@
         </div>
 
         <!-- 近隣住民対策・音と駐車トラブル防止マニュアル -->
-        <div class="mt-6 bg-amber-50/70 border border-amber-200 p-5 rounded-xl">
-          <h3 class="text-sm font-bold text-amber-900 flex items-center gap-2 mb-2">
+        <div class="mt-6 bg-[#FFFDF7] border border-amber-200/80 p-5 rounded-2xl shadow-xs">
+          <h3 class="text-sm font-bold text-amber-950 flex items-center gap-2 mb-2">
             <span>📢</span> 教会建築で絶対に対策すべき「近隣クレーム」3大事例
           </h3>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-amber-900">
-            <div class="bg-white/80 p-3 rounded-lg border border-amber-200">
+            <div class="bg-white p-3.5 rounded-xl border border-amber-200 shadow-2xs">
               <strong>1. 日曜朝の路上駐車</strong><br>
-              「出入り口が塞がれる」「子どもが危ない」など近隣最大の怒りポイント。敷地内＋近隣月極の契約台数を厳守。
+              「出入り口が塞がれる」「子どもが危ない」など近隣最大の怒りポイント。敷地内＋近隣月極の確保を徹底。
             </div>
-            <div class="bg-white/80 p-3 rounded-lg border border-amber-200">
+            <div class="bg-white p-3.5 rounded-xl border border-amber-200 shadow-2xs">
               <strong>2. ドラム・賛美の低周波音漏れ</strong><br>
               住宅密集地ではドラムのキック音やベースの重低音が壁を抜けて響きます。二重サッシ・浮き床などの遮音対策が必須。
             </div>
-            <div class="bg-white/80 p-3 rounded-lg border border-amber-200">
+            <div class="bg-white p-3.5 rounded-xl border border-amber-200 shadow-2xs">
               <strong>3. ドア開閉音・会堂前の談笑</strong><br>
               礼拝後の会堂前での立ち話や、車のドアのバタンという音、子どもの走る声に日曜の朝は敏感です。
             </div>
@@ -553,12 +694,12 @@
         </div>
 
         <!-- 現地内覧用インタラクティブチェックシート -->
-        <div class="mt-8 border-t border-slate-200 pt-6">
+        <div class="mt-8 border-t border-[#F0E6D8] pt-6">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <h3 class="text-base sm:text-lg font-bold text-[#3A2A1D] flex items-center gap-2">
               <span>📋</span> 現地内覧・下見用チェックシート（スマホで現場確認可能）
             </h3>
-            <span class="text-xs text-slate-500 font-medium">チェック結果は自動保存されます</span>
+            <span class="text-xs text-[#8A715D]">チェック結果は自動保存されます</span>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="propertyChecklistContainer">
             <!-- JS動的生成 -->
@@ -570,36 +711,63 @@
 
 
     <!-- ================================================================ -->
-    <!-- TAB 5: 部屋別・音響・防音設計                                     -->
+    <!-- TAB 5: 部屋別・音響・防音設計 & AV構成                           -->
     <!-- ================================================================ -->
     <div id="tab-rooms" class="tab-content hidden space-y-6">
-      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-        <div class="border-b border-slate-100 pb-5">
-          <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-purple-700 bg-purple-50 px-2.5 py-1 rounded-md mb-2">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
+        <div class="border-b border-[#F0E6D8] pb-6">
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-purple-800 bg-purple-50 px-3 py-1 rounded-full mb-2">
             Architectural & Acoustic Design
           </span>
-          <h2 class="text-2xl font-serif font-bold text-slate-900">部屋別機能・音響・防音設計ガイド</h2>
-          <p class="text-sm text-slate-600 mt-1">
-            礼拝堂、母子室（完全遮音）、音響配信ブース、洗礼槽、キッズルームなど、教会特有の諸室に必要なスペックとレイアウトの極意です。
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-[#3A2A1D]">部屋別機能・音響防音設計 ＆ AV機材構成ガイド</h2>
+          <p class="text-xs sm:text-sm text-[#735A45] mt-1.5">
+            礼拝堂、母子室（完全遮音）、音響配信ブース、洗礼槽、キッズルームなど、教会特有の諸室スペックと推奨機材構成シミュレーターです。
           </p>
         </div>
 
         <!-- 必要延床面積カリキュレーター -->
-        <div class="bg-purple-950 text-white p-6 rounded-2xl mt-6 shadow-md">
+        <div class="bg-gradient-to-br from-[#2E1E38] to-[#1D1224] text-white p-6 sm:p-7 rounded-3xl mt-6 shadow-warm-lg border border-purple-900/50">
           <div class="flex flex-col md:flex-row items-center justify-between gap-4">
             <div>
-              <div class="text-xs font-semibold text-purple-300 uppercase tracking-wider">Required Total Floor Area Calculator</div>
-              <div class="text-2xl sm:text-3xl font-serif font-bold text-white mt-1">
+              <div class="text-xs font-semibold text-purple-200 uppercase tracking-wider">Required Total Floor Area Calculator</div>
+              <div class="text-2xl sm:text-3xl font-serif font-bold text-[#FAF4FF] mt-1">
                 理想延床面積：約 <span id="calcTotalTsubo">45</span> 坪（<span id="calcTotalSqm">149</span> ㎡）
               </div>
-              <p class="text-xs text-purple-200 mt-1">
-                下記で必要な部屋と定員にチェックを入れると、必要な建物全体の床面積が自動算出されます。
+              <p class="text-xs text-purple-200/80 mt-1">
+                下記で必要な部屋と定員にチェックを入れると、建物全体の床面積が自動算出されます。
               </p>
             </div>
-            <div class="bg-purple-900/60 border border-purple-700 px-4 py-3 rounded-xl text-center min-w-[180px]">
+            <div class="bg-purple-950/70 border border-purple-700/60 px-5 py-3 rounded-2xl text-center min-w-[180px]">
               <div class="text-xs text-purple-200">礼拝堂定員目安</div>
               <div class="text-xl font-bold text-amber-300"><span id="calcSanctuarySeats">50</span> 席 仕様</div>
             </div>
+          </div>
+        </div>
+
+        <!-- Webアプリ機能：音響・映像（AV）推奨機材システム構成シミュレーター -->
+        <div class="mt-8 bg-gradient-to-br from-[#F6F4FB] to-[#EEEAF7] p-6 rounded-3xl border border-[#D9D0ED] shadow-xs">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#D9D0ED] pb-4">
+            <div>
+              <span class="text-[11px] font-bold text-purple-800 bg-purple-100 px-2.5 py-0.5 rounded-full">Pro Audio & Video Setup</span>
+              <h3 class="text-lg font-bold text-[#352254] mt-1 flex items-center gap-2">
+                <span>🎛️</span> 規模別 音響・映像・配信（AV）推奨システム構成シミュレーター
+              </h3>
+              <p class="text-xs text-[#5C457D]">礼拝出席規模に最適なミキサー、スピーカー、ワイヤレスマイク、配信用カメラの具体的モデルと概算です。</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-[#4B346E]">規模切替:</span>
+              <select id="avScaleSelect" onchange="app.renderAvRecommendation()" class="bg-white border border-[#C5B7E2] rounded-xl px-3 py-1.5 text-xs font-bold text-[#352254] shadow-xs">
+                <option value="30">30人規模チャペル</option>
+                <option value="50" selected>50人規模チャペル（標準）</option>
+                <option value="100">100人規模チャペル</option>
+                <option value="150">150人以上規模チャペル</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- AV構成カード動的表示 -->
+          <div id="avRecommendationContainer" class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+            <!-- JS動的レンダリング -->
           </div>
         </div>
 
@@ -613,79 +781,138 @@
 
 
     <!-- ================================================================ -->
-    <!-- TAB 6: 行政・法務 & 境内地非課税                                  -->
+    <!-- TAB 6: 非課税 & 書類自動生成                                     -->
     <!-- ================================================================ -->
     <div id="tab-legal" class="tab-content hidden space-y-6">
-      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-        <div class="border-b border-slate-100 pb-5">
-          <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-teal-700 bg-teal-50 px-2.5 py-1 rounded-md mb-2">
-            Legal & Tax Exemption Guide
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
+        <div class="border-b border-[#F0E6D8] pb-6">
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-teal-800 bg-teal-50 px-3 py-1 rounded-full mb-2">
+            Legal & Tax Exemption & Document Generator
           </span>
-          <h2 class="text-2xl font-serif font-bold text-slate-900">行政・法務手続き ＆ 境内地・境内建物の非課税完全マニュアル</h2>
-          <p class="text-sm text-slate-600 mt-1">
-            宗教法人の規則手続き、固定資産税・不動産取得税・登録免許税の非課税措置（知事証明）、建築確認の用途変更200㎡ルール、消防法を徹底解説。
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-[#3A2A1D]">行政・法務手続き ＆ 境内地非課税・書類自動ドラフター</h2>
+          <p class="text-xs sm:text-sm text-[#735A45] mt-1.5">
+            宗教法人の規則手続き、知事証明（登録免許税非課税）、固定資産税・不動産取得税免除、建築確認200㎡ルールに加え、申請書類を自動作成できます。
           </p>
         </div>
 
+        <!-- Webアプリ機能：境内地・境内建物証明願＆議事録「書類自動ドラフター」 -->
+        <div class="mt-6 bg-gradient-to-br from-[#F2FAF7] to-[#E5F5EF] p-6 rounded-3xl border border-[#C2E7D8] shadow-xs">
+          <div class="border-b border-[#C2E7D8] pb-4 mb-4">
+            <span class="text-[11px] font-bold text-teal-800 bg-teal-100 px-2.5 py-0.5 rounded-full">Legal Document Drafter</span>
+            <h3 class="text-lg font-bold text-[#1D4738] mt-1 flex items-center gap-2">
+              <span>📝</span> 都道府県知事宛て「境内地・境内建物証明願 ＆ 議事録」自動作成ドラフター
+            </h3>
+            <p class="text-xs text-[#3E6D5D]">教会の情報を入力すると、知事宛ての申請書文面および責任役員会議事録が自動生成され、ワンクリックでコピーできます。</p>
+          </div>
+
+          <!-- 入力フィールド -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+            <div>
+              <label class="block font-bold text-[#1D4738] mb-1">宗教法人名</label>
+              <input type="text" id="docChurchName" value="宗教法人 のぞみキリスト教会" oninput="app.generateLegalDrafts()" class="w-full bg-white border rounded-lg p-2 font-medium">
+            </div>
+            <div>
+              <label class="block font-bold text-[#1D4738] mb-1">包括宗教団体名</label>
+              <input type="text" id="docDenomination" value="日本同盟基督教団" oninput="app.generateLegalDrafts()" class="w-full bg-white border rounded-lg p-2 font-medium">
+            </div>
+            <div>
+              <label class="block font-bold text-[#1D4738] mb-1">代表役員（牧師）氏名</label>
+              <input type="text" id="docPastorName" value="山田 恵一" oninput="app.generateLegalDrafts()" class="w-full bg-white border rounded-lg p-2 font-medium">
+            </div>
+            <div>
+              <label class="block font-bold text-[#1D4738] mb-1">責任役員氏名（カンマ区切り）</label>
+              <input type="text" id="docOfficers" value="佐藤 健一, 鈴木 誠, 高橋 信義" oninput="app.generateLegalDrafts()" class="w-full bg-white border rounded-lg p-2 font-medium">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block font-bold text-[#1D4738] mb-1">境内地・会堂所在地（住所）</label>
+              <input type="text" id="docAddress" value="東京都○○市○○町1-2-3" oninput="app.generateLegalDrafts()" class="w-full bg-white border rounded-lg p-2 font-medium">
+            </div>
+            <div>
+              <label class="block font-bold text-[#1D4738] mb-1">敷地面積（土地㎡）</label>
+              <input type="text" id="docLandArea" value="235.40 ㎡（約71坪）" oninput="app.generateLegalDrafts()" class="w-full bg-white border rounded-lg p-2 font-medium">
+            </div>
+            <div>
+              <label class="block font-bold text-[#1D4738] mb-1">建物構造・延床面積</label>
+              <input type="text" id="docBuildingArea" value="木造2階建 延床 142.10 ㎡" oninput="app.generateLegalDrafts()" class="w-full bg-white border rounded-lg p-2 font-medium">
+            </div>
+          </div>
+
+          <!-- 生成プレビュー切り替えタブ -->
+          <div class="mt-5 border-t border-[#C2E7D8] pt-4">
+            <div class="flex space-x-2 text-xs mb-3">
+              <button onclick="app.switchDraftTab('cert')" id="draftBtn-cert" class="px-3 py-1.5 rounded-lg bg-teal-700 text-white font-bold">知事証明願 文面</button>
+              <button onclick="app.switchDraftTab('minutes')" id="draftBtn-minutes" class="px-3 py-1.5 rounded-lg bg-white text-teal-800 border border-teal-300 font-bold">責任役員会議事録</button>
+              <button onclick="app.switchDraftTab('notice')" id="draftBtn-notice" class="px-3 py-1.5 rounded-lg bg-white text-teal-800 border border-teal-300 font-bold">公告文（信徒向け）</button>
+              <div class="flex-1 text-right">
+                <button onclick="app.copyCurrentDraft()" class="px-3 py-1.5 rounded-lg bg-teal-800 hover:bg-teal-900 text-white font-bold text-xs flex items-center gap-1.5 ml-auto">
+                  <span>📋</span> <span>クリップボードにコピー</span>
+                </button>
+              </div>
+            </div>
+            <!-- テキストエリア -->
+            <pre id="draftContentArea" class="bg-white p-4 rounded-xl border border-[#C2E7D8] text-xs text-slate-800 font-mono whitespace-pre-wrap max-h-72 overflow-y-auto leading-relaxed"></pre>
+          </div>
+        </div>
+
         <!-- 3大税金非課税の手続きマップ -->
-        <div class="mt-6">
-          <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+        <div class="mt-8">
+          <h3 class="text-base sm:text-lg font-bold text-[#3A2A1D] mb-4 flex items-center gap-2">
             <span>🏛️</span> 宗教法人不動産の3大税金 非課税手続き一覧
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <!-- 登録免許税 -->
-            <div class="bg-slate-50 border border-slate-200 p-5 rounded-xl space-y-3">
+            <div class="bg-[#FBF8F3] border border-[#EBE1D4] p-5 rounded-2xl space-y-3 shadow-2xs">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-teal-700 bg-teal-100 px-2 py-0.5 rounded">登記時</span>
-                <span class="text-xs text-slate-500">登録免許税法第4条第2項</span>
+                <span class="text-xs font-bold text-teal-800 bg-teal-100 px-2.5 py-0.5 rounded-full">登記申請前</span>
+                <span class="text-[11px] text-[#8C7461]">登録免許税法 第4条第2項</span>
               </div>
-              <h4 class="font-bold text-slate-900">登録免許税の非課税（知事証明）</h4>
-              <p class="text-xs text-slate-600 leading-relaxed">
-                所有権移転登記（土地購入）や新築の所有権保存登記を行う<strong>前</strong>に、所轄の都道府県知事へ「境内地・境内建物証明」を申請し、証明書を取得して法務局へ提出します。
+              <h4 class="font-bold text-[#3A2A1D]">登録免許税の非課税（知事証明）</h4>
+              <p class="text-xs text-[#695342] leading-relaxed">
+                土地購入の所有権移転登記や新築の保存登記を行う<strong>前</strong>に、都道府県知事へ「境内地・境内建物証明」を申請し、証明書を取得して法務局へ添付します。
               </p>
-              <div class="text-[11px] bg-white p-2.5 rounded border border-slate-200 text-slate-700">
-                <strong>注意：</strong>登記完了後に知事証明を出しても還付されません。必ず<strong>登記申請の前</strong>に証明書を取得する必要があります！
+              <div class="text-[11px] bg-[#FFF8EE] p-3 rounded-xl border border-amber-200 text-amber-900">
+                <strong>⚠️超重要：</strong>登記完了後に知事証明を出しても還付されません。必ず<strong>登記申請の前</strong>に証明書を取得する必要があります！
               </div>
             </div>
 
             <!-- 不動産取得税 -->
-            <div class="bg-slate-50 border border-slate-200 p-5 rounded-xl space-y-3">
+            <div class="bg-[#FBF8F3] border border-[#EBE1D4] p-5 rounded-2xl space-y-3 shadow-2xs">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-teal-700 bg-teal-100 px-2 py-0.5 rounded">取得後60日以内</span>
-                <span class="text-xs text-slate-500">地方税法第73条の4</span>
+                <span class="text-xs font-bold text-teal-800 bg-teal-100 px-2.5 py-0.5 rounded-full">取得後60日以内</span>
+                <span class="text-[11px] text-[#8C7461]">地方税法 第73条の4</span>
               </div>
-              <h4 class="font-bold text-slate-900">不動産取得税の非課税</h4>
-              <p class="text-xs text-slate-600 leading-relaxed">
-                不動産取得後、都道府県税事務所へ「不動産取得税非課税申告書」を提出します。知事証明書の写しや宗教活動の実態写真、役員会議事録などを添付します。
+              <h4 class="font-bold text-[#3A2A1D]">不動産取得税の非課税</h4>
+              <p class="text-xs text-[#695342] leading-relaxed">
+                不動産取得後、都道府県税事務所へ「不動産取得税非課税申告書」を提出します。知事証明書の写しや礼拝写真、役員会議事録などを添付します。
               </p>
-              <div class="text-[11px] bg-white p-2.5 rounded border border-slate-200 text-slate-700">
-                <strong>重要：</strong>取得後何もしないと高額な納付書が届きます。納期限前に速やかに非課税申告を行いましょう。
+              <div class="text-[11px] bg-white p-3 rounded-xl border border-[#EBE1D4] text-[#695342]">
+                <strong>注意：</strong>何もしないと高額な納税通知書が届きます。納期限前に速やかに非課税申告を行いましょう。
               </div>
             </div>
 
             <!-- 固定資産税・都市計画税 -->
-            <div class="bg-slate-50 border border-slate-200 p-5 rounded-xl space-y-3">
+            <div class="bg-[#FBF8F3] border border-[#EBE1D4] p-5 rounded-2xl space-y-3 shadow-2xs">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-teal-700 bg-teal-100 px-2 py-0.5 rounded">毎年1月1日基準</span>
-                <span class="text-xs text-slate-500">地方税法第348条</span>
+                <span class="text-xs font-bold text-teal-800 bg-teal-100 px-2.5 py-0.5 rounded-full">毎年1月1日基準</span>
+                <span class="text-[11px] text-[#8C7461]">地方税法 第348条</span>
               </div>
-              <h4 class="font-bold text-slate-900">固定資産税・都市計画税の非課税</h4>
-              <p class="text-xs text-slate-600 leading-relaxed">
-                市町村の税務課（東京23区は都税事務所）へ非課税申告書を提出。税務課職員による<strong>現地実地調査</strong>が行われ、礼拝堂や信徒席、看板等が確認されて認定されます。
+              <h4 class="font-bold text-[#3A2A1D]">固定資産税・都市計画税の非課税</h4>
+              <p class="text-xs text-[#695342] leading-relaxed">
+                市町村の税務課（東京23区は都税事務所）へ非課税申告書を提出。税務課職員による<strong>現地実地調査</strong>が行われ、礼拝堂や看板等が確認されて認定されます。
               </p>
-              <div class="text-[11px] bg-white p-2.5 rounded border border-slate-200 text-slate-700">
-                <strong>按分に注意：</strong>牧師館（住居部分）や有料貸出駐車場は課税対象。専ら宗教の用に供する部分のみが非課税になります。
+              <div class="text-[11px] bg-white p-3 rounded-xl border border-[#EBE1D4] text-[#695342]">
+                <strong>按分に注意：</strong>牧師館（居住部分）や有料駐車場は課税対象。専ら宗教の用に供する部分のみが非課税になります。
               </div>
             </div>
           </div>
         </div>
 
         <!-- 知事証明（境内地・境内建物証明）の必要書類チェックリスト -->
-        <div class="mt-8 border-t border-slate-200 pt-6">
-          <h3 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+        <div class="mt-8 border-t border-[#F0E6D8] pt-6">
+          <h3 class="text-base sm:text-lg font-bold text-[#3A2A1D] mb-2 flex items-center gap-2">
             <span>📄</span> 「境内地・境内建物証明願（知事証明）」必要書類一覧
           </h3>
-          <p class="text-xs text-slate-500 mb-4">都道府県によって若干異なりますが、概ね共通して求められる書類群です。</p>
+          <p class="text-xs text-[#8A715D] mb-4">都道府県によって若干異なりますが、共通して求められる公式書類群です。</p>
           
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="legalDocsChecklist">
             <!-- JSで動的生成 -->
@@ -693,8 +920,8 @@
         </div>
 
         <!-- 建築基準法（用途変更200㎡）＆消防法 -->
-        <div class="mt-8 bg-slate-900 text-slate-100 p-6 rounded-2xl">
-          <h3 class="text-base font-bold text-amber-400 mb-4 flex items-center gap-2">
+        <div class="mt-8 bg-[#2C2118] text-[#F5EDE4] p-6 rounded-3xl shadow-warm">
+          <h3 class="text-base font-bold text-amber-300 mb-4 flex items-center gap-2">
             <span>🚨</span> 建築基準法と消防法の必須ルール
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs sm:text-sm">
@@ -702,16 +929,16 @@
               <h4 class="font-bold text-white flex items-center gap-1.5">
                 <span class="text-amber-400">■</span> 用途変更の「200㎡ルール」（中古リノベ時）
               </h4>
-              <p class="text-slate-300 leading-relaxed">
-                倉庫や店舗、住宅などを「教会（集会所）」として改装する場合、その用途部分の床面積が<strong>200㎡（約60坪）を超える場合は建築確認申請（用途変更）が必須</strong>です。200㎡以下であれば申請自体は不要ですが、排煙・非常用照明・内装制限などの安全基準は法律上遵守しなければなりません。
+              <p class="text-[#D5C2B2] leading-relaxed text-xs">
+                倉庫や店舗などを「教会（集会所）」として改装する場合、その用途部分の床面積が<strong>200㎡（約60坪）を超える場合は建築確認申請（用途変更）が必須</strong>です。200㎡以下であれば申請自体は不要ですが、排煙・非常用照明・内装制限などの安全基準は法律上遵守義務があります。
               </p>
             </div>
             <div class="space-y-2">
               <h4 class="font-bold text-white flex items-center gap-1.5">
                 <span class="text-amber-400">■</span> 消防用設備の設置基準（令別表第一 11項）
               </h4>
-              <p class="text-slate-300 leading-relaxed">
-                教会は消防法上「11項（神社、寺院、教会その他これらに類するもの）」に分類されます。消火器の設置義務はもちろん、延床面積や収容人員に応じて<strong>自動火災報知設備、誘導灯、避難器具</strong>の設置が義務付けられます。必ず設計初期に管轄消防署の予防指導課に事前相談しましょう。
+              <p class="text-[#D5C2B2] leading-relaxed text-xs">
+                教会は消防法上「11項（神社、寺院、教会その他これらに類するもの）」に分類されます。消火器の設置はもちろん、延床面積や収容人員に応じて<strong>自動火災報知設備、誘導灯、避難器具</strong>の設置が義務付けられます。必ず設計初期に消防署の予防課に事前相談しましょう。
               </p>
             </div>
           </div>
@@ -722,47 +949,67 @@
 
 
     <!-- ================================================================ -->
-    <!-- TAB 7: 信徒周知 & 一致・祈り                                     -->
+    <!-- TAB 7: 信徒周知 & プレゼンレポーター                            -->
     <!-- ================================================================ -->
     <div id="tab-unity" class="tab-content hidden space-y-6">
-      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-        <div class="border-b border-slate-100 pb-5">
-          <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md mb-2">
-            Church Unity & Communication
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
+        <div class="border-b border-[#F0E6D8] pb-6">
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-50 px-3 py-1 rounded-full mb-2">
+            Church Unity & Congregational Communication
           </span>
-          <h2 class="text-2xl font-serif font-bold text-slate-900">信徒周知・合意形成 ＆ 祈りの推進ツール</h2>
-          <p class="text-sm text-slate-600 mt-1">
-            会堂建築の成功の鍵は「建てること」ではなく「教会が一つになること」です。教会員の不安に寄り添い、ビジョンを共有するためのツールと文例集です。
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-[#3A2A1D]">信徒周知・合意形成 ＆ プレゼンレポーター</h2>
+          <p class="text-xs sm:text-sm text-[#735A45] mt-1.5">
+            会堂建築の成功の鍵は「建てること」ではなく「教会が一つになること」です。教会員の不安に寄り添い、ビジョンを共有するためのプレゼン資料を自動生成します。
           </p>
         </div>
 
+        <!-- Webアプリ機能：信徒説明会用プレゼンサマリー・レポーター -->
+        <div class="mt-6 bg-gradient-to-br from-[#FFF9F2] to-[#FAF1E3] p-6 rounded-3xl border border-[#E8DAC7] shadow-xs">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E8DAC7] pb-4 mb-4">
+            <div>
+              <span class="text-[11px] font-bold text-amber-900 bg-amber-200 px-2.5 py-0.5 rounded-full">Meeting Presentation Generator</span>
+              <h3 class="text-lg font-bold text-[#453223] mt-1 flex items-center gap-2">
+                <span>📑</span> 信徒説明会 ＆ 役員会向け「新会堂計画プレゼンサマリー」
+              </h3>
+              <p class="text-xs text-[#7A624E]">シミュレーションした予算、調達計画、スケジュールをまとめた信徒配布用レジュメです。</p>
+            </div>
+            <button onclick="app.copyPresentationSummary()" class="px-3.5 py-2 rounded-xl bg-amber-800 hover:bg-amber-900 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition">
+              <span>📋</span> <span>概要文をコピー</span>
+            </button>
+          </div>
+
+          <div id="presentationSummaryPreview" class="bg-white p-5 rounded-2xl border border-[#E2D4C0] text-xs sm:text-sm text-[#38281B] leading-relaxed space-y-3 font-sans shadow-2xs">
+            <!-- JS動的レンダリング -->
+          </div>
+        </div>
+
         <!-- 4大合意形成プロセス -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mt-6">
-          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center">
-            <div class="w-8 h-8 mx-auto bg-amber-100 text-amber-800 rounded-full flex items-center justify-center font-bold text-xs mb-2">1</div>
-            <h4 class="font-bold text-sm text-slate-900">ビジョン祈祷会</h4>
-            <p class="text-xs text-slate-600 mt-1">計画をいきなり発表する前に、「なぜ今会堂が必要か」を祈りの中で数ヶ月間分かち合う。</p>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mt-8">
+          <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4] text-center shadow-2xs">
+            <div class="w-8 h-8 mx-auto bg-amber-100 text-amber-900 rounded-full flex items-center justify-center font-bold text-xs mb-2">1</div>
+            <h4 class="font-bold text-sm text-[#3A2A1D]">ビジョン祈祷会</h4>
+            <p class="text-xs text-[#6E5745] mt-1">計画をいきなり発表する前に、「なぜ今会堂が必要か」を祈りの中で数ヶ月間分かち合う。</p>
           </div>
-          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center">
-            <div class="w-8 h-8 mx-auto bg-amber-100 text-amber-800 rounded-full flex items-center justify-center font-bold text-xs mb-2">2</div>
-            <h4 class="font-bold text-sm text-slate-900">信徒説明会 & ワークショップ</h4>
-            <p class="text-xs text-slate-600 mt-1">一方的な報告ではなく、車座になって「どんな部屋がほしいか」「どんな地域支援をしたいか」を語り合う。</p>
+          <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4] text-center shadow-2xs">
+            <div class="w-8 h-8 mx-auto bg-amber-100 text-amber-900 rounded-full flex items-center justify-center font-bold text-xs mb-2">2</div>
+            <h4 class="font-bold text-sm text-[#3A2A1D]">信徒説明会 & ワークショップ</h4>
+            <p class="text-xs text-[#6E5745] mt-1">一方的な報告ではなく、車座になって「どんな部屋がほしいか」「どんな地域支援をしたいか」を語り合う。</p>
           </div>
-          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center">
-            <div class="w-8 h-8 mx-auto bg-amber-100 text-amber-800 rounded-full flex items-center justify-center font-bold text-xs mb-2">3</div>
-            <h4 class="font-bold text-sm text-slate-900">アンケート意見集約</h4>
-            <p class="text-xs text-slate-600 mt-1">口頭で言いにくい不安や懸念（財政、場所、奉仕負担など）を匿名アンケートで丁寧に拾い上げる。</p>
+          <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4] text-center shadow-2xs">
+            <div class="w-8 h-8 mx-auto bg-amber-100 text-amber-900 rounded-full flex items-center justify-center font-bold text-xs mb-2">3</div>
+            <h4 class="font-bold text-sm text-[#3A2A1D]">アンケート意見集約</h4>
+            <p class="text-xs text-[#6E5745] mt-1">口頭で言いにくい不安や懸念（財政、場所、奉仕負担など）を匿名アンケートで丁寧に拾い上げる。</p>
           </div>
-          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center">
-            <div class="w-8 h-8 mx-auto bg-amber-100 text-amber-800 rounded-full flex items-center justify-center font-bold text-xs mb-2">4</div>
-            <h4 class="font-bold text-sm text-slate-900">総会（会員会）決議</h4>
-            <p class="text-xs text-slate-600 mt-1">全信徒が納得した上で正式決議。建築ニュースレターを毎月発行して進捗と祈祷課題を共有。</p>
+          <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4] text-center shadow-2xs">
+            <div class="w-8 h-8 mx-auto bg-amber-100 text-amber-900 rounded-full flex items-center justify-center font-bold text-xs mb-2">4</div>
+            <h4 class="font-bold text-sm text-[#3A2A1D]">総会（会員会）決議</h4>
+            <p class="text-xs text-[#6E5745] mt-1">全信徒が納得した上で正式決議。建築ニュースレターを毎月発行して進捗と祈祷課題を共有。</p>
           </div>
         </div>
 
         <!-- よくある信徒の不安 Q&A集 -->
         <div class="mt-8">
-          <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+          <h3 class="text-base sm:text-lg font-bold text-[#3A2A1D] mb-4 flex items-center gap-2">
             <span>💬</span> 信徒からよく出る不安・質問と誠実な回答例
           </h3>
           <div class="space-y-3" id="unityQnaContainer">
@@ -771,11 +1018,11 @@
         </div>
 
         <!-- テンプレート：信徒向けアンケート項目 -->
-        <div class="mt-8 border-t border-slate-200 pt-6">
-          <h3 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+        <div class="mt-8 border-t border-[#F0E6D8] pt-6">
+          <h3 class="text-base sm:text-lg font-bold text-[#3A2A1D] mb-2 flex items-center gap-2">
             <span>📋</span> 信徒向け意識調査アンケート（そのままコピーして使える設問案）
           </h3>
-          <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-700 space-y-3 font-mono">
+          <div class="bg-[#FBF8F3] p-5 rounded-2xl border border-[#EBE1D4] text-xs sm:text-sm text-[#523F2F] space-y-3 font-mono">
             <p><strong>【Q1】新会堂について、あなたが最も期待すること・大切にしたいことは何ですか？</strong><br>
             （例：次世代・子どもたちの育成、地域に開かれたカフェや子ども食堂、礼拝堂の静かな祈りの空間、車椅子対応バリアフリー など）</p>
             <p><strong>【Q2】立地や設備について、何か配慮してほしい点や懸念はありますか？</strong><br>
@@ -794,28 +1041,28 @@
     <!-- TAB 8: クラウドファンディング                                     -->
     <!-- ================================================================ -->
     <div id="tab-crowdfunding" class="tab-content hidden space-y-6">
-      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-        <div class="border-b border-slate-100 pb-5">
-          <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-md mb-2">
-            Crowdfunding Strategy
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
+        <div class="border-b border-[#F0E6D8] pb-6">
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-indigo-800 bg-indigo-50 px-3 py-1 rounded-full mb-2">
+            Crowdfunding Strategy & Return Ideas
           </span>
-          <h2 class="text-2xl font-serif font-bold text-slate-900">クラウドファンディング完全攻略ツール</h2>
-          <p class="text-sm text-slate-600 mt-1">
-            会堂新築・改修のためのクラウドファンディング成功マニュアル。目標金額シミュレーター、教会ならではの返礼品（リターン）30選、起承転結ストーリー構成法。
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-[#3A2A1D]">クラウドファンディング完全攻略ツール</h2>
+          <p class="text-xs sm:text-sm text-[#735A45] mt-1.5">
+            会堂新築・改修のためのクラウドファンディング成功マニュアル。目標金額シミュレーター、教会ならではの返礼品（リターン）アイデア、起承転結ストーリー構成法。
           </p>
         </div>
 
         <!-- クラファン目標額・手数料・手取りシミュレーター -->
-        <div class="bg-gradient-to-br from-indigo-950 to-slate-900 text-white p-6 rounded-2xl mt-6 shadow-md">
+        <div class="bg-gradient-to-br from-[#1C2638] via-[#2A374E] to-[#171E2D] text-white p-6 sm:p-7 rounded-3xl mt-6 shadow-warm-lg border border-indigo-900/50">
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
             <div class="space-y-3">
-              <label class="block text-xs font-bold text-indigo-300">目標調達金額の設定</label>
+              <label class="block text-xs font-bold text-indigo-200">目標調達金額の設定</label>
               <div class="flex items-center gap-2">
-                <input type="number" id="cfGoalInput" value="300" step="50" min="50" max="3000" onchange="app.calcCf()" class="w-28 text-2xl font-bold bg-slate-800 text-amber-400 border border-slate-700 rounded-lg p-2 text-right">
+                <input type="number" id="cfGoalInput" value="300" step="50" min="50" max="3000" onchange="app.calcCf()" class="w-32 text-2xl font-bold bg-[#131A27] text-amber-300 border border-[#3E4F6D] rounded-xl p-2.5 text-right shadow-inner">
                 <span class="text-sm">万円</span>
               </div>
-              <div class="text-xs text-slate-400">プラットフォーム手数料率：</div>
-              <select id="cfFeeRateSelect" onchange="app.calcCf()" class="text-xs bg-slate-800 text-slate-200 border border-slate-700 rounded p-1.5 w-full">
+              <div class="text-xs text-indigo-200/80">プラットフォーム手数料率：</div>
+              <select id="cfFeeRateSelect" onchange="app.calcCf()" class="text-xs bg-[#131A27] text-slate-200 border border-[#3E4F6D] rounded-xl p-2 w-full">
                 <option value="0.14" selected>READYFOR / CAMPFIRE（標準 約14〜17%）</option>
                 <option value="0.09">For Good / 寄付特化型（約9%）</option>
                 <option value="0.05">自前サイト寄付決済（Stripe等 約3.6〜5%）</option>
@@ -824,17 +1071,17 @@
 
             <!-- 計算結果 -->
             <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 text-center">
-                <div class="text-xs text-slate-400">手数料（税別）</div>
+              <div class="bg-[#151D2C]/80 p-4 rounded-2xl border border-[#2F3D55] text-center">
+                <div class="text-xs text-indigo-200/70">プラットフォーム手数料</div>
                 <div class="text-lg font-bold text-rose-300 mt-1">- ¥<span id="cfFeeAmount">42</span> 万</div>
               </div>
-              <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 text-center">
-                <div class="text-xs text-slate-400">返礼品原価・送料目安（20%）</div>
+              <div class="bg-[#151D2C]/80 p-4 rounded-2xl border border-[#2F3D55] text-center">
+                <div class="text-xs text-indigo-200/70">返礼品原価・送料目安（20%）</div>
                 <div class="text-lg font-bold text-amber-300 mt-1">- ¥<span id="cfReturnCost">60</span> 万</div>
               </div>
-              <div class="bg-indigo-900/90 p-4 rounded-xl border border-indigo-500 text-center">
+              <div class="bg-indigo-950/90 p-4 rounded-2xl border border-indigo-500 text-center">
                 <div class="text-xs text-indigo-200 font-bold">手元純資金（手取り）</div>
-                <div class="text-xl font-bold text-emerald-400 mt-1">¥<span id="cfNetReceived">198</span> 万</div>
+                <div class="text-xl sm:text-2xl font-bold text-emerald-400 mt-1">¥<span id="cfNetReceived">198</span> 万</div>
               </div>
             </div>
           </div>
@@ -843,10 +1090,10 @@
         <!-- 教会ならではの魅力的なリターン（返礼品）30選 -->
         <div class="mt-8">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <span>🎁</span> 教会建築クラファン向け 返礼品（リターン）おすすめアイデア30選
+            <h3 class="text-base sm:text-lg font-bold text-[#3A2A1D] flex items-center gap-2">
+              <span>🎁</span> 教会建築クラファン向け 返礼品（リターン）おすすめアイデア
             </h3>
-            <span class="text-xs text-slate-500">寄付の気持ちを大切にする構成がベスト</span>
+            <span class="text-xs text-[#8A715D]">寄付の気持ちを大切にする構成がベスト</span>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" id="cfReturnsGrid">
@@ -855,26 +1102,26 @@
         </div>
 
         <!-- 成功するストーリー構成（起承転結） -->
-        <div class="mt-8 border-t border-slate-200 pt-6">
-          <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+        <div class="mt-8 border-t border-[#F0E6D8] pt-6">
+          <h3 class="text-base sm:text-lg font-bold text-[#3A2A1D] mb-4 flex items-center gap-2">
             <span>✍️</span> 支援者の心を打つプロジェクト文面の「起承転結」テンプレート
           </h3>
           <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-              <div class="font-bold text-indigo-700 text-sm mb-1">【起】教会の歩みと地域</div>
-              <p class="text-slate-600">この町でこれまでどのような歴史を歩み、地域の人々と関わってきたかを簡潔に紹介。</p>
+            <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4]">
+              <div class="font-bold text-indigo-800 text-sm mb-1">【起】教会の歩みと地域</div>
+              <p class="text-[#695342]">この町でこれまでどのような歴史を歩み、地域の人々と関わってきたかを簡潔に紹介。</p>
             </div>
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-              <div class="font-bold text-indigo-700 text-sm mb-1">【承】直面している課題</div>
-              <p class="text-slate-600">現在の会堂の老朽化、手狭さ、バリアフリー未対応、子どもたちの居場所不足など切実な現状。</p>
+            <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4]">
+              <div class="font-bold text-indigo-800 text-sm mb-1">【承】直面している課題</div>
+              <p class="text-[#695342]">現在の会堂の老朽化、手狭さ、バリアフリー未対応、子どもたちの居場所不足など切実な現状。</p>
             </div>
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-              <div class="font-bold text-indigo-700 text-sm mb-1">【転】新会堂がもたらす未来</div>
-              <p class="text-slate-600">「信徒のため」だけでなく「地域の子ども食堂やコンサート、防災拠点になる」という公共的価値を明示。</p>
+            <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4]">
+              <div class="font-bold text-indigo-800 text-sm mb-1">【転】新会堂がもたらす未来</div>
+              <p class="text-[#695342]">「信徒のため」だけでなく「地域の子ども食堂やコンサート、防災拠点になる」という公共的価値を明示。</p>
             </div>
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-              <div class="font-bold text-indigo-700 text-sm mb-1">【結】資金使途と感謝</div>
-              <p class="text-slate-600">調達資金が何に使われるか（防音・バリアフリートイレ等）を明記し、最後の一押しを熱く語る。</p>
+            <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4]">
+              <div class="font-bold text-indigo-800 text-sm mb-1">【結】資金使途と感謝</div>
+              <p class="text-[#695342]">調達資金が何に使われるか（防音・バリアフリートイレ等）を明記し、最後の一押しを熱く語る。</p>
             </div>
           </div>
         </div>
@@ -887,13 +1134,13 @@
     <!-- TAB 9: 信徒DIY & 安全ガイド                                      -->
     <!-- ================================================================ -->
     <div id="tab-diy" class="tab-content hidden space-y-6">
-      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-        <div class="border-b border-slate-100 pb-5">
-          <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-green-700 bg-green-50 px-2.5 py-1 rounded-md mb-2">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
+        <div class="border-b border-[#F0E6D8] pb-6">
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-green-800 bg-green-50 px-3 py-1 rounded-full mb-2">
             Volunteer DIY & Safety Master
           </span>
-          <h2 class="text-2xl font-serif font-bold text-slate-900">信徒DIY・セルフ施工 ＆ 安全管理完全ガイド</h2>
-          <p class="text-sm text-slate-600 mt-1">
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-[#3A2A1D]">信徒DIY・セルフ施工 ＆ 安全管理完全ガイド</h2>
+          <p class="text-xs sm:text-sm text-[#735A45] mt-1.5">
             「自分たちで手を入れて愛着のある会堂にしたい」。信徒で安全かつ合法的にできる作業と、事故や法律違反を防ぐためにプロに任せるべき工事の明確な境界線です。
           </p>
         </div>
@@ -901,49 +1148,49 @@
         <!-- できること VS やってはいけないこと（色分けテーブル） -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <!-- 信徒DIY推奨（緑） -->
-          <div class="bg-emerald-50/70 border-2 border-emerald-500/60 rounded-2xl p-5 shadow-sm">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-sm">⭕</span>
+          <div class="bg-[#F3F9F5] border-2 border-emerald-500/50 rounded-3xl p-6 shadow-sm">
+            <div class="flex items-center gap-2.5 mb-4">
+              <span class="w-8 h-8 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-sm">⭕</span>
               <h3 class="text-base font-bold text-emerald-950">信徒で安全にDIYできる工事（コスト削減＆団結）</h3>
             </div>
-            <ul class="space-y-2.5 text-xs sm:text-sm text-emerald-950">
-              <li class="flex items-start gap-2 bg-white/80 p-2.5 rounded-lg border border-emerald-200">
-                <span class="text-emerald-600 font-bold">✔</span>
+            <ul class="space-y-3 text-xs sm:text-sm text-emerald-950">
+              <li class="flex items-start gap-2.5 bg-white p-3 rounded-xl border border-emerald-200 shadow-2xs">
+                <span class="text-emerald-700 font-bold">✔</span>
                 <div>
                   <strong>内装壁・天井の水性ペンキ塗装・漆喰塗り</strong><br>
                   マスキングさえ丁寧に行えば初心者でも美しく仕上がります。信徒ワークショップに最適。
                 </div>
               </li>
-              <li class="flex items-start gap-2 bg-white/80 p-2.5 rounded-lg border border-emerald-200">
-                <span class="text-emerald-600 font-bold">✔</span>
+              <li class="flex items-start gap-2.5 bg-white p-3 rounded-xl border border-emerald-200 shadow-2xs">
+                <span class="text-emerald-700 font-bold">✔</span>
                 <div>
                   <strong>床貼り（置き敷きタイルカーペット・クリック式SPC）</strong><br>
                   接着剤不要のタイルカーペットやはめ込み式フロアタイルは女性やシニアでも簡単施工可能。
                 </div>
               </li>
-              <li class="flex items-start gap-2 bg-white/80 p-2.5 rounded-lg border border-emerald-200">
-                <span class="text-emerald-600 font-bold">✔</span>
+              <li class="flex items-start gap-2.5 bg-white p-3 rounded-xl border border-emerald-200 shadow-2xs">
+                <span class="text-emerald-700 font-bold">✔</span>
                 <div>
                   <strong>吸音ファブリックパネルの自作・壁面設置</strong><br>
                   グラスウール吸音材にお好みの布を巻き、壁に引っ掛けるだけで音響改善とデザイン性を両立。
                 </div>
               </li>
-              <li class="flex items-start gap-2 bg-white/80 p-2.5 rounded-lg border border-emerald-200">
-                <span class="text-emerald-600 font-bold">✔</span>
+              <li class="flex items-start gap-2.5 bg-white p-3 rounded-xl border border-emerald-200 shadow-2xs">
+                <span class="text-emerald-700 font-bold">✔</span>
                 <div>
                   <strong>外構（ウッドデッキ施工、砂利敷き、芝生・花壇）</strong><br>
                   駐車場の防草シート・砂利敷きや庭のフェンス、ウッドデッキは信徒の共同作業にぴったり。
                 </div>
               </li>
-              <li class="flex items-start gap-2 bg-white/80 p-2.5 rounded-lg border border-emerald-200">
-                <span class="text-emerald-600 font-bold">✔</span>
+              <li class="flex items-start gap-2.5 bg-white p-3 rounded-xl border border-emerald-200 shadow-2xs">
+                <span class="text-emerald-700 font-bold">✔</span>
                 <div>
                   <strong>家具・棚の組み立て、講壇ステージの化粧仕上げ</strong><br>
                   IKEA等の家具組み立てや、木工が得意な信徒による本棚・講壇の製作。
                 </div>
               </li>
-              <li class="flex items-start gap-2 bg-white/80 p-2.5 rounded-lg border border-emerald-200">
-                <span class="text-emerald-600 font-bold">✔</span>
+              <li class="flex items-start gap-2.5 bg-white p-3 rounded-xl border border-emerald-200 shadow-2xs">
+                <span class="text-emerald-700 font-bold">✔</span>
                 <div>
                   <strong>弱電配線（LANケーブル、音響マイクコードの配管・モール敷設）</strong><br>
                   ※100V以上の強電と離して配線すること。
@@ -953,42 +1200,42 @@
           </div>
 
           <!-- プロ限定・DIY禁止（赤） -->
-          <div class="bg-rose-50/70 border-2 border-rose-500/60 rounded-2xl p-5 shadow-sm">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="w-7 h-7 rounded-full bg-rose-600 text-white flex items-center justify-center font-bold text-sm">❌</span>
+          <div class="bg-[#FFF5F5] border-2 border-rose-500/50 rounded-3xl p-6 shadow-sm">
+            <div class="flex items-center gap-2.5 mb-4">
+              <span class="w-8 h-8 rounded-full bg-rose-700 text-white flex items-center justify-center font-bold text-sm">❌</span>
               <h3 class="text-base font-bold text-rose-950">絶対に信徒で行ってはいけない工事（法令違反・重大事故）</h3>
             </div>
-            <ul class="space-y-2.5 text-xs sm:text-sm text-rose-950">
-              <li class="flex items-start gap-2 bg-white/80 p-2.5 rounded-lg border border-rose-200">
-                <span class="text-rose-600 font-bold">✖</span>
+            <ul class="space-y-3 text-xs sm:text-sm text-rose-950">
+              <li class="flex items-start gap-2.5 bg-white p-3 rounded-xl border border-rose-200 shadow-2xs">
+                <span class="text-rose-700 font-bold">✖</span>
                 <div>
                   <strong>電気工事（コンセント増設、分電盤、照明器具の直結配線）</strong><br>
-                  <span class="text-rose-700 font-bold">【電気工事士法違反】</span> 無資格工事は漏電火災の原因となります。資格者または電気工事業者に依頼必須。
+                  <span class="text-rose-800 font-bold">【電気工事士法違反】</span> 無資格工事は漏電火災の原因となります。資格者または電気工事業者に依頼必須。
                 </div>
               </li>
-              <li class="flex items-start gap-2 bg-white/80 p-2.5 rounded-lg border border-rose-200">
-                <span class="text-rose-600 font-bold">✖</span>
+              <li class="flex items-start gap-2.5 bg-white p-3 rounded-xl border border-rose-200 shadow-2xs">
+                <span class="text-rose-700 font-bold">✖</span>
                 <div>
                   <strong>ガス工事・給排水本管の接続</strong><br>
                   ガス漏れ爆発事故、給排水の階下漏水事故に直結。指定給水装置工事事業者・有資格者限定。
                 </div>
               </li>
-              <li class="flex items-start gap-2 bg-white/80 p-2.5 rounded-lg border border-rose-200">
-                <span class="text-rose-600 font-bold">✖</span>
+              <li class="flex items-start gap-2.5 bg-white p-3 rounded-xl border border-rose-200 shadow-2xs">
+                <span class="text-rose-700 font-bold">✖</span>
                 <div>
                   <strong>柱・梁・筋交い・耐力壁の撤去や穴あけ（構造変更）</strong><br>
                   建物の耐震性を致命的に損ない、地震で倒壊する危険。建築士の構造計算と許可が不可欠。
                 </div>
               </li>
-              <li class="flex items-start gap-2 bg-white/80 p-2.5 rounded-lg border border-rose-200">
-                <span class="text-rose-600 font-bold">✖</span>
+              <li class="flex items-start gap-2.5 bg-white p-3 rounded-xl border border-rose-200 shadow-2xs">
+                <span class="text-rose-700 font-bold">✖</span>
                 <div>
                   <strong>屋根の上や2階以上の足場なし外壁作業（高所作業）</strong><br>
                   2m以上の高所作業は転落死亡事故リスクが極めて高いです。プロの足場と安全帯が必須。
                 </div>
               </li>
-              <li class="flex items-start gap-2 bg-white/80 p-2.5 rounded-lg border border-rose-200">
-                <span class="text-rose-600 font-bold">✖</span>
+              <li class="flex items-start gap-2.5 bg-white p-3 rounded-xl border border-rose-200 shadow-2xs">
+                <span class="text-rose-700 font-bold">✖</span>
                 <div>
                   <strong>消防用設備（火災報知器、誘導灯）の移設・配線</strong><br>
                   消防設備士資格が必要。違反すると消防検査に合格せず建物が使用できなくなります。
@@ -999,26 +1246,151 @@
         </div>
 
         <!-- DIYワークショップ成功の心得と保険 -->
-        <div class="mt-8 border-t border-slate-200 pt-6">
-          <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+        <div class="mt-8 border-t border-[#F0E6D8] pt-6">
+          <h3 class="text-base sm:text-lg font-bold text-[#3A2A1D] mb-4 flex items-center gap-2">
             <span>🛡️</span> 信徒DIYワークショップを安全に成功させる4つの鉄則
           </h3>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs sm:text-sm">
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-              <div class="font-bold text-slate-900 mb-1">1. ボランティア行事保険の加入</div>
-              <p class="text-slate-600 text-xs">社会福祉協議会等で加入できる「ボランティア行事用保険（1人1日数百円）」。怪我や塗料を服につけた物損も補償。</p>
+            <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4] shadow-2xs">
+              <div class="font-bold text-[#3A2A1D] mb-1">1. ボランティア行事保険の加入</div>
+              <p class="text-[#695342] text-xs">社会福祉協議会等で加入できる「ボランティア行事用保険（1人1日数百円）」。怪我や塗料を服につけた物損も補償。</p>
             </div>
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-              <div class="font-bold text-slate-900 mb-1">2. 養生（マスキング）が8割</div>
-              <p class="text-slate-600 text-xs">ペンキや漆喰は塗る時間より「マスキングテープとマスカーを貼る時間」が重要。ここを丁寧にやれば失敗しません。</p>
+            <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4] shadow-2xs">
+              <div class="font-bold text-[#3A2A1D] mb-1">2. 養生（マスキング）が8割</div>
+              <p class="text-[#695342] text-xs">ペンキや漆喰は塗る時間より「マスキングテープとマスカーを貼る時間」が重要。ここを丁寧にやれば失敗しません。</p>
             </div>
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-              <div class="font-bold text-slate-900 mb-1">3. 全員が参加できる役割分担</div>
-              <p class="text-slate-600 text-xs">力仕事だけでなく、マスキング剥がし、掃除、お茶出し、写真撮影、記念メッセージ記入など子どもやシニアも活躍。</p>
+            <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4] shadow-2xs">
+              <div class="font-bold text-[#3A2A1D] mb-1">3. 全員が参加できる役割分担</div>
+              <p class="text-[#695342] text-xs">力仕事だけでなく、マスキング剥がし、掃除、お茶出し、写真撮影、記念メッセージ記入など子どもやシニアも活躍。</p>
             </div>
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-              <div class="font-bold text-slate-900 mb-1">4. 安全保護具の完全着用</div>
-              <p class="text-slate-600 text-xs">保護メガネ（塗料の目入り防止）、防塵マスク、滑り止め軍手、汚れてもよい長袖長ズボンの着用を義務付け。</p>
+            <div class="bg-[#FBF8F3] p-4 rounded-2xl border border-[#EBE1D4] shadow-2xs">
+              <div class="font-bold text-[#3A2A1D] mb-1">4. 安全保護具の完全着用</div>
+              <p class="text-[#695342] text-xs">保護メガネ（塗料の目入り防止）、防塵マスク、滑り止め軍手、汚れてもよい長袖長ズボンの着用を義務付け。</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ================================================================ -->
+    <!-- TAB 10: 公式根拠リンク集（新設）                                 -->
+    <!-- ================================================================ -->
+    <div id="tab-links" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
+        <div class="border-b border-[#F0E6D8] pb-6">
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-50 px-3 py-1 rounded-full mb-2">
+            Official References & Statutory Authorities
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-serif font-bold text-[#3A2A1D]">公式根拠リンク集 ＆ 公的制度リファレンス</h2>
+          <p class="text-xs sm:text-sm text-[#735A45] mt-1.5">
+            本システムに掲載されている税法、建築基準法、消防法、融資制度、ボランティア保険等の根拠となる公的機関や公式法令のリンク集です。役所や銀行との協議時にご活用ください。
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <!-- 税務・宗教法人 -->
+          <div class="bg-[#FBF8F3] p-6 rounded-3xl border border-[#EBE1D4] space-y-3">
+            <h3 class="font-bold text-base text-[#3A2A1D] flex items-center gap-2">
+              <span>🏛️</span> 宗教法人・税制（知事証明・非課税）
+            </h3>
+            <ul class="space-y-2.5 text-xs">
+              <li class="bg-white p-3 rounded-xl border border-[#EBE1D4] shadow-2xs">
+                <a href="https://www.bunka.go.jp/seisaku/shukyohojin/zeisei.html" target="_blank" rel="noopener noreferrer" class="font-bold text-amber-800 hover:underline flex items-center justify-between">
+                  <span>文化庁：宗教法人と税制（公式ガイド）</span>
+                  <span>↗</span>
+                </a>
+                <p class="text-[#7A634F] mt-1">宗教法人の公益性と非課税の範囲、収益事業課税の基準について解説。</p>
+              </li>
+              <li class="bg-white p-3 rounded-xl border border-[#EBE1D4] shadow-2xs">
+                <a href="https://www.seikatubunka.metro.tokyo.lg.jp/shukyo/tetsuzuki/0000000216.html" target="_blank" rel="noopener noreferrer" class="font-bold text-amber-800 hover:underline flex items-center justify-between">
+                  <span>東京都生活文化局：境内建物及び境内地の証明願</span>
+                  <span>↗</span>
+                </a>
+                <p class="text-[#7A634F] mt-1">登録免許税非課税のための知事証明書の発行要件と申請書類の公式手引き。</p>
+              </li>
+              <li class="bg-white p-3 rounded-xl border border-[#EBE1D4] shadow-2xs">
+                <a href="https://laws.e-gov.go.jp/law/342AC0000000035#Mp-At_4" target="_blank" rel="noopener noreferrer" class="font-bold text-amber-800 hover:underline flex items-center justify-between">
+                  <span>e-Gov法令：登録免許税法 第4条第2項・別表第三</span>
+                  <span>↗</span>
+                </a>
+                <p class="text-[#7A634F] mt-1">宗教法人が自己の宗教の用に供する不動産の登記に関する非課税条文。</p>
+              </li>
+              <li class="bg-white p-3 rounded-xl border border-[#EBE1D4] shadow-2xs">
+                <a href="https://laws.e-gov.go.jp/law/325AC0000000226#Mp-At_348" target="_blank" rel="noopener noreferrer" class="font-bold text-amber-800 hover:underline flex items-center justify-between">
+                  <span>e-Gov法令：地方税法 第348条（固定資産税の非課税）</span>
+                  <span>↗</span>
+                </a>
+                <p class="text-[#7A634F] mt-1">第2項第3号「宗教法人が専らその本来の用に供する宗教法人法第3条に規定する境内建物及び境内地」。</p>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 建築基準法・ハザードマップ -->
+          <div class="bg-[#FBF8F3] p-6 rounded-3xl border border-[#EBE1D4] space-y-3">
+            <h3 class="font-bold text-base text-[#3A2A1D] flex items-center gap-2">
+              <span>📐</span> 建築基準法・土地・防災
+            </h3>
+            <ul class="space-y-2.5 text-xs">
+              <li class="bg-white p-3 rounded-xl border border-[#EBE1D4] shadow-2xs">
+                <a href="https://www.mlit.go.jp/jutakukentiku/build/jutakukentiku_house_tk_000092.html" target="_blank" rel="noopener noreferrer" class="font-bold text-blue-800 hover:underline flex items-center justify-between">
+                  <span>国土交通省：用途変更の取扱い（200㎡ルールの法改正解説）</span>
+                  <span>↗</span>
+                </a>
+                <p class="text-[#7A634F] mt-1">特殊建築物（集会場など）への用途変更における確認申請不要面積（200㎡以下）の基準。</p>
+              </li>
+              <li class="bg-white p-3 rounded-xl border border-[#EBE1D4] shadow-2xs">
+                <a href="https://laws.e-gov.go.jp/law/325AC0000000201#Mp-At_42" target="_blank" rel="noopener noreferrer" class="font-bold text-blue-800 hover:underline flex items-center justify-between">
+                  <span>e-Gov法令：建築基準法 第42条・43条（道路の定義と接道義務）</span>
+                  <span>↗</span>
+                </a>
+                <p class="text-[#7A634F] mt-1">道路付け要件、2項道路のセットバック義務の法規定。</p>
+              </li>
+              <li class="bg-white p-3 rounded-xl border border-[#EBE1D4] shadow-2xs">
+                <a href="https://disaportal.gsi.go.jp/" target="_blank" rel="noopener noreferrer" class="font-bold text-blue-800 hover:underline flex items-center justify-between">
+                  <span>国土地理院：ハザードマップポータルサイト（重ねるハザードマップ）</span>
+                  <span>↗</span>
+                </a>
+                <p class="text-[#7A634F] mt-1">全国の洪水浸水想定区域、土砂災害警戒区域、津波、液状化リスクを網羅。</p>
+              </li>
+              <li class="bg-white p-3 rounded-xl border border-[#EBE1D4] shadow-2xs">
+                <a href="https://laws.e-gov.go.jp/law/336CO0000000037#Mp-At_1" target="_blank" rel="noopener noreferrer" class="font-bold text-blue-800 hover:underline flex items-center justify-between">
+                  <span>e-Gov法令：消防法施行令 別表第一（11項：教会等の消防設備基準）</span>
+                  <span>↗</span>
+                </a>
+                <p class="text-[#7A634F] mt-1">教会（神社・寺院・教会）の消火器具、自動火災報知設備、誘導灯の設置基準。</p>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 融資・クラウドファンディング・ボランティア保険 -->
+          <div class="bg-[#FBF8F3] p-6 rounded-3xl border border-[#EBE1D4] space-y-3 md:col-span-2">
+            <h3 class="font-bold text-base text-[#3A2A1D] flex items-center gap-2">
+              <span>🤝</span> 資金調達・保険・クラウドファンディング
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <div class="bg-white p-3.5 rounded-xl border border-[#EBE1D4] shadow-2xs">
+                <a href="https://www.jfc.go.jp/n/finance/search/socialbusiness.html" target="_blank" rel="noopener noreferrer" class="font-bold text-emerald-800 hover:underline flex items-center justify-between">
+                  <span>日本政策金融公庫：ソーシャルビジネス支援</span>
+                  <span>↗</span>
+                </a>
+                <p class="text-[#7A634F] mt-1">NPOや公益的活動・地域共生に取り組む団体への融資制度案内。</p>
+              </div>
+              <div class="bg-white p-3.5 rounded-xl border border-[#EBE1D4] shadow-2xs">
+                <a href="https://www.fukushihoken.co.jp/fukushi/front/council/volunteer_activities.html" target="_blank" rel="noopener noreferrer" class="font-bold text-emerald-800 hover:underline flex items-center justify-between">
+                  <span>全国社会福祉協議会：ボランティア行事用保険</span>
+                  <span>↗</span>
+                </a>
+                <p class="text-[#7A634F] mt-1">信徒DIYワークショップ開催時の傷害・賠償責任をカバーする格安の公式保険。</p>
+              </div>
+              <div class="bg-white p-3.5 rounded-xl border border-[#EBE1D4] shadow-2xs">
+                <a href="https://readyfor.jp/" target="_blank" rel="noopener noreferrer" class="font-bold text-indigo-800 hover:underline flex items-center justify-between">
+                  <span>READYFOR：社会・文化・宗教プロジェクト</span>
+                  <span>↗</span>
+                </a>
+                <p class="text-[#7A634F] mt-1">宗教法人や歴史的建築物、地域共生チャペルの実績が豊富なプラットフォーム。</p>
+              </div>
             </div>
           </div>
         </div>
@@ -1031,17 +1403,26 @@
   <!-- ========================================== -->
   <!-- フッター                                   -->
   <!-- ========================================== -->
-  <footer class="bg-slate-900 text-slate-400 text-xs py-8 border-t border-slate-800 mt-12 no-print">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-2">
-      <div class="flex items-center justify-center space-x-2 text-slate-300 font-serif font-bold text-sm">
-        <span>✝</span>
+  <footer class="bg-gradient-to-b from-[#241B13] to-[#17100B] text-[#D5C5B5] text-xs py-10 border-t border-[#3B2A1E] mt-16 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
+      <div class="flex items-center justify-center space-x-2 text-[#FFF5EA] font-serif font-bold text-base">
+        <span class="text-amber-400">✝</span>
         <span>教会建築・リフォーム総合ナビゲーター (Church Build & Renewal Navigator)</span>
       </div>
-      <p class="text-slate-500">
-        「主が家を建てるのでなければ、建てる者の勤労はむなしい。」（詩篇 127:1）
+      <p class="font-serif italic text-amber-200/70">
+        「恐れるな。わたしはあなたとともにいる。たじろぐな。わたしがあなたの神だから。」（イザヤ 41:10）
       </p>
-      <p class="text-[11px] text-slate-600">
-        ※本システムは教会建築の実務・法令・税務の標準的目安を提供するものです。個別の法規制や非課税手続きは各自治体・所轄庁・建築士にご相談ください。
+      <div class="flex flex-wrap items-center justify-center gap-4 text-[11px] text-[#A89482] pt-2">
+        <span>全9大機能モジュール完全内蔵</span>
+        <span>•</span>
+        <span>公的根拠法令リンク完備</span>
+        <span>•</span>
+        <span>ブラウザ自動保存（LocalStorage）対応</span>
+        <span>•</span>
+        <span>A4帳票印刷・PDF出力対応</span>
+      </div>
+      <p class="text-[10px] text-[#7A6756] pt-1">
+        ※本システムは教会建築の実務・法令・税務の標準的基準を提供するものです。個別の法規制や非課税手続きは各自治体・所轄庁・建築士にご相談ください。
       </p>
     </div>
   </footer>
@@ -1051,16 +1432,16 @@
   <!-- ========================================== -->
   <script>
     /**
-     * 教会建築・リフォーム総合ナビゲーター アプリケーションクラス
+     * 教会建築・リフォーム総合ナビゲーター v2.0
      */
     class ChurchBuildingApp {
       constructor() {
-        this.storageKey = 'church_building_app_data_v1';
+        this.storageKey = 'church_building_app_data_v2';
         this.data = this.loadData();
+        this.currentDraftType = 'cert';
         this.init();
       }
 
-      // 永続化ストレージから読み込み（なければ初期データ）
       loadData() {
         const saved = localStorage.getItem(this.storageKey);
         if (saved) {
@@ -1083,6 +1464,7 @@
           roadmapChecks: {},
           propertyChecks: {},
           legalDocChecks: {},
+          targetDedicationMonth: '2028-04',
           veChecks: {
             ve_box_shape: true,
             ve_galvalume: true,
@@ -1095,7 +1477,6 @@
             type: 'new_build',
             capacity: '50',
             grade: 'standard',
-            costOverrides: {},
             funding: {
               savings: 1000,
               oneTime: 800,
@@ -1105,6 +1486,11 @@
               loan: 2000,
               cf: 300
             }
+          },
+          cashflowConfig: {
+            loanRate: 2.0,
+            loanYears: 20,
+            monthlyIncome: 80
           },
           cfConfig: {
             goal: 300,
@@ -1125,6 +1511,15 @@
             accessible_toilet: true,
             foyer: true,
             baptistery: false
+          },
+          legalDraftData: {
+            churchName: '宗教法人 のぞみキリスト教会',
+            denomination: '日本同盟基督教団',
+            pastorName: '山田 恵一',
+            officers: '佐藤 健一, 鈴木 誠, 高橋 信義',
+            address: '東京都○○市○○町1-2-3',
+            landArea: '235.40 ㎡（約71坪）',
+            buildingArea: '木造2階建 延床 142.10 ㎡'
           }
         };
       }
@@ -1138,12 +1533,17 @@
         this.renderUnityQna();
         this.renderCfReturns();
 
-        // 予算と計算の初期化
+        // 各種シミュレーション初期化
         this.updateBudgetModel();
+        this.generateScheduleTimeline();
+        this.calcCashflowLoan();
         this.calcCf();
         this.calcCarPark();
+        this.renderAvRecommendation();
+        this.generateLegalDrafts();
+        this.renderPresentationSummary();
 
-        // 保存されたタブを開く
+        // 復元されたタブを開く
         if (this.data.currentTab) {
           this.switchTab(this.data.currentTab);
         }
@@ -1160,26 +1560,169 @@
 
         document.querySelectorAll('.tab-btn').forEach(btn => {
           if (btn.dataset.tab === tabId) {
-            btn.className = 'tab-btn px-3 py-2 rounded-lg whitespace-nowrap transition flex items-center space-x-1.5 text-white bg-indigo-600 font-bold shadow-sm';
+            btn.className = 'tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-white bg-amber-700 font-bold shadow-xs';
           } else {
-            btn.className = 'tab-btn px-3 py-2 rounded-lg whitespace-nowrap transition flex items-center space-x-1.5 text-slate-400 hover:text-slate-100 hover:bg-slate-800';
+            btn.className = 'tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]';
           }
         });
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
-      resetAllData() {
-        if (confirm('すべてのシミュレーション入力値とチェックリストを初期状態に戻しますか？')) {
-          localStorage.removeItem(this.storageKey);
-          this.data = this.getDefaultData();
-          location.reload();
+      // ================================================================
+      // Webアプリ機能：検索機能（インクリメンタルサーチ）
+      // ================================================================
+      getSearchIndex() {
+        return [
+          { title: '全体ロードマップ・工程一覧', tab: 'roadmap', elId: 'roadmapPhasesContainer' },
+          { title: '逆算スケジュールジェネレーター', tab: 'roadmap', elId: 'scheduleTimelineBar' },
+          { title: '予算シミュレーター・本体工事・坪単価', tab: 'budget', elId: 'budgetTotalDisplay' },
+          { title: '長期ローン返済・キャッシュフロー診断', tab: 'budget', elId: 'cfBurdenCard' },
+          { title: '見積もり精査・「一式」の解体要求', tab: 'costReduction', elId: 'veItemsListContainer' },
+          { title: 'VEコスト削減チェックリスト（10項目）', tab: 'costReduction', elId: 'veItemsListContainer' },
+          { title: '用途地域・第一種低層の罠', tab: 'property', elId: 'tab-property' },
+          { title: '接道義務・4m未満道路セットバック', tab: 'property', elId: 'tab-property' },
+          { title: '駐車場台数カリキュレーター', tab: 'property', elId: 'propCarResult' },
+          { title: '近隣騒音・路上駐車トラブル防止', tab: 'property', elId: 'tab-property' },
+          { title: '現地内覧スマホチェックシート', tab: 'property', elId: 'propertyChecklistContainer' },
+          { title: '礼拝堂・天井高・残響時間・照明設計', tab: 'rooms', elId: 'roomsCardsContainer' },
+          { title: '母子室（ナーサリー）完全遮音・FIX窓・設備', tab: 'rooms', elId: 'roomsCardsContainer' },
+          { title: '音響映像ブース・後方オープンの理由', tab: 'rooms', elId: 'roomsCardsContainer' },
+          { title: '音響・映像（AV）推奨機材構成シミュレーター', tab: 'rooms', elId: 'avRecommendationContainer' },
+          { title: '洗礼槽（常設バプテスマプール vs 移動式）', tab: 'rooms', elId: 'roomsCardsContainer' },
+          { title: '知事証明願（登録免許税非課税手続き）', tab: 'legal', elId: 'tab-legal' },
+          { title: '固定資産税・不動産取得税の非課税申告', tab: 'legal', elId: 'tab-legal' },
+          { title: '境内地非課税書類ドラフター（申請書・議事録自動作成）', tab: 'legal', elId: 'docChurchName' },
+          { title: '用途変更200㎡ルール・建築確認', tab: 'legal', elId: 'tab-legal' },
+          { title: '消防法（11項）基準・自火報・避難', tab: 'legal', elId: 'tab-legal' },
+          { title: '信徒説明会プレゼン資料ジェネレーター', tab: 'unity', elId: 'presentationSummaryPreview' },
+          { title: '信徒の不安解消 Q&A（借金・高齢化・献金）', tab: 'unity', elId: 'unityQnaContainer' },
+          { title: '信徒向け意識調査アンケート設問', tab: 'unity', elId: 'tab-unity' },
+          { title: 'クラウドファンディング目標額・手取りシミュレーター', tab: 'crowdfunding', elId: 'cfGoalInput' },
+          { title: '教会クラファン返礼品（リターン）アイデア', tab: 'crowdfunding', elId: 'cfReturnsGrid' },
+          { title: '信徒DIYできること vs プロ限定工事（電気・耐力壁）', tab: 'diy', elId: 'tab-diy' },
+          { title: 'ボランティア行事用保険・養生（マスキング）', tab: 'diy', elId: 'tab-diy' },
+          { title: '公式根拠リンク集（文化庁・国交省・総務省・e-Gov）', tab: 'links', elId: 'tab-links' }
+        ];
+      }
+
+      handleSearch(query) {
+        const dropdown = document.getElementById('searchResultsDropdown');
+        if (!query || query.trim() === '') {
+          dropdown.classList.add('hidden');
+          return;
         }
+
+        const q = query.trim().toLowerCase();
+        const index = this.getSearchIndex();
+        const results = index.filter(item => item.title.toLowerCase().includes(q));
+
+        if (results.length === 0) {
+          dropdown.innerHTML = '<div class="p-3 text-slate-400 text-center">該当する項目が見つかりません</div>';
+          dropdown.classList.remove('hidden');
+          return;
+        }
+
+        dropdown.innerHTML = results.map(res => `
+          <button onclick="app.jumpToSearchItem('${res.tab}', '${res.elId}')" class="w-full text-left px-3.5 py-2 hover:bg-amber-50 flex items-center justify-between border-b border-slate-100 last:border-b-0">
+            <span class="font-medium text-slate-800">${res.title}</span>
+            <span class="text-[10px] text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">ジャンプ</span>
+          </button>
+        `).join('');
+        dropdown.classList.remove('hidden');
+      }
+
+      jumpToSearchItem(tab, elId) {
+        document.getElementById('searchResultsDropdown').classList.add('hidden');
+        document.getElementById('globalSearchInput').value = '';
+        this.switchTab(tab);
+
+        setTimeout(() => {
+          const el = document.getElementById(elId);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.classList.add('search-highlight');
+            setTimeout(() => el.classList.remove('search-highlight'), 2600);
+          }
+        }, 150);
       }
 
       // ================================================================
-      // ロードマップ モジュール
+      // Webアプリ機能：データ保存・読込（JSON共有）
       // ================================================================
+      exportDataJson() {
+        const jsonStr = JSON.stringify(this.data, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        const now = new Date().toISOString().slice(0, 10);
+        a.download = `church_building_project_${now}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      importDataJson(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const imported = JSON.parse(e.target.result);
+            if (imported && typeof imported === 'object') {
+              this.data = imported;
+              this.saveData();
+              alert('プロジェクトデータを正常に読み込みました！画面を再構築します。');
+              location.reload();
+            }
+          } catch (err) {
+            alert('JSONファイルの読み込みに失敗しました。形式をご確認ください。');
+          }
+        };
+        reader.readAsText(file);
+      }
+
+      // ================================================================
+      // ロードマップ & 逆算スケジュールジェネレーター
+      // ================================================================
+      generateScheduleTimeline() {
+        const input = document.getElementById('targetDedicationMonth');
+        const targetVal = input ? input.value : (this.data.targetDedicationMonth || '2028-04');
+        this.data.targetDedicationMonth = targetVal;
+        this.saveData();
+
+        const [y, m] = targetVal.split('-').map(Number);
+        const targetDate = new Date(y, m - 1, 1);
+
+        // 逆算マイルストーン計算
+        const milestones = [
+          { name: '1. 祈祷・構想開始', offsetMonths: -24, color: 'bg-amber-100 text-amber-900 border-amber-300' },
+          { name: '2. 委員会・物件決定', offsetMonths: -18, color: 'bg-amber-100 text-amber-900 border-amber-300' },
+          { name: '3. 基本・実施設計', offsetMonths: -12, color: 'bg-indigo-100 text-indigo-900 border-indigo-300' },
+          { name: '4. 見積・施工社決定', offsetMonths: -8, color: 'bg-rose-100 text-rose-900 border-rose-300' },
+          { name: '5. 着工・知事証明申請', offsetMonths: -6, color: 'bg-emerald-100 text-emerald-900 border-emerald-300' },
+          { name: '6. 竣工・献堂式', offsetMonths: 0, color: 'bg-amber-600 text-white font-bold border-amber-700' },
+        ];
+
+        const container = document.getElementById('scheduleTimelineBar');
+        if (!container) return;
+
+        container.innerHTML = milestones.map(ms => {
+          const d = new Date(targetDate);
+          d.setMonth(d.getMonth() + ms.offsetMonths);
+          const yStr = d.getFullYear();
+          const mStr = String(d.getMonth() + 1).padStart(2, '0');
+
+          return `
+            <div class="${ms.color} p-2.5 rounded-xl border shadow-2xs text-center">
+              <div class="text-[10px] opacity-80">${ms.name}</div>
+              <div class="text-xs font-extrabold mt-0.5">${yStr}年${mStr}月</div>
+            </div>
+          `;
+        }).join('');
+      }
+
       getRoadmapPhases() {
         return [
           {
@@ -1263,29 +1806,29 @@
         let total = 0;
         let completed = 0;
 
-        container.innerHTML = phases.map((phase, pIdx) => {
+        container.innerHTML = phases.map(phase => {
           const tasksHtml = phase.tasks.map(task => {
             total++;
             const isChecked = !!this.data.roadmapChecks[task.id];
             if (isChecked) completed++;
             return `
-              <label class="flex items-start gap-3 p-2.5 rounded-lg hover:bg-slate-50 cursor-pointer transition">
-                <input type="checkbox" onchange="app.toggleRoadmapCheck('${task.id}')" ${isChecked ? 'checked' : ''} class="mt-0.5 w-4 h-4 text-indigo-600 rounded focus:ring-indigo-500 border-slate-300">
-                <span class="text-xs sm:text-sm ${isChecked ? 'line-through text-slate-400 font-normal' : 'text-slate-700 font-medium'}">${task.title}</span>
+              <label class="flex items-start gap-3 p-2.5 rounded-xl hover:bg-[#FAF6F0] cursor-pointer transition">
+                <input type="checkbox" onchange="app.toggleRoadmapCheck('${task.id}')" ${isChecked ? 'checked' : ''} class="mt-0.5 w-4 h-4 text-amber-700 rounded focus:ring-amber-500 border-amber-300">
+                <span class="text-xs sm:text-sm ${isChecked ? 'line-through text-slate-400 font-normal' : 'text-[#3E2D1F] font-medium'}">${task.title}</span>
               </label>
             `;
           }).join('');
 
           return `
-            <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white">
-              <div class="bg-slate-50/80 p-4 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="border border-[#EBE1D4] rounded-2xl overflow-hidden shadow-2xs bg-white">
+              <div class="bg-[#FBF8F3] p-4 border-b border-[#EBE1D4] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
-                  <span class="text-xs font-bold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded mr-2">${phase.period}</span>
-                  <span class="font-bold text-sm sm:text-base text-slate-900">${phase.title}</span>
+                  <span class="text-[11px] font-bold text-amber-900 bg-[#FEF3C7] px-2.5 py-0.5 rounded-full mr-2">${phase.period}</span>
+                  <span class="font-bold text-sm sm:text-base text-[#3A2A1D]">${phase.title}</span>
                 </div>
               </div>
               <div class="p-3 sm:p-4">
-                <p class="text-xs text-slate-500 mb-3 px-2">${phase.desc}</p>
+                <p class="text-xs text-[#7A634F] mb-3 px-2">${phase.desc}</p>
                 <div class="space-y-1">
                   ${tasksHtml}
                 </div>
@@ -1294,7 +1837,6 @@
           `;
         }).join('');
 
-        // 進捗更新
         document.getElementById('roadmapTotalCount').textContent = total;
         document.getElementById('roadmapCompletedCount').textContent = completed;
         const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
@@ -1308,9 +1850,8 @@
         this.renderRoadmap();
       }
 
-
       // ================================================================
-      // 予算・資金シミュレーター モジュール
+      // 予算シミュレーター ＆ キャッシュフロー返済診断
       // ================================================================
       updateBudgetModel() {
         const type = document.getElementById('budgetTypeSelect').value;
@@ -1322,20 +1863,17 @@
         this.data.budgetConfig.grade = grade;
         this.saveData();
 
-        // 基準坪数・平米数の算定
         let tsubo = 40;
         if (capacity === '30') tsubo = 25;
         if (capacity === '50') tsubo = 40;
         if (capacity === '100') tsubo = 75;
         if (capacity === '150') tsubo = 110;
 
-        // グレード係数
         let gradeMultiplier = 1.0;
         if (grade === 'high') gradeMultiplier = 1.25;
         if (grade === 'economy') gradeMultiplier = 0.85;
 
-        // タイプ別の坪単価・各項目概算（単位：万円）
-        let baseTsuboPrice = 90; // 木造新築
+        let baseTsuboPrice = 90;
         let landCost = 1500;
         let groundCost = 150;
         let interiorBuildingCost = 0;
@@ -1349,7 +1887,7 @@
         if (type === 'new_build') {
           baseTsuboPrice = 95 * gradeMultiplier;
           interiorBuildingCost = Math.round(tsubo * baseTsuboPrice);
-          landCost = Math.round(tsubo * 1.8 * 25); // 想定土地坪単価25万、建ぺい率考慮
+          landCost = Math.round(tsubo * 1.8 * 25);
           groundCost = 150;
           equipCost = Math.round(interiorBuildingCost * 0.22);
           avItCost = Math.round(capacity * 5 + 100);
@@ -1359,8 +1897,8 @@
           furnitureCost = Math.round(capacity * 3 + 80);
         } else if (type === 'renovation_purchase') {
           baseTsuboPrice = 45 * gradeMultiplier;
-          landCost = Math.round(tsubo * 50); // 中古建物付き土地購入代
-          groundCost = 30; // 既存地盤
+          landCost = Math.round(tsubo * 50);
+          groundCost = 30;
           interiorBuildingCost = Math.round(tsubo * baseTsuboPrice);
           equipCost = Math.round(interiorBuildingCost * 0.30);
           avItCost = Math.round(capacity * 5 + 100);
@@ -1370,22 +1908,19 @@
           furnitureCost = Math.round(capacity * 3 + 80);
         } else if (type === 'tenant_lease') {
           baseTsuboPrice = 30 * gradeMultiplier;
-          landCost = 300; // 敷金・保証金・仲介手数料
+          landCost = 300;
           groundCost = 0;
           interiorBuildingCost = Math.round(tsubo * baseTsuboPrice);
           equipCost = Math.round(interiorBuildingCost * 0.35);
           avItCost = Math.round(capacity * 4.5 + 80);
-          exteriorCost = 80; // 看板のみ
+          exteriorCost = 80;
           designCost = Math.round(interiorBuildingCost * 0.10);
           legalExpenseCost = 120;
           furnitureCost = Math.round(capacity * 3 + 60);
         }
 
-        // 予備費（総額の7%）
-        const subTotalWithoutContingency = landCost + groundCost + interiorBuildingCost + equipCost + avItCost + exteriorCost + designCost + legalExpenseCost + furnitureCost;
-        const contingency = Math.round(subTotalWithoutContingency * 0.07);
-
-        // VE適用値の減算
+        const subTotal = landCost + groundCost + interiorBuildingCost + equipCost + avItCost + exteriorCost + designCost + legalExpenseCost + furnitureCost;
+        const contingency = Math.round(subTotal * 0.07);
         const veDeduction = this.getVeDeductionAmount();
 
         this.currentCostModel = {
@@ -1406,6 +1941,8 @@
 
         this.renderCostItems();
         this.updateFunding();
+        this.calcCashflowLoan();
+        this.renderPresentationSummary();
       }
 
       renderCostItems() {
@@ -1427,44 +1964,42 @@
         let total = items.reduce((sum, item) => sum + item.val, 0) - c.veDeduction;
 
         container.innerHTML = items.map(item => `
-          <div class="bg-white p-3.5 rounded-xl border border-slate-200 flex items-center justify-between shadow-xs">
+          <div class="bg-white p-3.5 rounded-2xl border border-[#EBE1D4] flex items-center justify-between shadow-2xs">
             <div>
-              <div class="text-xs sm:text-sm font-bold text-slate-800">${item.label}</div>
-              <div class="text-[11px] text-slate-500">${item.desc}</div>
+              <div class="text-xs sm:text-sm font-bold text-[#3A2A1D]">${item.label}</div>
+              <div class="text-[11px] text-[#7A634F]">${item.desc}</div>
             </div>
             <div class="text-right whitespace-nowrap">
-              <span class="text-sm font-bold text-slate-900">${item.val.toLocaleString()}</span> <span class="text-xs text-slate-500">万円</span>
+              <span class="text-sm font-bold text-[#3A2A1D]">${item.val.toLocaleString()}</span> <span class="text-xs text-[#7A634F]">万円</span>
             </div>
           </div>
         `).join('') + (c.veDeduction > 0 ? `
-          <div class="bg-rose-50 p-3.5 rounded-xl border border-rose-200 flex items-center justify-between text-rose-800">
+          <div class="bg-rose-50 p-3.5 rounded-2xl border border-rose-200 flex items-center justify-between text-rose-900">
             <div>
               <div class="text-xs sm:text-sm font-bold">✂️ VEコスト削減 適用額</div>
-              <div class="text-[11px] text-rose-600">タブ3で選択中の削減施策が反映されています</div>
+              <div class="text-[11px] text-rose-700">タブ3で選択中の削減施策が反映されています</div>
             </div>
-            <div class="text-right whitespace-nowrap font-bold text-rose-700">
+            <div class="text-right whitespace-nowrap font-bold text-rose-800">
               - ${c.veDeduction.toLocaleString()} 万円
             </div>
           </div>
         ` : '');
 
-        // 総額表示の更新
         document.getElementById('budgetTotalDisplay').textContent = total.toLocaleString();
         document.getElementById('budgetTsuboUnitPriceDisplay').textContent = Math.round(c.baseTsuboPrice);
         document.getElementById('summaryTotalCost').textContent = `${total.toLocaleString()} 万円`;
 
-        // 内訳プログレスバー
         const pb = document.getElementById('budgetProgressBar');
         const landPct = Math.round((c.land / total) * 100);
         const buildPct = Math.round((c.building / total) * 100);
         const equipPct = Math.round(((c.equipment + c.avIt) / total) * 100);
-        const otherPct = 100 - landPct - buildPct - equipPct;
+        const otherPct = Math.max(0, 100 - landPct - buildPct - equipPct);
 
         pb.innerHTML = `
-          <div style="width: ${landPct}%" class="bg-amber-500" title="土地物件: ${landPct}%"></div>
-          <div style="width: ${buildPct}%" class="bg-indigo-600" title="建築本体: ${buildPct}%"></div>
-          <div style="width: ${equipPct}%" class="bg-emerald-500" title="設備音響: ${equipPct}%"></div>
-          <div style="width: ${otherPct}%" class="bg-slate-400" title="諸経費他: ${otherPct}%"></div>
+          <div style="width: ${landPct}%" class="bg-amber-500 rounded-l-full" title="土地物件: ${landPct}%"></div>
+          <div style="width: ${buildPct}%" class="bg-amber-700" title="建築本体: ${buildPct}%"></div>
+          <div style="width: ${equipPct}%" class="bg-emerald-600" title="設備音響: ${equipPct}%"></div>
+          <div style="width: ${otherPct}%" class="bg-slate-400 rounded-r-full" title="諸経費他: ${otherPct}%"></div>
         `;
         document.getElementById('budgetRatioBreakdownText').textContent = `土地${landPct}% / 建築${buildPct}% / 設備音響${equipPct}% / その他${otherPct}%`;
       }
@@ -1478,8 +2013,6 @@
         const pledgeMembers = parseInt(document.getElementById('fundPledgeMembers').value, 10) || 0;
         const pledgeMonthly = parseInt(document.getElementById('fundPledgeMonthly').value, 10) || 0;
         const pledgeYears = parseInt(document.getElementById('fundPledgeYears').value, 10) || 0;
-
-        // 定期積立小計（万円）
         const pledgeTotal = Math.round((pledgeMembers * pledgeMonthly * 12 * pledgeYears) / 10000);
 
         document.getElementById('fundSavingsDisplay').textContent = savings.toLocaleString();
@@ -1491,7 +2024,6 @@
         const fundingTotal = savings + oneTime + pledgeTotal + loan + cf;
         document.getElementById('summaryFundingTotal').textContent = `${fundingTotal.toLocaleString()} 万円`;
 
-        // コスト総額との比較
         const totalCostText = document.getElementById('budgetTotalDisplay').textContent.replace(/,/g, '');
         const totalCost = parseInt(totalCostText, 10) || 0;
         const gap = fundingTotal - totalCost;
@@ -1501,23 +2033,72 @@
         const gapAmount = document.getElementById('gapAmount');
 
         if (gap >= 0) {
-          badge.className = 'px-2.5 py-1 text-xs font-bold rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300';
+          badge.className = 'px-3 py-1 text-xs font-bold rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300';
           badge.textContent = '🎉 資金目標達成（余力あり）';
           gapLabel.textContent = '資金余力：';
-          gapAmount.className = 'text-emerald-700';
+          gapAmount.className = 'text-emerald-800 font-bold';
           gapAmount.textContent = `+${gap.toLocaleString()} 万円`;
         } else {
-          badge.className = 'px-2.5 py-1 text-xs font-bold rounded-full bg-rose-100 text-rose-800 border border-rose-300';
+          badge.className = 'px-3 py-1 text-xs font-bold rounded-full bg-rose-100 text-rose-900 border border-rose-300';
           badge.textContent = '⚠️ 資金不足（要対策）';
           gapLabel.textContent = '資金不足額：';
-          gapAmount.className = 'text-rose-700';
+          gapAmount.className = 'text-rose-800 font-bold';
           gapAmount.textContent = `${gap.toLocaleString()} 万円`;
+        }
+
+        this.calcCashflowLoan();
+        this.renderPresentationSummary();
+      }
+
+      // Webアプリ機能：借入金キャッシュフロー計算
+      calcCashflowLoan() {
+        const loanMan = parseInt(document.getElementById('fundLoanInput').value, 10) || 0;
+        const loanP = loanMan * 10000; // 円
+        const ratePct = parseFloat(document.getElementById('cfLoanRate').value) || 2.0;
+        const r = (ratePct / 100) / 12; // 月利
+        const years = parseInt(document.getElementById('cfLoanYears').value, 10) || 20;
+        const n = years * 12; // 月数
+        const monthlyIncomeMan = parseFloat(document.getElementById('cfMonthlyIncome').value) || 80;
+        const monthlyIncomeYen = monthlyIncomeMan * 10000;
+
+        let monthlyPayment = 0;
+        if (loanP > 0 && r > 0) {
+          monthlyPayment = Math.round(loanP * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1));
+        }
+
+        const totalRepayment = monthlyPayment * n;
+        const totalInterestMan = Math.round((totalRepayment - loanP) / 10000);
+        const yearlyPaymentMan = Math.round((monthlyPayment * 12) / 10000);
+
+        document.getElementById('cfMonthlyPaymentDisplay').textContent = monthlyPayment.toLocaleString();
+        document.getElementById('cfYearlyPaymentDisplay').textContent = yearlyPaymentMan.toLocaleString();
+        document.getElementById('cfTotalInterestDisplay').textContent = Math.max(0, totalInterestMan).toLocaleString();
+
+        // 返済負担率 = (月返済額 / 月間一般経常収入) * 100
+        const burdenRate = monthlyIncomeYen > 0 ? Math.round((monthlyPayment / monthlyIncomeYen) * 100) : 0;
+        const card = document.getElementById('cfBurdenCard');
+        const rateDisplay = document.getElementById('cfBurdenRateDisplay');
+        const msgDisplay = document.getElementById('cfBurdenMessage');
+
+        rateDisplay.textContent = `${burdenRate}%`;
+
+        if (loanP === 0) {
+          card.className = 'p-4 rounded-2xl border bg-slate-50 border-slate-200 text-slate-700 flex flex-col justify-between text-center';
+          msgDisplay.textContent = '借入金なし（健全運営）';
+        } else if (burdenRate <= 15) {
+          card.className = 'p-4 rounded-2xl border bg-emerald-50 border-emerald-300 text-emerald-950 flex flex-col justify-between text-center';
+          msgDisplay.textContent = '◎ 非常に健全な返済計画です。教会活動に十分な余力があります。';
+        } else if (burdenRate <= 25) {
+          card.className = 'p-4 rounded-2xl border bg-amber-50 border-amber-300 text-amber-950 flex flex-col justify-between text-center';
+          msgDisplay.textContent = '◯ 適正範囲内ですが、将来の修繕積立や不測の減収に備えましょう。';
+        } else {
+          card.className = 'p-4 rounded-2xl border bg-rose-50 border-rose-300 text-rose-950 flex flex-col justify-between text-center';
+          msgDisplay.textContent = '⚠️ 危険水準です。借入額の圧縮や返済期間延長をご検討ください。';
         }
       }
 
-
       // ================================================================
-      // 見積精査 & VEコスト削減 モジュール
+      // 見積精査 & VEコスト削減
       // ================================================================
       getVeItems() {
         return [
@@ -1613,19 +2194,19 @@
           const avgSaving = Math.round((item.savingMin + item.savingMax) / 2);
 
           return `
-            <div class="bg-white p-4 rounded-xl border ${isChecked ? 'border-rose-300 bg-rose-50/20' : 'border-slate-200'} transition flex items-start gap-4">
-              <input type="checkbox" onchange="app.toggleVeCheck('${item.id}')" ${isChecked ? 'checked' : ''} class="mt-1 w-5 h-5 text-rose-600 rounded focus:ring-rose-500 border-slate-300">
+            <div class="bg-white p-4 rounded-2xl border ${isChecked ? 'border-rose-300 bg-rose-50/20' : 'border-[#EBE1D4]'} transition flex items-start gap-4 shadow-2xs">
+              <input type="checkbox" onchange="app.toggleVeCheck('${item.id}')" ${isChecked ? 'checked' : ''} class="mt-1 w-5 h-5 text-rose-700 rounded focus:ring-rose-500 border-rose-300">
               <div class="flex-1">
                 <div class="flex flex-wrap items-center justify-between gap-2">
                   <div class="flex items-center gap-2">
-                    <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600">${item.category}</span>
-                    <h4 class="font-bold text-sm sm:text-base text-slate-900">${item.title}</h4>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#F5EFEB] text-[#5A4533]">${item.category}</span>
+                    <h4 class="font-bold text-sm sm:text-base text-[#3A2A1D]">${item.title}</h4>
                   </div>
-                  <div class="text-rose-700 font-bold text-xs sm:text-sm">
+                  <div class="text-rose-800 font-bold text-xs sm:text-sm">
                     削減見込み：約 ${avgSaving} 万円（${item.savingMin}〜${item.savingMax}万）
                   </div>
                 </div>
-                <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">${item.desc}</p>
+                <p class="text-xs text-[#6E5745] mt-1.5 leading-relaxed">${item.desc}</p>
               </div>
             </div>
           `;
@@ -1638,7 +2219,7 @@
         this.data.veChecks[id] = !this.data.veChecks[id];
         this.saveData();
         this.renderVeList();
-        this.updateBudgetModel(); // 予算シミュレーターにも連動
+        this.updateBudgetModel();
       }
 
       getVeDeductionAmount() {
@@ -1661,20 +2242,19 @@
         document.getElementById('veCheckedCount').textContent = checkedCount;
       }
 
-
       // ================================================================
-      // 不動産・土地・物件選び モジュール
+      // 不動産・土地選び & 現地点検シート
       // ================================================================
       getPropertyChecklistItems() {
         return [
-          { id: 'pc_1', cat: '法令・用途', text: '用途地域が集会所・宗教施設建築に適しているか（低層住居は要事前確認）' },
+          { id: 'pc_1', cat: '法令・用途', text: '用途地域が集会所・宗教施設建築に適しているか（第一種低層住居は要確認）' },
           { id: 'pc_2', cat: '法令・用途', text: '建築基準法上の道路に2m以上（規模により4m以上）接道しているか' },
           { id: 'pc_3', cat: '法令・用途', text: '前面道路幅員が4m未満の場合、セットバック（後退）で敷地が削られないか' },
           { id: 'pc_4', cat: '法令・用途', text: '既存不適格建築物や再建築不可物件ではないか（中古購入時）' },
           { id: 'pc_5', cat: '地盤・災害', text: '自治体ハザードマップ（洪水浸水想定・土砂災害警戒・液状化）の確認' },
           { id: 'pc_6', cat: '地盤・災害', text: '過去の地歴（元が田畑・池・盛土でないか、地盤改良の必要性）' },
           { id: 'pc_7', cat: '近隣・環境', text: '近隣住民との距離（ドラム・賛美歌の音漏れによる苦情リスク）' },
-          { id: 'pc_8', cat: '近隣・環境', text: '近隣に保育園・病院・住宅密集地がないか（日曜朝の生活リズム）' },
+          { id: 'pc_8', cat: '近隣・環境', text: '近隣に病院・閑静住宅街がないか（日曜朝の車の出入りと生活リズム）' },
           { id: 'pc_9', cat: '交通・駐車', text: '礼拝出席者数に応じた駐車場スペース（または近隣月極の空き）' },
           { id: 'pc_10', cat: '交通・駐車', text: '大型バスや緊急車両（消防車・救急車）が進入できる道路幅か' },
           { id: 'pc_11', cat: 'インフラ', text: '上水道の引込口径（20mm以上あるか、13mmだと引込工事が高額）' },
@@ -1691,11 +2271,11 @@
         container.innerHTML = items.map(item => {
           const isChecked = !!this.data.propertyChecks[item.id];
           return `
-            <label class="bg-white p-3 rounded-xl border border-slate-200 hover:border-blue-300 transition flex items-start gap-3 cursor-pointer shadow-xs">
-              <input type="checkbox" onchange="app.togglePropertyCheck('${item.id}')" ${isChecked ? 'checked' : ''} class="mt-0.5 w-4 h-4 text-blue-600 rounded focus:ring-blue-500 border-slate-300">
+            <label class="bg-white p-3.5 rounded-2xl border border-[#EBE1D4] hover:border-amber-300 transition flex items-start gap-3 cursor-pointer shadow-2xs">
+              <input type="checkbox" onchange="app.togglePropertyCheck('${item.id}')" ${isChecked ? 'checked' : ''} class="mt-0.5 w-4 h-4 text-amber-700 rounded focus:ring-amber-500 border-amber-300">
               <div>
-                <span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded mr-1">${item.cat}</span>
-                <span class="text-xs sm:text-sm ${isChecked ? 'line-through text-slate-400' : 'text-slate-800 font-medium'}">${item.text}</span>
+                <span class="text-[10px] font-bold text-amber-900 bg-amber-100 px-2 py-0.5 rounded-full mr-1">${item.cat}</span>
+                <span class="text-xs sm:text-sm ${isChecked ? 'line-through text-slate-400' : 'text-[#3E2D1F] font-medium'}">${item.text}</span>
               </div>
             </label>
           `;
@@ -1715,10 +2295,74 @@
         document.getElementById('propCarResult').textContent = result;
       }
 
+      // ================================================================
+      // 部屋別設計 & AV推奨システム構成
+      // ================================================================
+      renderAvRecommendation() {
+        const scale = document.getElementById('avScaleSelect').value;
+        const container = document.getElementById('avRecommendationContainer');
 
-      // ================================================================
-      // 部屋別・音響・防音設計 モジュール
-      // ================================================================
+        let data = {
+          mixer: 'アナログ 12〜16ch（Yamaha MG16X等）',
+          speaker: '10インチ パワードスピーカー 2基（Yamaha DBR10等）',
+          mic: 'ワイヤレス 2本 ＋ 有線マイク 2本',
+          video: '5000ルーメン レーザープロジェクター ＋ 100インチ電動スクリーン',
+          stream: '固定PTZカメラ 1台 ＋ スイッチャー（ATEM Mini等）',
+          priceEst: '約 90〜130 万円'
+        };
+
+        if (scale === '50') {
+          data = {
+            mixer: '小型デジタルミキサー 16〜24ch（Behringer X32 Producer等）',
+            speaker: '12インチ パワードスピーカー 2基 ＋ 礼拝モニタースピーカー 2基',
+            mic: 'B帯ワイヤレス 4本（講壇・讃美・司会）',
+            video: '6000ルーメン レーザープロジェクター ＋ 120インチスクリーン',
+            stream: '光学20倍 PTZカメラ 2台 ＋ ATEM Mini Pro ＋ PoE配線',
+            priceEst: '約 160〜220 万円'
+          };
+        } else if (scale === '100') {
+          data = {
+            mixer: '本格デジタルミキサー 32ch（Allen & Heath SQ-5 または Yamaha TF3）',
+            speaker: 'コラムラインアレイ または 15インチスピーカー ＋ サブウーファー',
+            mic: 'デジタルワイヤレス 6本 ＋ イヤモニシステム',
+            video: '高輝度プロジェクター 2面 または 大型LEDビジョン（2.5mmピッチ）',
+            stream: 'NDI対応 PTZカメラ 3台 ＋ 専用コントローラー ＋ 配信専用PC',
+            priceEst: '約 300〜450 万円'
+          };
+        } else if (scale === '150') {
+          data = {
+            mixer: 'ハイエンドデジタル卓（Allen & Heath Avantis / Yamaha DM7）',
+            speaker: 'ラインアレイシステム ＋ 天井分散ディレイ補助スピーカー',
+            mic: 'デジタルワイヤレス 8本以上 ＋ バンド用マイクセット',
+            video: 'メインLEDビジョン ＋ 返し用65インチディスプレイ 2台',
+            stream: 'マルチカメラ中継システム ＋ 独立光回線 ＋ 防音配線ピット完備',
+            priceEst: '約 550〜850 万円'
+          };
+        }
+
+        container.innerHTML = `
+          <div class="bg-white p-3.5 rounded-xl border border-[#D9D0ED] shadow-2xs">
+            <span class="text-[10px] font-bold text-purple-700 uppercase block">ミキサー卓</span>
+            <div class="font-bold text-[#352254] mt-1">${data.mixer}</div>
+          </div>
+          <div class="bg-white p-3.5 rounded-xl border border-[#D9D0ED] shadow-2xs">
+            <span class="text-[10px] font-bold text-purple-700 uppercase block">スピーカー & マイク</span>
+            <div class="font-bold text-[#352254] mt-1">${data.speaker}</div>
+            <div class="text-[11px] text-slate-500 mt-1">${data.mic}</div>
+          </div>
+          <div class="bg-white p-3.5 rounded-xl border border-[#D9D0ED] shadow-2xs">
+            <span class="text-[10px] font-bold text-purple-700 uppercase block">映像・配信システム</span>
+            <div class="font-bold text-[#352254] mt-1">${data.video}</div>
+            <div class="text-[11px] text-slate-500 mt-1">${data.stream}</div>
+          </div>
+          <div class="bg-gradient-to-br from-purple-900 to-indigo-950 text-white p-3.5 rounded-xl text-center flex flex-col justify-between">
+            <span class="text-[10px] text-purple-200 uppercase">AV設備 概算総額目安</span>
+            <div class="text-base font-extrabold text-amber-300 mt-1">${data.priceEst}</div>
+            <div class="text-[10px] text-purple-200">※分離発注で工務店経費カット</div>
+          </div>
+        `;
+      }
+
       getRoomDefinitions() {
         return [
           {
@@ -1729,7 +2373,7 @@
             icon: '✝️',
             features: [
               '定員目安：1人あたり0.8〜1.2㎡（通路含め1.5㎡）',
-              '天井高：可能であれば3.5m以上（響きと空気感の確保）',
+              '天井高：できれば3.5m以上（讃美歌の響きと空気感の確保）',
               '採光と遮光：十字架周りの自然光 ＋ プロジェクター使用時の完全遮光（暗幕ロールスクリーン）',
               'ステージ（講壇）：高さ20〜30cm（信徒との一体感を保ちつつ後席から見える高さ）'
             ],
@@ -1863,27 +2507,27 @@
         container.innerHTML = rooms.map(room => {
           const isSelected = !!this.data.roomsSelected[room.id];
           return `
-            <div class="bg-white p-5 rounded-2xl border ${isSelected ? 'border-purple-300 shadow-sm' : 'border-slate-200 opacity-60'} transition">
-              <div class="flex items-start justify-between gap-4 border-b border-slate-100 pb-3">
+            <div class="bg-white p-5 rounded-2xl border ${isSelected ? 'border-purple-300 shadow-2xs' : 'border-[#EBE1D4] opacity-60'} transition">
+              <div class="flex items-start justify-between gap-4 border-b border-[#F0E6D8] pb-3">
                 <div class="flex items-center gap-3">
-                  <input type="checkbox" onchange="app.toggleRoomSelect('${room.id}')" ${isSelected ? 'checked' : ''} class="w-5 h-5 text-purple-600 rounded focus:ring-purple-500 border-slate-300">
+                  <input type="checkbox" onchange="app.toggleRoomSelect('${room.id}')" ${isSelected ? 'checked' : ''} class="w-5 h-5 text-purple-700 rounded focus:ring-purple-500 border-purple-300">
                   <span class="text-2xl">${room.icon}</span>
                   <div>
-                    <h3 class="font-bold text-base text-slate-900">${room.name}</h3>
-                    <span class="text-xs text-purple-700 font-medium">標準目安：約${room.tsuboBase}坪（${room.sqmBase}㎡）</span>
+                    <h3 class="font-bold text-base text-[#3A2A1D]">${room.name}</h3>
+                    <span class="text-xs text-purple-800 font-medium">標準目安：約${room.tsuboBase}坪（${room.sqmBase}㎡）</span>
                   </div>
                 </div>
               </div>
               <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
                 <div>
-                  <h4 class="font-bold text-slate-700 mb-1 flex items-center gap-1">📌 主要スペック・機能要件</h4>
-                  <ul class="text-slate-600 space-y-1 list-disc list-inside">
+                  <h4 class="font-bold text-[#543F2F] mb-1 flex items-center gap-1">📌 主要スペック・機能要件</h4>
+                  <ul class="text-[#695342] space-y-1 list-disc list-inside text-xs">
                     ${room.features.map(f => `<li>${f}</li>`).join('')}
                   </ul>
                 </div>
                 <div>
                   <h4 class="font-bold text-purple-900 mb-1 flex items-center gap-1">🔊 音響・防音のポイント</h4>
-                  <p class="text-slate-600 bg-purple-50/60 p-2.5 rounded-lg border border-purple-100 text-xs">
+                  <p class="text-[#695342] bg-[#FAF6FF] p-3 rounded-xl border border-purple-100 text-xs leading-relaxed">
                     ${room.acoustic}
                   </p>
                 </div>
@@ -1913,7 +2557,6 @@
           }
         });
 
-        // 通路・壁厚・階段（共用部係数 1.2）
         totalTsubo = Math.round(totalTsubo * 1.2);
         totalSqm = Math.round(totalSqm * 1.2);
 
@@ -1922,10 +2565,153 @@
         document.getElementById('calcSanctuarySeats').textContent = this.data.budgetConfig.capacity || '50';
       }
 
+      // ================================================================
+      // 行政・法務 & 書類自動生成ドラフター
+      // ================================================================
+      generateLegalDrafts() {
+        const church = document.getElementById('docChurchName').value;
+        const denom = document.getElementById('docDenomination').value;
+        const pastor = document.getElementById('docPastorName').value;
+        const officers = document.getElementById('docOfficers').value;
+        const addr = document.getElementById('docAddress').value;
+        const land = document.getElementById('docLandArea').value;
+        const bld = document.getElementById('docBuildingArea').value;
 
-      // ================================================================
-      // 行政・法務 & 境内地非課税 モジュール
-      // ================================================================
+        this.data.legalDraftData = {
+          churchName: church,
+          denomination: denom,
+          pastorName: pastor,
+          officers: officers,
+          address: addr,
+          landArea: land,
+          buildingArea: bld
+        };
+        this.saveData();
+
+        const todayStr = new Date().toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
+
+        this.draftCertText = `境内建物および境内地証明願
+
+令和○○年○○月○○日
+
+○○県知事　殿
+
+主たる事務所の所在地： ${addr}
+宗教法人名： ${church}
+代表役員： ${pastor}　　　(印)
+
+下記不動産は、当法人の宗教の普及、信徒の教化育成その他本来の宗教活動のために不可欠な境内建物及び境内地であり、専らその用に供する（供する予定の）ものであることに相違ないことを証明願います。
+
+記
+
+1. 境内地の表示
+　所在地： ${addr}
+　地目： 宅地（または境内地）
+　地積： ${land}
+
+2. 境内建物の表示
+　所在地： ${addr}
+　家屋番号： ○○番
+　種類： 礼拝堂（集会所）
+　構造： ${bld}
+
+3. 証明を必要とする理由
+　登録免許税法第4条第2項および別表第三の規定に基づき、所有権移転（保存）登記に係る登録免許税の非課税措置を受けるため。
+
+4. 添付書類
+　(1) 責任役員会議事録の謄本
+　(2) 宗教法人規則の謄本（包括宗教団体の認証印あるもの）
+　(3) 不動産売買契約書（または建築工事請負契約書）の写し
+　(4) 位置図、配置図、各階平面図
+　(5) 登記事項証明書
+　(6) 宗教活動の現況を示す資料（週報、礼拝写真等）
+`;
+
+        this.draftMinutesText = `宗教法人 ${church}
+責任役員会議事録
+
+1. 日時： 令和○○年○○月○○日　午前○○時○○分
+2. 場所： 当法人 牧会室
+3. 役員総数： ○名、 出席役員数： ○名（代表役員 ${pastor}、責任役員 ${officers}）
+
+代表役員 ${pastor} が議長となり、開会を宣し、直ちに議事に入った。
+
+【議案】新会堂用不動産の取得（新築）および登録免許税非課税申請の件
+
+議長より、当法人の宣教発展および信徒の増加に伴い、下記不動産を取得（新築）し、新会堂（礼拝堂および付帯施設）として専ら宗教活動の用に供したい旨の提案がなされた。
+また、本件取得にあたり、所轄都道府県知事に対して「境内建物および境内地証明書」の交付を申請し、登録免許税の非課税措置を受けること、ならびに必要な資金調達（献金および金融機関借入）を行うことについて詳細な説明がなされた。
+
+出席責任役員一同、慎重に審議を行った結果、全員一致をもって原案どおり可決承認した。
+
+【決議された不動産の表示】
+・土地： ${addr}　地積： ${land}
+・建物： ${addr}　構造・規模： ${bld}
+
+以上をもって本日の議事を終了したので、議長は午前○○時○○分閉会を宣した。
+本議事の経過を記録するため、本議事録を作成し、出席役員全員が記名押印する。
+
+令和○○年○○月○○日
+宗教法人 ${church}
+代表役員： ${pastor}　　(実印)
+責任役員： ${officers.split(',').join('　(印)\n責任役員： ')}　(印)
+`;
+
+        this.draftNoticeText = `公　告
+
+宗教法人法第23条および当法人規則の規定に基づき、下記のとおり重要な財産の取得について公告します。
+
+記
+
+1. 取得する財産の表示
+　土地： ${addr} （地積 ${land}）
+　建物： ${bld} （新築礼拝堂）
+
+2. 取得の目的
+　当法人 ${church} の礼拝、祈祷、宣教活動、キリスト教教育のための境内地および境内建物として使用するため。
+
+3. 取得予定年月日
+　令和○○年○○月○○日
+
+信徒その他の利害関係人は、本公告の日から1か月以内に、当法人代表役員に対して意見を述べることができます。
+
+令和○○年○○月○○日
+
+所在地： ${addr}
+宗教法人 ${church}
+代表役員： ${pastor}
+`;
+
+        this.updateDraftDisplay();
+      }
+
+      switchDraftTab(type) {
+        this.currentDraftType = type;
+        ['cert', 'minutes', 'notice'].forEach(t => {
+          const btn = document.getElementById(`draftBtn-${t}`);
+          if (t === type) {
+            btn.className = 'px-3 py-1.5 rounded-lg bg-teal-700 text-white font-bold';
+          } else {
+            btn.className = 'px-3 py-1.5 rounded-lg bg-white text-teal-800 border border-teal-300 font-bold';
+          }
+        });
+        this.updateDraftDisplay();
+      }
+
+      updateDraftDisplay() {
+        const area = document.getElementById('draftContentArea');
+        if (!area) return;
+        if (this.currentDraftType === 'cert') area.textContent = this.draftCertText;
+        if (this.currentDraftType === 'minutes') area.textContent = this.draftMinutesText;
+        if (this.currentDraftType === 'notice') area.textContent = this.draftNoticeText;
+      }
+
+      copyCurrentDraft() {
+        const area = document.getElementById('draftContentArea');
+        navigator.clipboard.writeText(area.textContent).then(() => {
+          alert('書類ドラフトの文面をクリップボードにコピーしました！ Word等に貼り付けてご利用ください。');
+        });
+      }
+
       getLegalDocItems() {
         return [
           { id: 'ld_1', text: '境内地・境内建物証明願（各都道府県知事宛て様式）' },
@@ -1950,9 +2736,9 @@
         container.innerHTML = docs.map(doc => {
           const isChecked = !!this.data.legalDocChecks[doc.id];
           return `
-            <label class="bg-white p-3 rounded-xl border border-slate-200 hover:border-teal-300 transition flex items-start gap-3 cursor-pointer shadow-xs">
-              <input type="checkbox" onchange="app.toggleLegalDocCheck('${doc.id}')" ${isChecked ? 'checked' : ''} class="mt-0.5 w-4 h-4 text-teal-600 rounded focus:ring-teal-500 border-slate-300">
-              <span class="text-xs sm:text-sm ${isChecked ? 'line-through text-slate-400' : 'text-slate-800 font-medium'}">${doc.text}</span>
+            <label class="bg-white p-3.5 rounded-2xl border border-[#EBE1D4] hover:border-teal-300 transition flex items-start gap-3 cursor-pointer shadow-2xs">
+              <input type="checkbox" onchange="app.toggleLegalDocCheck('${doc.id}')" ${isChecked ? 'checked' : ''} class="mt-0.5 w-4 h-4 text-teal-700 rounded focus:ring-teal-500 border-teal-300">
+              <span class="text-xs sm:text-sm ${isChecked ? 'line-through text-slate-400' : 'text-[#3E2D1F] font-medium'}">${doc.text}</span>
             </label>
           `;
         }).join('');
@@ -1964,10 +2750,42 @@
         this.renderLegalDocs();
       }
 
+      // ================================================================
+      // 信徒周知 & プレゼンレポーター
+      // ================================================================
+      renderPresentationSummary() {
+        const container = document.getElementById('presentationSummaryPreview');
+        if (!container) return;
 
-      // ================================================================
-      // 信徒周知 & 一致・祈り モジュール
-      // ================================================================
+        const totalCost = document.getElementById('budgetTotalDisplay') ? document.getElementById('budgetTotalDisplay').textContent : '0';
+        const fundTotal = document.getElementById('summaryFundingTotal') ? document.getElementById('summaryFundingTotal').textContent : '0';
+        const gap = document.getElementById('gapAmount') ? document.getElementById('gapAmount').textContent : '0';
+        const targetDate = this.data.targetDedicationMonth || '2028年4月';
+
+        container.innerHTML = `
+          <div class="border-b border-amber-200 pb-2 mb-3 flex items-center justify-between">
+            <span class="font-bold text-amber-900 text-sm sm:text-base">新会堂建築・リフォーム計画 説明会概要レジュメ</span>
+            <span class="text-xs text-slate-500">目標献堂時期：${targetDate}</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-[#FAF7F0] p-3 rounded-xl">
+            <div><strong>① 想定総事業費：</strong> ${totalCost} 万円</div>
+            <div><strong>② 調達目標合計：</strong> ${fundTotal}</div>
+            <div><strong>③ 収支バランス：</strong> <span class="font-bold text-emerald-800">${gap}</span></div>
+          </div>
+          <p><strong>【私たちのビジョン】</strong><br>
+          単に建物を新しくするだけでなく、次の世代・子どもたちに信仰を継承し、地域社会に開かれた愛と祈りの拠点（バリアフリー・防音・母子室完備）として主の宮を整えます。</p>
+          <p><strong>【資金計画の安全性】</strong><br>
+          無理な借入を避け、教会の月々の経常活動に支障のない安全な返済負担率（20%以下）を厳守します。各自が神様との祈りの中で応答し、祈りと奉仕（DIY等）によって全員で一致して進めます。</p>
+        `;
+      }
+
+      copyPresentationSummary() {
+        const text = document.getElementById('presentationSummaryPreview').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+          alert('説明会概要文をコピーしました！週報やスライド作成にご活用ください。');
+        });
+      }
+
       renderUnityQna() {
         const qnas = [
           {
@@ -1976,7 +2794,7 @@
           },
           {
             q: '「教会員が高齢化しているのに、借金の返済を長年続けられるのか？」',
-            a: '【回答の要点】無理なローンは組まない原則を説明します。現在の一般会計の経常余力から返済可能な安全額をシミュレーションし、万が一献金が落ち込んだ場合のリスクヘッジ（定期預金バッファ）も透明に提示します。'
+            a: '【回答の要点】無理なローンは組まない原則を説明します。現在の一般会計の経常余力から返済可能な安全額（負担率15〜20%以下）をシミュレーションし、万が一献金が落ち込んだ場合のリスクヘッジ（定期預金バッファ）も透明に提示します。'
           },
           {
             q: '「献金を強制されるのではないかと不安...」',
@@ -1985,27 +2803,26 @@
         ];
 
         document.getElementById('unityQnaContainer').innerHTML = qnas.map(item => `
-          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-            <h4 class="font-bold text-sm text-slate-900 flex items-start gap-2">
-              <span class="text-amber-600 font-bold">Q.</span> ${item.q}
+          <div class="bg-[#FBF8F3] p-5 rounded-2xl border border-[#EBE1D4]">
+            <h4 class="font-bold text-sm text-[#3A2A1D] flex items-start gap-2">
+              <span class="text-amber-800 font-bold">Q.</span> ${item.q}
             </h4>
-            <p class="text-xs sm:text-sm text-slate-600 mt-2 bg-white p-3 rounded-lg border border-slate-200 leading-relaxed">
+            <p class="text-xs sm:text-sm text-[#695342] mt-2.5 bg-white p-3.5 rounded-xl border border-[#EBE1D4] leading-relaxed shadow-2xs">
               ${item.a}
             </p>
           </div>
         `).join('');
       }
 
-
       // ================================================================
-      // クラウドファンディング モジュール
+      // クラウドファンディング
       // ================================================================
       calcCf() {
         const goal = parseInt(document.getElementById('cfGoalInput').value, 10) || 300;
         const feeRate = parseFloat(document.getElementById('cfFeeRateSelect').value) || 0.14;
 
         const fee = Math.round(goal * feeRate);
-        const returnCost = Math.round(goal * 0.20); // 返礼品原価と送料
+        const returnCost = Math.round(goal * 0.20);
         const net = goal - fee - returnCost;
 
         document.getElementById('cfFeeAmount').textContent = fee;
@@ -2027,18 +2844,18 @@
         ];
 
         document.getElementById('cfReturnsGrid').innerHTML = returns.map(ret => `
-          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between">
+          <div class="bg-white p-4 rounded-2xl border border-[#EBE1D4] shadow-2xs flex flex-col justify-between">
             <div>
-              <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${ret.price}</span>
-              <h4 class="font-bold text-sm text-slate-800 mt-2">${ret.title}</h4>
+              <span class="text-xs font-bold text-amber-900 bg-[#FEF3C7] px-2.5 py-0.5 rounded-full">${ret.price}</span>
+              <h4 class="font-bold text-sm text-[#3A2A1D] mt-2">${ret.title}</h4>
             </div>
-            <div class="text-[11px] text-slate-400 mt-3 border-t border-slate-100 pt-1">教会ならではの温かい記念品</div>
+            <div class="text-[11px] text-[#8C7461] mt-3 border-t border-slate-100 pt-1.5">教会ならではの温かい記念品</div>
           </div>
         `).join('');
       }
     }
 
-    // アプリケーション初期化
+    // アプリケーション起動
     const app = new ChurchBuildingApp();
   </script>
 </body>

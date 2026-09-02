@@ -5,7 +5,15 @@
       "destination": "/api/notion?path=$1"
     },
     {
-      "source": "/(.*)",
+      "source": "/church-building",
+      "destination": "/church_building_navigator.html"
+    },
+    {
+      "source": "/church_building_navigator.html",
+      "destination": "/church_building_navigator.html"
+    },
+    {
+      "source": "/((?!church_building_navigator.html|church-building|api/).*)",
       "destination": "/index.html"
     }
   ]

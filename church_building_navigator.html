@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>教会建築・リフォーム総合ナビゲーター | 初めての会堂建築を成功に導く実務＆設計支援システム</title>
+  <title>教会建築・リフォーム総合ナビゲーター | 神の国の拠点をつくるワクワク建築実践システム</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -95,6 +95,13 @@
     .search-highlight {
       animation: highlightPulse 2.5s ease-out;
     }
+
+    .img-zoom-hover {
+      transition: transform 0.4s ease;
+    }
+    .img-zoom-hover:hover {
+      transform: scale(1.03);
+    }
   </style>
 </head>
 <body class="bg-[#FAF7F2] text-[#2C2219] font-sans min-h-screen flex flex-col selection:bg-amber-100 selection:text-amber-900">
@@ -121,11 +128,11 @@
                 教会建築・リフォーム総合ナビゲーター
               </h1>
               <span class="bg-gradient-to-r from-amber-500/20 to-amber-400/30 text-amber-200 border border-amber-400/30 text-[11px] px-2.5 py-0.5 rounded-full font-sans font-medium hidden sm:inline-block">
-                🔰 新米牧師・役員 共通理解エディション v4.0
+                ✨ ビジュアル・インスパイア版 v5.0
               </span>
             </div>
             <p class="text-xs text-[#C8B8A6] hidden md:block">
-              「初めてで何もわからない」を、メンバー全員が一致して設計士・工務店と対等に話せる力に変える実践システム
+              写真と図解で見る！次世代と地域に神の国の拠点を築くワクワク実践システム
             </p>
           </div>
         </div>
@@ -133,7 +140,7 @@
         <!-- 検索バー -->
         <div class="relative flex-1 max-w-xs hidden lg:block">
           <div class="relative">
-            <input type="text" id="globalSearchInput" oninput="app.handleSearch(this.value)" placeholder="知りたい言葉（セットバック・防音・非課税…）を検索" class="w-full bg-[#3D2C20]/90 text-xs text-amber-50 placeholder-amber-200/50 rounded-xl px-3.5 py-2 pl-9 border border-[#5A412F] focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-[#4A3627] transition shadow-inner">
+            <input type="text" id="globalSearchInput" oninput="app.handleSearch(this.value)" placeholder="気になる言葉（セットバック・防音・非課税…）を検索" class="w-full bg-[#3D2C20]/90 text-xs text-amber-50 placeholder-amber-200/50 rounded-xl px-3.5 py-2 pl-9 border border-[#5A412F] focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-[#4A3627] transition shadow-inner">
             <svg class="w-4 h-4 text-amber-300/60 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
           </div>
           <div id="searchResultsDropdown" class="hidden absolute left-0 right-0 top-11 bg-white text-slate-800 rounded-xl shadow-2xl border border-amber-200 max-h-72 overflow-y-auto z-50 text-xs py-1"></div>
@@ -174,7 +181,7 @@
       <div class="max-w-7xl mx-auto px-2 sm:px-4">
         <nav class="flex space-x-1 overflow-x-auto py-2 text-xs font-medium no-scrollbar" id="tabNav">
           <button onclick="app.switchTab('guide')" data-tab="guide" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-white bg-amber-700 font-bold shadow-xs">
-            <span>🔰</span><span>ゼロからわかる入門</span>
+            <span>🌱</span><span>ビジョン＆入門</span>
           </button>
           <button onclick="app.switchTab('cases')" data-tab="cases" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
             <span>💡</span><span>先輩の失敗談＆教訓</span>
@@ -195,7 +202,7 @@
             <span>✂️</span><span>見積精査 & VE削減</span>
           </button>
           <button onclick="app.switchTab('property')" data-tab="property" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
-            <span>🏛️</span><span>土地選び & 点検</span>
+            <span>🗺️</span><span>土地選び & 点検</span>
           </button>
           <button onclick="app.switchTab('rooms')" data-tab="rooms" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-amber-100/70 hover:text-white hover:bg-[#3D2C20]">
             <span>📐</span><span>部屋別 & AV機材</span>
@@ -226,197 +233,246 @@
   <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
 
     <!-- ================================================================ -->
-    <!-- TAB GUIDE: ゼロからわかる会堂建築 入門ツアー                     -->
+    <!-- TAB GUIDE: ビジョン＆ゼロからわかる入門                           -->
     <!-- ================================================================ -->
     <div id="tab-guide" class="tab-content space-y-6">
+      
+      <!-- ヒーロー・インスパイアバナー（ビジュアル写真付き） -->
+      <div class="relative rounded-3xl overflow-hidden shadow-warm-lg border border-amber-900/30 text-white min-h-[320px] flex items-end">
+        <img src="https://images.unsplash.com/photo-1548625361-195fe57876a8?auto=format&fit=crop&w=1600&q=80" alt="チャペルの光" class="absolute inset-0 w-full h-full object-cover brightness-[0.45]">
+        <div class="absolute inset-0 bg-gradient-to-t from-[#1F150E] via-[#2E2016]/60 to-transparent"></div>
+        
+        <div class="relative p-6 sm:p-10 max-w-3xl space-y-3">
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-300 bg-amber-950/80 px-3.5 py-1 rounded-full border border-amber-500/40 backdrop-blur-xs">
+            ✝️ Build God's Kingdom on Earth
+          </span>
+          <h2 class="text-2xl sm:text-4xl font-serif font-extrabold text-[#FFF8ED] leading-tight">
+            会堂建築は、地域と次の100年へ<br class="hidden sm:inline">「神の国の光」を灯す最高の冒険です。
+          </h2>
+          <p class="text-xs sm:text-sm text-amber-100/90 leading-relaxed">
+            「単なる建物の新築」ではありません。傷ついた人が癒やされ、子どもたちが愛を知り、地域に温かいオアシスを届ける神の国の拠点。わからないことだらけで大丈夫。写真と図解で、ワクワクしながら一つずつ形にしていきましょう！
+          </p>
+        </div>
+      </div>
+
+      <!-- 夢の新会堂スタイル・ムードボード（4大建築写真セレクター） -->
       <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
-        <div class="flex items-start gap-4 border-b border-[#F0E6D8] pb-6">
-          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center text-2xl font-bold shrink-0">
-            🌱
-          </div>
+        <div class="border-b border-[#F0E6D8] pb-4 mb-6 flex items-center justify-between">
           <div>
-            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-800 bg-[#FEF3C7] px-3 py-1 rounded-full mb-1.5">
-              Welcome to Church Building Journey
-            </span>
-            <h2 class="text-2xl sm:text-3xl font-serif font-bold text-[#3A2A1D]">
-              はじめての会堂建築・リフォームへ、ようこそ。
-            </h2>
-            <p class="text-xs sm:text-sm text-[#735A45] mt-2 leading-relaxed">
-              会堂建築は、多くの牧師や教会員にとって**「生涯で一度経験するかどうか」**の大事業です。建築士や不動産屋さんが使う専門用語は難しく、何から手をつけて良いかわからなくて当然です。安心してください。このガイドでは、難しい言葉を日常のたとえ話に変えて、先輩教会が通った道を一つ一つお話ししていきます。
-            </p>
+            <span class="text-xs font-bold text-amber-800 bg-[#FEF3C7] px-2.5 py-0.5 rounded-full uppercase">Vision Moodboard</span>
+            <h3 class="text-xl font-serif font-bold text-[#3A2A1D] mt-1 flex items-center gap-2">
+              <span>🎨</span> 私たちの教会はどんなスタイルを目指す？（ムードボード）
+            </h3>
+            <p class="text-xs text-[#7A634F] mt-0.5">写真をクリックすると、イメージが共有され役員会での会話が一気に弾みます。</p>
           </div>
         </div>
 
-        <!-- 5大ストーリー（アコーディオン） -->
-        <div class="mt-6 space-y-4">
-          <!-- 第1話 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="moodboardGrid">
+          <!-- Style 1 -->
+          <div onclick="app.selectMoodStyle('wood')" id="moodCard-wood" class="cursor-pointer border-2 border-amber-500 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition bg-[#FDFBF7]">
+            <div class="h-36 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1548625361-195fe57876a8?auto=format&fit=crop&w=600&q=80" alt="木の温もり" class="w-full h-full object-cover img-zoom-hover">
+              <span class="absolute top-2 left-2 bg-amber-900/80 text-white text-[10px] font-bold px-2 py-0.5 rounded-full backdrop-blur-xs">一番人気</span>
+            </div>
+            <div class="p-3.5">
+              <h4 class="font-bold text-sm text-[#3A2A1D]">🌲 木の温もり＆自然光スタイル</h4>
+              <p class="text-[11px] text-[#7A634F] mt-1">無垢材の梁、柔らかな自然光。誰もがホッとする温かい礼拝堂空間。</p>
+            </div>
+          </div>
+
+          <!-- Style 2 -->
+          <div onclick="app.selectMoodStyle('cafe')" id="moodCard-cafe" class="cursor-pointer border-2 border-transparent hover:border-amber-400 rounded-2xl overflow-hidden shadow-2xs hover:shadow-md transition bg-[#FDFBF7]">
+            <div class="h-36 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=600&q=80" alt="カフェ風" class="w-full h-full object-cover img-zoom-hover">
+              <span class="absolute top-2 left-2 bg-emerald-900/80 text-white text-[10px] font-bold px-2 py-0.5 rounded-full backdrop-blur-xs">地域開放型</span>
+            </div>
+            <div class="p-3.5">
+              <h4 class="font-bold text-sm text-[#3A2A1D]">☕ 街角カフェ＆コミュニティ</h4>
+              <p class="text-[11px] text-[#7A634F] mt-1">ガラス張り、ウッドデッキ、平日は子ども食堂や地域カフェとして開く。</p>
+            </div>
+          </div>
+
+          <!-- Style 3 -->
+          <div onclick="app.selectMoodStyle('worship')" id="moodCard-worship" class="cursor-pointer border-2 border-transparent hover:border-amber-400 rounded-2xl overflow-hidden shadow-2xs hover:shadow-md transition bg-[#FDFBF7]">
+            <div class="h-36 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80" alt="現代ワーシップ" class="w-full h-full object-cover img-zoom-hover">
+              <span class="absolute top-2 left-2 bg-purple-900/80 text-white text-[10px] font-bold px-2 py-0.5 rounded-full backdrop-blur-xs">ワーシップ特化</span>
+            </div>
+            <div class="p-3.5">
+              <h4 class="font-bold text-sm text-[#3A2A1D]">🎸 現代ワーシップ＆バンド音響</h4>
+              <p class="text-[11px] text-[#7A634F] mt-1">本格防音、LED照明、YouTube生配信とバンド演奏に特化したスタジオ型。</p>
+            </div>
+          </div>
+
+          <!-- Style 4 -->
+          <div onclick="app.selectMoodStyle('classic')" id="moodCard-classic" class="cursor-pointer border-2 border-transparent hover:border-amber-400 rounded-2xl overflow-hidden shadow-2xs hover:shadow-md transition bg-[#FDFBF7]">
+            <div class="h-36 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=600&q=80" alt="伝統と祈り" class="w-full h-full object-cover img-zoom-hover">
+              <span class="absolute top-2 left-2 bg-indigo-900/80 text-white text-[10px] font-bold px-2 py-0.5 rounded-full backdrop-blur-xs">静謐と伝統</span>
+            </div>
+            <div class="p-3.5">
+              <h4 class="font-bold text-sm text-[#3A2A1D]">🕯️ 伝統と静謐の祈り空間</h4>
+              <p class="text-[11px] text-[#7A634F] mt-1">ステンドグラス、高いアーチ天井、パイプオルガン。心を鎮める祈りの聖所。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5大ストーリー（図解＆要約カード化） -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
+        <div class="border-b border-[#F0E6D8] pb-4 mb-6">
+          <span class="text-xs font-bold text-amber-800 bg-[#FEF3C7] px-2.5 py-0.5 rounded-full uppercase">5 Essential Stories</span>
+          <h3 class="text-xl font-serif font-bold text-[#3A2A1D] mt-1 flex items-center gap-2">
+            <span>📖</span> ゼロからわかる！会堂建築 5つの基本ストーリー
+          </h3>
+          <p class="text-xs text-[#7A634F] mt-0.5">先輩教会が必ず通る5大ポイントを、絵本のように3分で読める要点カードにまとめました。</p>
+        </div>
+
+        <div class="space-y-4">
+          <!-- Story 1 -->
           <div class="border border-[#E8DAC7] rounded-2xl overflow-hidden bg-[#FBF8F3]">
             <button onclick="app.toggleStory('story1')" class="w-full p-4 sm:p-5 text-left flex items-center justify-between hover:bg-[#F5EFEB] transition">
               <div class="flex items-center gap-3">
-                <span class="w-7 h-7 rounded-full bg-amber-700 text-white flex items-center justify-center font-bold text-xs">1</span>
+                <span class="w-8 h-8 rounded-full bg-amber-700 text-white flex items-center justify-center font-bold text-sm shrink-0">1</span>
                 <div>
-                  <h3 class="font-bold text-sm sm:text-base text-[#3A2A1D]">
-                    「坪単価80万円」と聞いて安心していたら、総額が2倍近くになったのはなぜ？
-                  </h3>
-                  <p class="text-xs text-[#7A634F] mt-0.5">建物の本体工事と、それ以外にかかる「見えないお金」のカラクリ</p>
+                  <h4 class="font-bold text-sm sm:text-base text-[#3A2A1D]">
+                    「坪単価80万」と聞いて安心していたら、総額が2倍になったのはなぜ？
+                  </h4>
+                  <p class="text-xs text-[#7A634F] mt-0.5">建物の箱以外にかかる「見えないお金（30〜40%）」のカラクリ</p>
                 </div>
               </div>
               <span id="story1-icon" class="text-amber-800 text-lg">▼</span>
             </button>
-            <div id="story1-content" class="hidden p-5 sm:p-6 bg-white border-t border-[#E8DAC7] text-xs sm:text-sm text-[#4A3B2C] leading-relaxed space-y-3">
-              <p>
-                工務店やハウスメーカーから「坪単価80万円で建てられますよ」と言われると、「じゃあ50坪なら 50 × 80万 ＝ 4,000万円だな」と計算してしまいがちです。しかし、これが<strong>初心者が最も陥りやすい落とし穴</strong>です！
-              </p>
-              <div class="bg-[#FFFDF5] p-4 rounded-xl border border-amber-200/80 space-y-2">
-                <strong class="text-amber-900 block text-xs sm:text-sm">💡 坪単価に含まれているのは「建物の箱」だけ！</strong>
-                <p class="text-xs text-[#695342]">
-                  坪単価が指しているのは通常「建物本体の工事費」だけです。実際には、地盤が弱ければ<strong>地盤改良費（100〜200万円）</strong>がかかり、外の<strong>駐車場アスファルトやフェンス（200〜400万円）</strong>、エアコンや換気設備の工事、さらに教会ならではの<strong>音響・映像機材（150〜300万円）</strong>、設計事務所への<strong>設計監理報酬（工事費の約10%）</strong>、役所への申請費や登記費用、火災保険、そして家具や引越し代が別にかかります。
-                </p>
+            <div id="story1-content" class="hidden p-5 sm:p-6 bg-white border-t border-[#E8DAC7] space-y-4">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                <div class="bg-rose-50 p-4 rounded-xl border border-rose-200">
+                  <span class="text-rose-700 font-bold text-xs block mb-1">❌ よくある初心者の勘違い</span>
+                  50坪 × 坪単価80万円 ＝ 「4,000万円で新会堂が建つ！」
+                </div>
+                <div class="bg-amber-50 p-4 rounded-xl border border-amber-200 sm:col-span-2">
+                  <span class="text-amber-800 font-bold text-xs block mb-1">⭕ 本当の現実（総事業費）</span>
+                  本体4,000万 ＋ 地盤改良150万 ＋ 駐車場外構300万 ＋ 音響AV200万 ＋ 設計費400万 ＋ 予備費 ＝ <strong>約5,500〜6,000万円！</strong>
+                </div>
               </div>
-              <p>
-                結果として、本体工事費にプラスして**「約30〜40%の付帯費用・諸経費」**が必ず上乗せされます。本アプリの【予算シミュレーター】では、これらの見落としがちな項目を最初からすべて組み込んで計算できるようにしてあります。
+              <p class="text-xs text-[#695342] leading-relaxed">
+                坪単価に含まれるのは「建物の箱」だけです。【タブ2：予算シミュレーター】では、これらの見落としがちな項目を最初からすべて組み込んで計算できるようにしてあります。
               </p>
             </div>
           </div>
 
-          <!-- 第2話 -->
+          <!-- Story 2 -->
           <div class="border border-[#E8DAC7] rounded-2xl overflow-hidden bg-[#FBF8F3]">
             <button onclick="app.toggleStory('story2')" class="w-full p-4 sm:p-5 text-left flex items-center justify-between hover:bg-[#F5EFEB] transition">
               <div class="flex items-center gap-3">
-                <span class="w-7 h-7 rounded-full bg-amber-700 text-white flex items-center justify-center font-bold text-xs">2</span>
+                <span class="w-8 h-8 rounded-full bg-amber-700 text-white flex items-center justify-center font-bold text-sm shrink-0">2</span>
                 <div>
-                  <h3 class="font-bold text-sm sm:text-base text-[#3A2A1D]">
+                  <h4 class="font-bold text-sm sm:text-base text-[#3A2A1D]">
                     気に入った土地なのに「教会が建てられない場所」だった！？
-                  </h3>
+                  </h4>
                   <p class="text-xs text-[#7A634F] mt-0.5">用途地域（ようとちいき）と道路のセットバック（後退）の罠</p>
                 </div>
               </div>
               <span id="story2-icon" class="text-amber-800 text-lg">▼</span>
             </button>
-            <div id="story2-content" class="hidden p-5 sm:p-6 bg-white border-t border-[#E8DAC7] text-xs sm:text-sm text-[#4A3B2C] leading-relaxed space-y-3">
-              <p>
-                「静かな住宅街で、駅からも近くて広さもぴったり！」と喜んで契約しようとしたら、建築士から「ここは教会（集会施設）が建てられないエリアです」と言われて青ざめる…という事例が実際にあります。
-              </p>
-              <div class="bg-[#FFFDF5] p-4 rounded-xl border border-amber-200/80 space-y-2">
-                <strong class="text-amber-900 block text-xs sm:text-sm">💡 日本の土地には「建てていい建物」のルールがある</strong>
-                <p class="text-xs text-[#695342]">
-                  都市の土地は「用途地域」という法律で色分けされています。特に<strong>「第一種低層住居専用地域」</strong>という閑静な住宅街では、兼用住宅ではない「独立した集会所・教会」の建築が厳しく制限されていたり、厳しい高さ制限・日影規制があります。
-                </p>
-                <strong class="text-amber-900 block text-xs sm:text-sm mt-2">💡 道路が狭いと、自分の土地が道路に取られる（セットバック）</strong>
-                <p class="text-xs text-[#695342]">
-                  建物を建てるには「幅4メートル以上の道路に接していなければならない」という大原則があります。もし前面道路が3メートルしかない場合、将来の道路拡幅のために、<strong>道路の中心から2メートル後退した線まで敷地を道路として差し出さなければなりません</strong>。70坪あると思っていた土地が、実質55坪しか使えなくなることもあるのです。
-                </p>
+            <div id="story2-content" class="hidden p-5 sm:p-6 bg-white border-t border-[#E8DAC7] space-y-3 text-xs">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="bg-[#FFFDF5] p-3.5 rounded-xl border border-amber-200">
+                  <strong class="text-amber-900 block font-bold mb-1">🗺️ 第一種低層住居専用地域の制限</strong>
+                  閑静な住宅街では独立した教会（集会所）が建てられない自治体があります。契約前に必ず役所で建築可否を確認！
+                </div>
+                <div class="bg-[#FFFDF5] p-3.5 rounded-xl border border-amber-200">
+                  <strong class="text-amber-900 block font-bold mb-1">🛣️ 道路セットバック（後退）の罠</strong>
+                  道路が4m未満だと、道路中心から2m後退して敷地を差し出す必要があります。70坪が実質55坪に削られることも！
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- 第3話 -->
+          <!-- Story 3 -->
           <div class="border border-[#E8DAC7] rounded-2xl overflow-hidden bg-[#FBF8F3]">
             <button onclick="app.toggleStory('story3')" class="w-full p-4 sm:p-5 text-left flex items-center justify-between hover:bg-[#F5EFEB] transition">
               <div class="flex items-center gap-3">
-                <span class="w-7 h-7 rounded-full bg-amber-700 text-white flex items-center justify-center font-bold text-xs">3</span>
+                <span class="w-8 h-8 rounded-full bg-amber-700 text-white flex items-center justify-center font-bold text-sm shrink-0">3</span>
                 <div>
-                  <h3 class="font-bold text-sm sm:text-base text-[#3A2A1D]">
+                  <h4 class="font-bold text-sm sm:text-base text-[#3A2A1D]">
                     普通の住宅とは全然ちがう！教会の「部屋と音」の秘密
-                  </h3>
+                  </h4>
                   <p class="text-xs text-[#7A634F] mt-0.5">ドラムの重低音、赤ちゃんの泣き声、なぜ母子室と音響卓が重要なのか</p>
                 </div>
               </div>
               <span id="story3-icon" class="text-amber-800 text-lg">▼</span>
             </button>
-            <div id="story3-content" class="hidden p-5 sm:p-6 bg-white border-t border-[#E8DAC7] text-xs sm:text-sm text-[#4A3B2C] leading-relaxed space-y-3">
-              <p>
-                教会建築を一般のハウスメーカーに頼むと、普通の住宅や会議室と同じ感覚で設計されてしまい、後から大問題になることがよくあります。
-              </p>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+            <div id="story3-content" class="hidden p-5 sm:p-6 bg-white border-t border-[#E8DAC7] space-y-3 text-xs">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div class="bg-[#FAF6FF] p-3.5 rounded-xl border border-purple-200">
-                  <strong class="text-purple-900 block text-xs">👶 母子室（ナーサリー）は「完全防音」が命</strong>
-                  <p class="text-xs text-[#523F2F] mt-1">
-                    赤ちゃんが泣いてしまっても、お母さんが気兼ねなく礼拝に出られるように、礼拝堂が見える大きな「二重ガラスFIX窓」と「完全遮音ドア」、そして礼拝音声が手元で聴ける「独立音量スピーカー」が必須です。
-                  </p>
+                  <strong class="text-purple-900 block font-bold mb-1">👶 母子室は完全遮音＋二重ガラスFIX窓</strong>
+                  赤ちゃんが泣いてもママが安心できるよう、二重ガラス窓と独立音量スピーカーを死守！
                 </div>
                 <div class="bg-[#FAF6FF] p-3.5 rounded-xl border border-purple-200">
-                  <strong class="text-purple-900 block text-xs">🎛️ 音響卓を「密閉された部屋」に入れてはいけない！</strong>
-                  <p class="text-xs text-[#523F2F] mt-1">
-                    建築士が親切心で「放送室」を作ってガラスで囲ってしまう失敗があります。オペレーターは「礼拝堂の中で信徒が聴いている生の音」を耳で聴かないと正確な音量バランスが取れません。後方オープン配置が鉄則です。
-                  </p>
+                  <strong class="text-purple-900 block font-bold mb-1">🎛️ 音響卓は「礼拝堂の後方オープン」</strong>
+                  ガラス部屋に閉じ込めると会衆と同じ音が聞こえず大失敗します。後方オープンが鉄則です！
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- 第4話 -->
+          <!-- Story 4 -->
           <div class="border border-[#E8DAC7] rounded-2xl overflow-hidden bg-[#FBF8F3]">
             <button onclick="app.toggleStory('story4')" class="w-full p-4 sm:p-5 text-left flex items-center justify-between hover:bg-[#F5EFEB] transition">
               <div class="flex items-center gap-3">
-                <span class="w-7 h-7 rounded-full bg-amber-700 text-white flex items-center justify-center font-bold text-xs">4</span>
+                <span class="w-8 h-8 rounded-full bg-amber-700 text-white flex items-center justify-center font-bold text-sm shrink-0">4</span>
                 <div>
-                  <h3 class="font-bold text-sm sm:text-base text-[#3A2A1D]">
-                    100万円以上トクする非課税措置。でも「順番」を間違えたら1円も戻らない！？
-                  </h3>
-                  <p class="text-xs text-[#7A634F] mt-0.5">知事証明（境内地・境内建物証明書）の絶対に守るべきタイムライン</p>
+                  <h4 class="font-bold text-sm sm:text-base text-[#3A2A1D]">
+                    100万円以上トクする非課税措置。でも「順番」を間違えたら大損！？
+                  </h4>
+                  <p class="text-xs text-[#7A634F] mt-0.5">知事証明（登録免許税非課税）の絶対に守るべきタイムライン</p>
                 </div>
               </div>
               <span id="story4-icon" class="text-amber-800 text-lg">▼</span>
             </button>
-            <div id="story4-content" class="hidden p-5 sm:p-6 bg-white border-t border-[#E8DAC7] text-xs sm:text-sm text-[#4A3B2C] leading-relaxed space-y-3">
-              <p>
-                宗教法人が自分たちの礼拝のために土地や建物を取得した場合、登記にかかる「登録免許税」や「不動産取得税」、毎年の「固定資産税」が非課税になります。
-              </p>
-              <div class="bg-[#F2FAF7] p-4 rounded-xl border border-teal-300 space-y-2">
-                <strong class="text-teal-950 block text-xs sm:text-sm">⚠️ 絶対の鉄則：登記申請をする「前」に知事証明を取ること！</strong>
-                <p class="text-xs text-[#2A5239]">
-                  登記所で「登録免許税を免除してください」と認めてもらうには、都道府県知事が発行する「境内建物および境内地証明書」という紙を添付して提出しなければなりません。<br>
-                  もし「急いでいるから先に登記を済ませて、後から証明書を出して返金してもらおう」と考えても、<strong>税務署や法務局は絶対に還付してくれません</strong>。必ず【売買契約・着工 ➔ 都道府県知事へ申請 ➔ 証明書受領 ➔ 登記申請】という順番を死守してください！
-                </p>
+            <div id="story4-content" class="hidden p-5 sm:p-6 bg-white border-t border-[#E8DAC7] space-y-3 text-xs">
+              <div class="bg-[#F2FAF7] p-4 rounded-xl border border-teal-300">
+                <strong class="text-teal-950 block font-bold mb-1">⚠️ 登記申請の「前」に知事証明書を取得すること！</strong>
+                登記を急いで済ませてから後で証明書を出しても、税務署は1円も還付してくれません。必ず着工と同時に県庁へ知事証明を申請しましょう。
               </div>
             </div>
           </div>
 
-          <!-- 第5話 -->
+          <!-- Story 5 -->
           <div class="border border-[#E8DAC7] rounded-2xl overflow-hidden bg-[#FBF8F3]">
             <button onclick="app.toggleStory('story5')" class="w-full p-4 sm:p-5 text-left flex items-center justify-between hover:bg-[#F5EFEB] transition">
               <div class="flex items-center gap-3">
-                <span class="w-7 h-7 rounded-full bg-amber-700 text-white flex items-center justify-center font-bold text-xs">5</span>
+                <span class="w-8 h-8 rounded-full bg-amber-700 text-white flex items-center justify-center font-bold text-sm shrink-0">5</span>
                 <div>
-                  <h3 class="font-bold text-sm sm:text-base text-[#3A2A1D]">
-                    「借金してまで建てるべき？」「今のままでいいじゃない」不安な教会員の心にどう寄り添うか
-                  </h3>
+                  <h4 class="font-bold text-sm sm:text-base text-[#3A2A1D]">
+                    「借金してまで建てるべき？」「今のままでいい」不安な教会員の心に寄り添う知恵
+                  </h4>
                   <p class="text-xs text-[#7A634F] mt-0.5">教会が分裂しないための信徒周知と合意形成の知恵</p>
                 </div>
               </div>
               <span id="story5-icon" class="text-amber-800 text-lg">▼</span>
             </button>
-            <div id="story5-content" class="hidden p-5 sm:p-6 bg-white border-t border-[#E8DAC7] text-xs sm:text-sm text-[#4A3B2C] leading-relaxed space-y-3">
-              <p>
-                会堂建築で一番悲しいのは、立派な建物が建ったのに、意見の食い違いやお金の不安から教会員同士の関係がギクシャクしてしまうことです。
-              </p>
-              <div class="bg-[#FFFDF5] p-4 rounded-xl border border-amber-200/80 space-y-2">
-                <strong class="text-amber-900 block text-xs sm:text-sm">💡 不安の正体は「情報が見えないこと」と「強制される恐れ」</strong>
-                <p class="text-xs text-[#695342]">
-                  信徒が反対したり消極的になるのは、教会を愛していないからではなく、「多額の借金で教会が潰れないか心配」「献金を無理に割り当てられるのではないか」という恐れがあるからです。<br>
-                  ・「借金は月々の一般献金の15〜20%以下に抑える安全な返済計画にする」<br>
-                  ・「献金は強制ではなく、祈りによる神様との個人的な応答である」<br>
-                  ・「お金だけでなく、DIY作業やお茶出し、お祈りなど、誰もが自分のできる形で参加できる」<br>
-                  ということを、数字と具体的な言葉で透明に伝えることが何よりの安心になります。
-                </p>
+            <div id="story5-content" class="hidden p-5 sm:p-6 bg-white border-t border-[#E8DAC7] space-y-3 text-xs">
+              <div class="bg-[#FFFDF5] p-4 rounded-xl border border-amber-200">
+                <strong class="text-amber-900 block font-bold mb-1">💡 不安の正体は「見えないこと」と「強制される恐れ」</strong>
+                ローン返済を一般収入の20%以下に抑える安全基準を数字で示し、「献金は各自の祈りの応答」「DIYやお祈りでも全員が参加できる」ことを優しく伝えましょう。
               </div>
             </div>
           </div>
         </div>
 
-        <!-- ナビゲーション案内バナー -->
+        <!-- アクション誘導バナー -->
         <div class="mt-8 bg-gradient-to-r from-amber-800 to-amber-900 text-white p-6 rounded-2xl shadow-warm flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <h3 class="font-serif font-bold text-base sm:text-lg text-amber-100">
-              次は、先輩たちの生々しいリアル失敗談をチェックしましょう！
+              先輩たちの「生々しい失敗談と教訓」をチェックしましょう！
             </h3>
             <p class="text-xs text-amber-200/80 mt-1">
-              「近隣騒音トラブル」「予算オーバー事件」「音響卓のミス」など、事前に知っていれば防げる教訓をまとめました。
+              騒音トラブル、予算オーバー事件、音響卓のミスなど、事前に知れば防げる事例集です。
             </p>
           </div>
           <button onclick="app.switchTab('cases')" class="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs whitespace-nowrap transition shadow-sm">
-            先輩の失敗談＆教訓を見る ➔
+            先輩の失敗談を見る ➔
           </button>
         </div>
       </div>
@@ -424,7 +480,7 @@
 
 
     <!-- ================================================================ -->
-    <!-- TAB CASES (新設): 先輩教会の生々しいリアル失敗談＆教訓集          -->
+    <!-- TAB CASES: 先輩教会の生々しいリアル失敗談＆教訓集                -->
     <!-- ================================================================ -->
     <div id="tab-cases" class="tab-content hidden space-y-6">
       <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
@@ -555,7 +611,7 @@
 
 
     <!-- ================================================================ -->
-    <!-- TAB MEETINGS (新設): 建築委員会・役員会 会議進行アジェンダ       -->
+    <!-- TAB MEETINGS: 建築委員会・役員会 会議進行アジェンダ             -->
     <!-- ================================================================ -->
     <div id="tab-meetings" class="tab-content hidden space-y-6">
       <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
@@ -628,7 +684,7 @@
 
 
     <!-- ================================================================ -->
-    <!-- TAB RFP (新設): 設計士・工務店向け 要望書（RFP）自動作成        -->
+    <!-- TAB RFP: 設計士・工務店向け 要望書（RFP）自動作成                -->
     <!-- ================================================================ -->
     <div id="tab-rfp" class="tab-content hidden space-y-6">
       <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-warm border border-[#EBE2D5]">
@@ -981,40 +1037,6 @@
 
         <!-- VEチェックリスト -->
         <div class="mt-8 space-y-4" id="veItemsListContainer"></div>
-
-        <!-- 見積書チェック極意 -->
-        <div class="mt-10 border-t border-[#F0E6D8] pt-6">
-          <h3 class="text-base sm:text-lg font-bold text-[#3A2A1D] mb-4 flex items-center gap-2">
-            <span>🔍</span> 初めてでもできる！見積書をチェックする3大極意
-          </h3>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
-            <div class="bg-[#FBF8F3] p-5 rounded-2xl border border-[#EBE1D4] shadow-2xs">
-              <div class="font-bold text-[#3A2A1D] mb-1.5 flex items-center gap-1.5">
-                <span class="text-rose-600">●</span> 「一式（いっしき）」を優しく分解する
-              </div>
-              <p class="text-[#695342] leading-relaxed text-xs">
-                「音響一式 300万円」と書かれていたら、「役員会に報告するため、機器名と定価、数量の内訳明細をいただけますか？」とお願いしましょう。これだけで数十万円安くなることがあります。
-              </p>
-            </div>
-            <div class="bg-[#FBF8F3] p-5 rounded-2xl border border-[#EBE1D4] shadow-2xs">
-              <div class="font-bold text-[#3A2A1D] mb-1.5 flex items-center gap-1.5">
-                <span class="text-rose-600">●</span> 諸経費の比率をチェック
-              </div>
-              <p class="text-[#695342] leading-relaxed text-xs">
-                共通仮設費・現場管理費・一般管理費の合計が、直接工事費の何％か確認します（適正は12〜18％）。25％を超えている場合は「少し高めに見えますが、どのような項目が含まれていますか？」と質問してみましょう。
-              </p>
-            </div>
-            <div class="bg-[#FBF8F3] p-5 rounded-2xl border border-[#EBE1D4] shadow-2xs">
-              <div class="font-bold text-[#3A2A1D] mb-1.5 flex items-center gap-1.5">
-                <span class="text-rose-600">●</span> 同一条件の相見積もり（2〜3社）
-              </div>
-              <p class="text-[#695342] leading-relaxed text-xs">
-                必ず「同じ設計図・同じ仕様書」を揃えて2〜3社に渡します。条件がバラバラだと比較できません。多すぎると工務店が本気を出さないため3社がベストです。
-              </p>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
 
@@ -1528,7 +1550,7 @@
   </div>
 
   <!-- ========================================== -->
-  <!-- シェア モーダル（新設）                   -->
+  <!-- シェア モーダル                           -->
   <!-- ========================================== -->
   <div id="shareModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl shadow-2xl border border-amber-200 max-w-lg w-full overflow-hidden">
@@ -1573,7 +1595,7 @@
         「主が家を建てるのでなければ、建てる者の勤労はむなしい。」（詩篇 127:1）
       </p>
       <div class="flex flex-wrap items-center justify-center gap-4 text-[11px] text-[#A89482] pt-2">
-        <span>🔰 新米牧師・役員 共通理解マスター</span>
+        <span>✨ ビジュアル・インスパイア版</span>
         <span>•</span>
         <span>設計士向け要望書(RFP)自動出力</span>
         <span>•</span>
@@ -1593,7 +1615,7 @@
   <script>
     class ChurchBuildingApp {
       constructor() {
-        this.storageKey = 'church_building_app_data_v4';
+        this.storageKey = 'church_building_app_data_v5';
         this.data = this.loadData();
         this.currentDraftType = 'cert';
         this.currentMeetingStep = 1;
@@ -1615,6 +1637,7 @@
       getDefaultData() {
         return {
           currentTab: 'guide',
+          selectedMoodStyle: 'wood',
           roadmapChecks: {},
           propertyChecks: {},
           legalDocChecks: {},
@@ -1701,6 +1724,10 @@
         this.renderRfpDocument();
         this.updateShareText();
 
+        if (this.data.selectedMoodStyle) {
+          this.selectMoodStyle(this.data.selectedMoodStyle);
+        }
+
         if (this.data.openStories) {
           Object.keys(this.data.openStories).forEach(k => {
             if (this.data.openStories[k]) {
@@ -1734,6 +1761,24 @@
         });
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      selectMoodStyle(styleKey) {
+        this.data.selectedMoodStyle = styleKey;
+        this.saveData();
+
+        ['wood', 'cafe', 'worship', 'classic'].forEach(k => {
+          const card = document.getElementById(`moodCard-${k}`);
+          if (card) {
+            if (k === styleKey) {
+              card.className = 'cursor-pointer border-2 border-amber-600 ring-2 ring-amber-400 rounded-2xl overflow-hidden shadow-md transition bg-[#FDFBF7] scale-[1.02]';
+            } else {
+              card.className = 'cursor-pointer border-2 border-transparent hover:border-amber-300 rounded-2xl overflow-hidden shadow-2xs hover:shadow-md transition bg-[#FDFBF7] opacity-80';
+            }
+          }
+        });
+
+        this.renderRfpDocument();
       }
 
       toggleStory(id) {
@@ -1798,7 +1843,7 @@
             questions: [
               '現在の会堂の最大の限界は何か？（老朽化・耐震・母子室なし・駐車場・バリアフリー・音漏れ）',
               '新会堂が建つことで、誰が一番祝福されるか？（子どもたち、未就学児連れの家族、地域のシニア、新来者）',
-              'どんな雰囲気の会堂を目指すか？（木目の温もり、ステンドグラス、地域カフェ風、シンプルな現代風）'
+              'どんな雰囲気の会堂を目指すか？（木の温もり、ステンドグラス、地域カフェ風、シンプルな現代風）'
             ],
             decisions: [
               '新会堂ビジョンステートメントのドラフト作成',
@@ -1938,6 +1983,13 @@ ${current.decisions.map((d, i) => `${i + 1}. ${d}`).join('\n')}
         const church = this.data.legalDraftData.churchName || '宗教法人 ○○キリスト教会';
         const capacity = this.data.budgetConfig.capacity || '50';
         const totalCost = document.getElementById('budgetTotalDisplay') ? document.getElementById('budgetTotalDisplay').textContent : '6,000';
+        const styleNameMap = {
+          wood: '木の温もり＆自然光スタイル（無垢材の梁・陽だまり）',
+          cafe: '街角カフェ＆地域コミュニティスタイル（ガラス張り・オープンテラス）',
+          worship: '現代ワーシップ＆バンド音響特化スタイル（本格防音・配信用スタジオ設計）',
+          classic: '伝統と静謐の祈り空間スタイル（ステンドグラス・高天井）'
+        };
+        const selectedStyle = styleNameMap[this.data.selectedMoodStyle] || styleNameMap.wood;
 
         const selectedRooms = [];
         const roomsDef = this.getRoomDefinitions();
@@ -1953,6 +2005,7 @@ ${current.decisions.map((d, i) => `${i + 1}. ${d}`).join('\n')}
 施主： ${church}（建築委員会）
 
 1. 基本方針とビジョン
+・希望デザインスタイル： ${selectedStyle}
 ・私たちは、単に信徒が集まるだけでなく、「次世代（子ども・母子）を育み、地域社会に開かれた温かい教会」を目指しています。
 ・日曜日の礼拝を中心に、平日はカフェ、子ども食堂、祈祷会など多目的に利用できる空間構成を希望します。
 
@@ -2133,6 +2186,7 @@ ${selectedRooms.join('\n')}
       getSearchIndex() {
         return [
           { title: 'ゼロからわかる入門ストーリー（5つの基本）', tab: 'guide', elId: 'tab-guide' },
+          { title: '夢の新会堂スタイル・ムードボード', tab: 'guide', elId: 'moodboardGrid' },
           { title: '先輩教会の生々しいリアル失敗談＆教訓集', tab: 'cases', elId: 'tab-cases' },
           { title: '建築委員会・役員会 会議アジェンダ（全5回）', tab: 'meetings', elId: 'tab-meetings' },
           { title: '設計士・工務店向け要望書（RFP）自動作成', tab: 'rfp', elId: 'tab-rfp' },

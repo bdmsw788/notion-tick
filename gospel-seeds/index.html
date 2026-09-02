@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gospel Seeds: Serious Edition</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="game-view" class="game-view" style="background-image: url('assets/bg_office.jpg');">
+        
+        <!-- Character Sprite Sheet Container -->
+        <div id="char-container" class="char-container">
+            <img id="char-sprite" class="char-sprite neutral" src="assets/char_sheet_coworker.jpg" alt="Character">
+        </div>
+        
+        <!-- HUD -->
+        <div class="hud">
+            <div class="hud-left soft-box">
+                <div class="turn-info">
+                    <span id="day-display">Day 1</span> <span id="day-desc">月曜日</span>
+                </div>
+                <div class="player-stats">
+                    <div class="stat-title">【あなたの状態】</div>
+                    <div class="stat"><span class="icon">⚡</span> 体力(時間): <span id="player-ap">3</span></div>
+                    <div class="stat"><span class="icon">💖</span> 霊的健康度: <span id="player-health">100</span></div>
+                    <div class="stat"><span class="icon">🕊️</span> 聖霊の導き(ボーナス): +<span id="player-bonus">0</span></div>
+                </div>
+                <div class="real-action-box">
+                    <button class="real-btn" id="btn-real-action">🌍 現実でこの人のために祈った<br><span style="font-size:0.8rem">(ボーナス獲得)</span></button>
+                </div>
+            </div>
+            
+            <div class="hud-right soft-box">
+                <div class="npc-selector">
+                    <select id="target-npc">
+                        <option value="1">職場の同僚 (30代男性)</option>
+                    </select>
+                </div>
+                <div class="npc-stats">
+                    <div id="npc-name" class="npc-name">職場の同僚</div>
+                    <div class="stat-title">【祈りのノート（インプット記録）】</div>
+                    <div class="stat">祈った回数: <span id="npc-prayed">0</span> 回</div>
+                    <div class="stat">傾聴・対話: <span id="npc-listened">0</span> 回</div>
+                    <div class="stat-narrative" id="npc-narrative">「職場の世間体を気にして、宗教的な話題を避けているようだ。」</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dice UI Overlay -->
+        <div id="dice-overlay" class="dice-overlay hidden">
+            <div class="dice-box">
+                <div class="dice-title">神の摂理（ロール）</div>
+                <div class="dice-container">
+                    <div class="die" id="die1">1</div>
+                    <div class="die" id="die2">1</div>
+                </div>
+                <div class="dice-math">
+                    出目 <span id="dice-sum">2</span> + ボーナス <span id="dice-mod">0</span> = <span id="dice-total" class="dice-total">2</span>
+                </div>
+                <div id="dice-result-text" class="dice-result-text">失敗 (Miss)</div>
+            </div>
+        </div>
+
+        <!-- Dialog Box & Commands Area -->
+        <div class="bottom-area">
+            <!-- Dialog Box -->
+            <div class="dialog-box soft-box" id="dialog-box">
+                <div id="speaker-name" class="speaker-name">システム</div>
+                <div id="dialog-text" class="dialog-text">ゲームを開始しました。結果は神に委ね、愛をもって種を蒔きましょう。</div>
+                <div id="dialog-next" class="dialog-next hidden">▼</div>
+            </div>
+            
+            <!-- Choice Menu -->
+            <div id="choice-menu" class="choice-menu hidden"></div>
+
+            <!-- Base Commands Panel -->
+            <div class="commands-panel" id="commands-panel">
+                <div class="cmd-row">
+                    <button class="cmd-btn action" id="btn-talk">アプローチする (AP 1)</button>
+                    <button class="cmd-btn sys" id="btn-intercede">とりなし祈る (AP 1)</button>
+                </div>
+                <div class="cmd-row">
+                    <button class="cmd-btn sys" id="btn-devotion">ディボーションで休む (AP 1)</button>
+                    <button class="cmd-btn next-turn" id="btn-next-turn">次の日へ</button>
+                    <button class="cmd-btn" id="btn-save">セーブ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>

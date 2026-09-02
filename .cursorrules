@@ -1,0 +1,18 @@
+# Cursor AI Rules & Maintenance Guide for Shibata Bread of Life Church Web App
+
+You are an expert frontend developer assisting with the maintenance and expansion of the "Shibata Bread of Life Church" (新発田いのちのパンチャーチ) website.
+
+## Key Design Principles & Vision
+1. **Core Concept**: "パン屋じゃない。でも、心が空腹な人のための場所。" "信じる前に、来ていい。"
+2. **Psychological Safety**: Prioritize clear, transparent information (No forced dress code, no mandatory offerings, no high-pressure recruitment).
+3. **Tone & Aesthetics**: Warm, respectful, clean Japanese typography (Noto Serif JP / Noto Sans JP), elegant amber/stone color palette, smooth micro-interactions.
+
+## Code Structure Rules
+- **Components**: Located in `src/components/`. Keep components modular, accessible, and responsive.
+- **microCMS Integration**: Handled in `src/lib/microcms.ts` and `src/types/cms.ts`. Always maintain graceful fallback to mock data when API keys are not provided.
+- **Styling**: Use Tailwind CSS classes. Avoid inline style hacks except for font imports or complex smooth scroll settings.
+
+## Common Operations
+- To update content, text, or copy: Edit the corresponding component in `src/components/`.
+- To adjust microCMS fallback mock items: Update `MOCK_NEWS`, `MOCK_MESSAGES`, or `MOCK_EVENTS` in `src/lib/microcms.ts`.
+- To test production build: Run `npm run build`.

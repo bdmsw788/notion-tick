@@ -1,0 +1,3021 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新発田いのちのパンチャーチ 奉仕担当表 作成エディタ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- 高品質な日本語Webフォント5パターンをプリロード -->
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Klee+One:wght@400;600&family=M+PLUS+Rounded+1c:wght@400;500;700&family=Noto+Serif+JP:wght@400;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================================================
+       洗練されたカラフル＆プロフェッショナルSVGアイコンデザイン（絵文字なし）
+       ========================================================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    :root {
+      /* セクション別 カラーパレット */
+      --c-navy-dark: #0F2444;       /* ヘッダー・濃墨 */
+      --c-header-line: #1E3A8A;     /* ヘッダー下線（端正なネイビー） */
+
+      --c-blue-main: #1D4ED8;       /* 日曜礼拝 ブルー */
+      --c-blue-bg: #EFF6FF;
+      --c-blue-border: #BFDBFE;
+      --c-blue-text: #1E40AF;
+
+      --c-green-main: #059669;      /* 水曜祈祷会・定例 グリーン */
+      --c-green-bg: #ECFDF5;
+      --c-green-border: #A7F3D0;
+      --c-green-text: #065F46;
+
+      --c-orange-main: #EA580C;     /* 行事予定 オレンジ */
+      --c-orange-bg: #FFF7ED;
+      --c-orange-border: #FFEDD5;
+      --c-orange-text: #9A3412;
+
+      --c-purple-main: #7C3AED;     /* 連絡事項 パープル */
+      --c-purple-bg: #FAF5FF;
+      --c-purple-border: #E9D5FF;
+      --c-purple-text: #6B21A8;
+
+      --c-amber-main: #D97706;      /* 年度テーマ・コラム アンバー */
+      --c-amber-bg: #FFFBEB;
+      --c-amber-border: #FDE68A;
+      --c-amber-text: #92400E;
+
+      /* 基本テキスト ＆ 枠線 */
+      --color-text-title: #0F172A;
+      --color-text-main: #1E293B;
+      --color-text-muted: #64748B;
+      --color-border-grid: #CBD5E1;
+      --color-danger-red: #E11D48;
+      
+      /* フォントパターンの定義 */
+      --font-zen-kaku: "Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, "Segoe UI", Meiryo, sans-serif;
+      --font-noto-serif: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
+      --font-rounded: "M PLUS Rounded 1c", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-biz-ud: "BIZ UDPGothic", -apple-system, BlinkMacSystemFont, "Segoe UI", Meiryo, sans-serif;
+      --font-klee: "Klee One", "Yu Mincho", serif, sans-serif;
+
+      --font-app-ui: "Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-app-ui);
+      color: var(--color-text-main);
+      background-color: #0F172A;
+      min-height: 100vh;
+      font-size: 13.5px;
+    }
+
+    .app-container {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ==========================================================================
+       左側：タブ切り替え式 入力・編集パネル
+       ========================================================================== */
+    .editor-panel {
+      width: 580px;
+      flex-shrink: 0;
+      background: #FFFFFF;
+      border-right: 1px solid #CBD5E1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      box-shadow: 4px 0 20px rgba(0,0,0,0.18);
+      z-index: 10;
+      position: relative;
+    }
+
+    .editor-header {
+      padding: 10px 14px;
+      background: #0F172A;
+      color: #FFFFFF;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .editor-header h1 {
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .lock-btn {
+      background: #1E293B;
+      color: #F8FAFC;
+      border: 1px solid #334155;
+      padding: 5px 9px;
+      font-size: 11.5px;
+      font-weight: 700;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+    .lock-btn.locked {
+      background: #DC2626;
+      border-color: #B91C1C;
+      color: #FFFFFF;
+    }
+
+    .lock-banner-bar {
+      background: #FEF2F2;
+      border-bottom: 1px solid #FECACA;
+      color: #991B1B;
+      padding: 7px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .lock-banner-bar.show {
+      display: flex;
+    }
+
+    /* 上部固定エリア（年月設定＆月別アーカイブ） */
+    .editor-top-sticky {
+      background: #F8FAFC;
+      border-bottom: 1px solid #E2E8F0;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .top-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .month-select-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .archive-mini-list {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+    .archive-chip {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      color: #1E293B;
+      padding: 3px 8px;
+      border-radius: 14px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+    .archive-chip:hover {
+      background: #EFF6FF;
+      border-color: #3B82F6;
+      color: #1D4ED8;
+    }
+    .archive-chip.active {
+      background: #2563EB;
+      border-color: #1D4ED8;
+      color: #FFFFFF;
+    }
+    .archive-chip span.del-btn {
+      color: #94A3B8;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .archive-chip.active span.del-btn {
+      color: #BFDBFE;
+    }
+    .archive-chip span.del-btn:hover {
+      color: #EF4444;
+    }
+
+    /* 5つのタブナビゲーションバー */
+    .editor-tab-nav {
+      display: flex;
+      background: #0F172A;
+      border-bottom: 2px solid #2563EB;
+      flex-shrink: 0;
+    }
+    .tab-nav-btn {
+      flex: 1;
+      padding: 9px 2px;
+      font-size: 11.5px;
+      font-weight: 700;
+      text-align: center;
+      background: transparent;
+      color: #94A3B8;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      white-space: nowrap;
+    }
+    .tab-nav-btn:hover {
+      color: #FFFFFF;
+      background: rgba(255,255,255,0.06);
+    }
+    .tab-nav-btn.active {
+      color: #FFFFFF;
+      background: #2563EB;
+    }
+
+    /* タブコンテンツ領域 */
+    .editor-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #FFFFFF;
+    }
+
+    .tab-page {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .tab-page.active {
+      display: flex;
+    }
+
+    /* ロック時のフォーム無効化 */
+    .editor-panel.is-locked .form-control,
+    .editor-panel.is-locked .combo-select-btn,
+    .editor-panel.is-locked .combo-hidden-select,
+    .editor-panel.is-locked .date-picker-native,
+    .editor-panel.is-locked .btn-danger,
+    .editor-panel.is-locked .btn-move,
+    .editor-panel.is-locked .red-text-toggle,
+    .editor-panel.is-locked .btn-secondary:not(.btn-unlock) {
+      pointer-events: none !important;
+      opacity: 0.65;
+      background: #F1F5F9 !important;
+    }
+
+    /* 通知トースト */
+    .toast-banner {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #10B981;
+      color: #FFFFFF;
+      padding: 9px 18px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 13px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-section {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+    .form-section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #CBD5E1;
+      padding-bottom: 5px;
+    }
+
+    .form-group {
+      margin-bottom: 8px;
+    }
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+    .form-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #475569;
+      margin-bottom: 2px;
+    }
+    .form-control {
+      width: 100%;
+      padding: 4px 6px;
+      font-size: 11.5px;
+      border: 1px solid #CBD5E1;
+      border-radius: 4px;
+      background: #FFFFFF;
+      color: #1E293B;
+      font-family: inherit;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: #3B82F6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+    textarea.form-control {
+      resize: vertical;
+      min-height: 52px;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .form-row-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+    .form-row-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+    }
+    .form-row-date-tag-note {
+      display: grid;
+      grid-template-columns: 115px 1.05fr 1.35fr;
+      gap: 6px;
+    }
+
+    .role-field-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5px;
+    }
+    .role-field-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .role-field-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      gap: 2.5px;
+      white-space: nowrap;
+    }
+
+    .red-text-toggle {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #DC2626;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .red-text-toggle input {
+      accent-color: #DC2626;
+      cursor: pointer;
+      margin: 0;
+    }
+
+    .combo-input-wrap {
+      display: flex;
+      align-items: center;
+      position: relative;
+      width: 100%;
+    }
+    .combo-input-wrap input {
+      width: 100%;
+      padding-right: 20px;
+    }
+    .combo-select-btn {
+      position: absolute;
+      right: 1px;
+      top: 1px;
+      bottom: 1px;
+      width: 18px;
+      border: none;
+      background: #F1F5F9;
+      border-left: 1px solid #CBD5E1;
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #475569;
+      font-size: 9px;
+    }
+    .combo-select-btn:hover {
+      background: #E2E8F0;
+      color: #0F172A;
+    }
+    .combo-hidden-select {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 20px;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .date-picker-wrap {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .date-picker-wrap input[type="text"] {
+      flex: 1;
+    }
+    .date-picker-native {
+      width: 26px;
+      height: 26px;
+      padding: 0;
+      border: 1px solid #CBD5E1;
+      border-radius: 4px;
+      background: #F1F5F9;
+      cursor: pointer;
+      flex-shrink: 0;
+      text-align: center;
+    }
+    .date-picker-native::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+      padding: 2px;
+    }
+
+    .btn {
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+    .btn-primary { background: #2563EB; color: #FFFFFF; }
+    .btn-primary:hover { background: #1D4ED8; }
+    .btn-secondary { background: #E2E8F0; color: #334155; }
+    .btn-secondary:hover { background: #CBD5E1; }
+    .btn-success { background: #16A34A; color: #FFFFFF; }
+    .btn-success:hover { background: #15803D; }
+    .btn-share { background: #7C3AED; color: #FFFFFF; }
+    .btn-share:hover { background: #6D28D9; }
+    .btn-danger { background: #DC2626; color: #FFFFFF; padding: 2px 6px; font-size: 11px; }
+    .btn-danger:hover { background: #B91C1C; }
+
+    .btn-move {
+      background: #E2E8F0;
+      color: #1E293B;
+      border: 1px solid #CBD5E1;
+      padding: 2px 5px;
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.1s ease;
+    }
+    .btn-move:hover:not(:disabled) {
+      background: #CBD5E1;
+    }
+    .btn-move:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .editor-footer {
+      padding: 9px 12px;
+      background: #F1F5F9;
+      border-top: 1px solid #CBD5E1;
+      display: flex;
+      gap: 6px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+
+    .schedule-item-card {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: 6px;
+      padding: 9px;
+      margin-bottom: 9px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .schedule-item-card:last-child {
+      margin-bottom: 0;
+    }
+    .schedule-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      font-weight: 700;
+      font-size: 12px;
+      color: #0F172A;
+      background: #F1F5F9;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .master-tags-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px;
+      max-height: 80px;
+      overflow-y: auto;
+      padding: 2px;
+    }
+    .master-tag {
+      background: #E2E8F0;
+      color: #1E293B;
+      padding: 2px 7px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .master-tag span.del {
+      cursor: pointer;
+      color: #94A3B8;
+      font-weight: 700;
+    }
+    .master-tag span.del:hover {
+      color: #DC2626;
+    }
+
+    /* ==========================================================================
+       右側：プレビューパネル ＆ A4印刷シート
+       ========================================================================== */
+    .preview-panel {
+      flex: 1;
+      background: #1E293B;
+      overflow-y: auto;
+      overflow-x: auto;
+      padding: 16px 20px 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .preview-toolbar {
+      width: 100%;
+      max-width: 210mm;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0F172A;
+      color: #FFFFFF;
+      padding: 8px 14px;
+      border-radius: 6px;
+      gap: 10px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    }
+
+    .toolbar-left-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .font-select-group {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .font-select-group label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #94A3B8;
+      white-space: nowrap;
+    }
+    .font-dropdown {
+      background: #1E293B;
+      color: #F8FAFC;
+      border: 1px solid #475569;
+      padding: 4px 8px;
+      font-size: 11.5px;
+      font-weight: 700;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .font-dropdown:focus {
+      outline: none;
+      border-color: #38BDF8;
+    }
+
+    .zoom-controls-group {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .zoom-btn {
+      background: #1E293B;
+      color: #FFFFFF;
+      border: 1px solid #475569;
+      padding: 4px 8px;
+      font-size: 11.5px;
+      font-weight: 700;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .zoom-btn:hover {
+      background: #334155;
+    }
+    .zoom-level-badge {
+      background: #0F172A;
+      color: #38BDF8;
+      font-weight: 700;
+      font-size: 11.5px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid #334155;
+      min-width: 48px;
+      text-align: center;
+    }
+
+    .sheet-scalable-outer {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      transform-origin: top center;
+      transition: transform 0.15s ease-out;
+    }
+
+    /* ==========================================================================
+       ★ A4用紙（縦 210mm x 297mm）：上品なカラーリング ＆ SVGアイコン設計
+       ========================================================================== */
+    .sheet {
+      width: 210mm;
+      height: 297mm;
+      background: #FFFFFF;
+      padding: 7mm 11mm 6mm 11mm;
+      box-sizing: border-box;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: var(--color-text-main);
+      font-weight: 500;
+      letter-spacing: 0.015em;
+      flex-shrink: 0;
+      font-family: var(--font-zen-kaku);
+      transition: font-family 0.1s ease;
+    }
+
+    /* フォント切り替え用ユーティリティクラス */
+    .font-style-zen-kaku { font-family: var(--font-zen-kaku) !important; }
+    .font-style-noto-serif { font-family: var(--font-noto-serif) !important; }
+    .font-style-rounded { font-family: var(--font-rounded) !important; }
+    .font-style-biz-ud { font-family: var(--font-biz-ud) !important; }
+    .font-style-klee { font-family: var(--font-klee) !important; }
+
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    @media print {
+      body {
+        background: transparent;
+        padding: 0;
+      }
+      .editor-panel,
+      .preview-toolbar,
+      .screen-toolbar,
+      .toast-banner {
+        display: none !important;
+      }
+      .app-container {
+        display: block;
+        height: auto;
+      }
+      .preview-panel {
+        background: transparent;
+        padding: 0;
+        overflow: visible;
+      }
+      .sheet-scalable-outer {
+        transform: none !important;
+        display: block;
+        width: 210mm;
+      }
+      .sheet {
+        width: 210mm;
+        height: 297mm;
+        box-shadow: none;
+        margin: 0;
+        page-break-after: always;
+      }
+    }
+
+    /* ==========================================================================
+       ★ 最上部ヘッダー（端正なネイビー単色ライン ＆ 黒文字タイトル）
+       ========================================================================== */
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 2px;
+      min-height: 42px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .church-symbol-svg {
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+    }
+
+    .combined-doc-title {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .church-name-main {
+      font-size: 20pt;
+      font-weight: 700;
+      color: var(--color-text-title);
+      letter-spacing: 0.08em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .doc-sub-title-badge {
+      font-size: 20pt;
+      font-weight: 700;
+      color: var(--color-text-title); /* 黒（濃墨） */
+      letter-spacing: 0.08em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .issue-text-wrap {
+      font-size: 14pt;
+      font-weight: 700;
+      color: #0F2444;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      display: flex;
+      align-items: baseline;
+      gap: 1.5px;
+      white-space: nowrap;
+    }
+    .issue-month-num {
+      font-size: 33pt;
+      font-weight: 700;
+      color: var(--c-blue-main);
+      line-height: 0.85;
+      margin: 0 1px;
+      display: inline-block;
+    }
+
+    /* 端正で上品なネイビーの単色ヘッダーライン */
+    .header-solid-divider {
+      height: 2.5px;
+      background: var(--c-header-line);
+      border-radius: 1px;
+      margin: 4px 0 0 0;
+    }
+
+    /* ==========================================================================
+       ★ 年度テーマ（温かみのあるアンバー調・四角枠）
+       ========================================================================== */
+    .theme-boxed-card {
+      border: 1.5px solid var(--c-amber-border);
+      border-left: 4px solid var(--c-amber-main);
+      border-radius: 5px;
+      padding: 5px 12px;
+      margin-top: 6px;
+      margin-bottom: 9px;
+      background: var(--c-amber-bg);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .theme-label-badge-stacked {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1.2px solid var(--c-amber-main);
+      color: var(--c-amber-text);
+      padding: 2px 7px;
+      border-radius: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      line-height: 1.1;
+      min-width: 66px;
+      background: #FFFFFF;
+      box-shadow: 0 1px 2px rgba(217, 119, 6, 0.1);
+    }
+    .theme-label-badge-stacked .year-part {
+      font-size: 10.2pt;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .theme-label-badge-stacked .text-part {
+      font-size: 8.6pt;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+
+    .theme-texts {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5px;
+      flex: 1;
+    }
+    .theme-heading {
+      font-size: 12.2pt;
+      font-weight: 700;
+      color: #0F172A;
+      letter-spacing: 0.02em;
+    }
+    .theme-verse {
+      font-size: 8.6pt;
+      color: #78350F;
+      letter-spacing: 0.01em;
+      font-weight: 500;
+    }
+
+    /* ==========================================================================
+       ★ セクション見出し（SVGアイコンバッジ ＋ カラー見出し）
+       ========================================================================== */
+    .colorful-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 3.5px;
+    }
+
+    .header-left-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-icon-badge {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      flex-shrink: 0;
+    }
+    .section-icon-badge.blue { background: var(--c-blue-main); }
+    .section-icon-badge.green { background: var(--c-green-main); }
+    .section-icon-badge.orange { background: var(--c-orange-main); }
+    .section-icon-badge.purple { background: var(--c-purple-main); }
+
+    .section-title-text {
+      font-size: 12pt;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .section-title-text.blue { color: var(--c-blue-text); }
+    .section-title-text.green { color: var(--c-green-text); }
+    .section-title-text.orange { color: var(--c-orange-text); }
+    .section-title-text.purple { color: var(--c-purple-text); }
+
+    .section-sub-info {
+      font-size: 8.8pt;
+      color: var(--color-text-muted);
+      font-weight: 500;
+    }
+
+    /* ==========================================================================
+       ★ 日曜礼拝テーブル（ブルー基調）
+       ========================================================================== */
+    .sunday-section {
+      margin-bottom: 8.5px;
+    }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10.8pt;
+      table-layout: fixed;
+      background: #FFFFFF;
+    }
+
+    .custom-table th,
+    .custom-table td {
+      border: 1px solid var(--color-border-grid);
+      padding: 3.2px 1px;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 1.18;
+      color: var(--color-text-main);
+    }
+
+    .custom-table.sunday-table th {
+      background-color: var(--c-blue-bg);
+      color: var(--c-blue-text);
+      font-weight: 700;
+      font-size: 9.6pt;
+      border-bottom: 1.5px solid var(--c-blue-main);
+      letter-spacing: 0.02em;
+    }
+
+    .date-cell-stacked {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5px;
+      padding: 1px 0;
+    }
+    .date-text {
+      font-size: 10.2pt;
+      font-weight: 700;
+      color: var(--color-text-title); /* 黒（濃墨） */
+      line-height: 1.1;
+    }
+    .date-text small {
+      font-size: 8.2pt;
+      color: var(--color-text-title); /* 黒（濃墨） */
+      font-weight: 700;
+    }
+
+    .service-tag {
+      display: inline-block;
+      font-size: 8.6pt;
+      font-weight: 700;
+      padding: 0.5px 4px;
+      border-radius: 3px;
+      white-space: nowrap;
+      line-height: 1.18;
+      border: 1px solid #CBD5E1;
+      background: #FFFFFF;
+      color: var(--color-text-main); /* 黒文字 */
+    }
+    .service-tag.is-red {
+      color: var(--color-danger-red) !important;
+      border-color: #FCA5A5 !important;
+      background: #FEF2F2 !important;
+      font-weight: 700;
+    }
+
+    .member-name {
+      font-weight: 500;
+      font-size: 10.8pt;
+      color: var(--color-text-main);
+    }
+    .note-text-cell {
+      font-size: 10.2pt;
+      color: var(--color-text-main);
+      font-weight: 500;
+      line-height: 1.18;
+    }
+    .note-text-cell.is-red {
+      color: var(--color-danger-red) !important;
+      font-weight: 700 !important;
+    }
+
+    /* ==========================================================================
+       ★ 中段グリッド（水曜祈祷会：グリーン基調 ＆ 祈祷課題）
+       ========================================================================== */
+    .middle-grid-top {
+      display: grid;
+      grid-template-columns: 116mm 1fr;
+      gap: 4mm;
+      margin-bottom: 8.5px;
+    }
+
+    .wednesday-box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .custom-table.wednesday-table th {
+      background-color: var(--c-green-bg);
+      color: var(--c-green-text);
+      font-weight: 700;
+      font-size: 9.6pt;
+      border-bottom: 1.5px solid var(--c-green-main);
+      padding: 4.8px 2px;
+    }
+    .custom-table.wednesday-table td {
+      padding: 4.8px 2px;
+    }
+    .wednesday-date-cell {
+      font-weight: 700;
+      color: var(--color-text-title); /* 黒（濃墨） */
+      font-size: 10.2pt;
+    }
+    .wednesday-date-cell small {
+      color: var(--color-text-title); /* 黒（濃墨） */
+      font-weight: 700;
+    }
+
+    .right-column-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .weekly-plain-box {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      padding: 2px 2px 2px 2px;
+    }
+
+    .weekly-row-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .weekly-mini-badge {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      background: var(--c-green-bg);
+      border: 1px solid var(--c-green-border);
+      color: var(--c-green-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .weekly-text-inline {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      font-size: 10.5pt;
+      line-height: 1.2;
+      color: var(--color-text-main);
+    }
+    .weekly-text-inline strong {
+      font-weight: 700;
+      color: #0F172A;
+    }
+    .weekly-text-inline span.time-str {
+      font-size: 10.5pt;
+      color: var(--color-text-main);
+      font-weight: 500;
+    }
+
+    /* 祈祷課題カード */
+    .prayer-card-standalone {
+      background: var(--c-green-bg);
+      border: 1px solid var(--c-green-border);
+      border-left: 3.5px solid var(--c-green-main);
+      border-radius: 5px;
+      padding: 4px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .card-mini-header {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      border-bottom: 1px solid var(--c-green-border);
+      padding-bottom: 2px;
+    }
+
+    .card-mini-title {
+      font-size: 10.8pt;
+      font-weight: 700;
+      color: var(--c-green-text);
+      letter-spacing: 0.02em;
+    }
+
+    .prayer-stacked-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5px;
+      margin-top: 2px;
+      font-size: 10.4pt;
+      color: var(--color-text-main);
+      font-weight: 500;
+      line-height: 1.22;
+    }
+    .prayer-item-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .prayer-item-row span.num {
+      color: var(--c-green-main);
+      font-weight: 700;
+    }
+
+    /* ==========================================================================
+       ★ 今月以降の行事予定一覧（オレンジ基調）
+       ========================================================================== */
+    .events-boxed-section {
+      border: 1.2px solid var(--c-orange-border);
+      border-left: 3.5px solid var(--c-orange-main);
+      border-radius: 5px;
+      padding: 6px 10px 7px 10px;
+      background: #FFFFFF;
+      margin-bottom: 7.5px;
+    }
+
+    .events-full-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4.5px 16px;
+      margin-top: 4px;
+    }
+
+    .event-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10.5pt;
+      line-height: 1.25;
+    }
+
+    .event-date-str {
+      font-weight: 700;
+      color: var(--c-orange-main);
+      white-space: nowrap;
+      min-width: 58px;
+      font-size: 10.5pt;
+    }
+
+    /* カテゴリ別 カラフルバッジ */
+    .event-category-badge {
+      display: inline-block;
+      font-size: 8.5pt;
+      font-weight: 700;
+      padding: 0.5px 5.5px;
+      border-radius: 3px;
+      white-space: nowrap;
+      line-height: 1.15;
+      flex-shrink: 0;
+    }
+    .event-category-badge.cat-program {
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      color: #065F46;
+    }
+    .event-category-badge.cat-service,
+    .event-category-badge.cat-meeting {
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      color: #1E40AF;
+    }
+    .event-category-badge.cat-off {
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      color: #991B1B;
+    }
+    .event-category-badge.cat-duty {
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      color: #92400E;
+    }
+    .event-category-badge.cat-special {
+      background: #FAF5FF;
+      border: 1px solid #E9D5FF;
+      color: #6B21A8;
+    }
+    .event-category-badge.cat-fellowship {
+      background: #FFF7ED;
+      border: 1px solid #FFEDD5;
+      color: #9A3412;
+    }
+
+    .event-detail-str {
+      font-weight: 500;
+      color: var(--color-text-main);
+      font-size: 10.5pt;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* ==========================================================================
+       ★ 連絡事項・お知らせ（パープル基調）
+       ========================================================================== */
+    .notice-boxed-section {
+      border: 1.2px solid var(--c-purple-border);
+      border-left: 3.5px solid var(--c-purple-main);
+      border-radius: 5px;
+      padding: 6px 10px 7px 10px;
+      background: #FFFFFF;
+      margin-bottom: 8.5px;
+    }
+
+    .notice-list-container {
+      display: flex;
+      flex-direction: column;
+      gap: 3.5px;
+      margin-top: 4px;
+    }
+
+    .notice-item-row {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      font-size: 10.5pt;
+      font-weight: 500;
+      line-height: 1.25;
+      color: var(--color-text-main);
+    }
+
+    .notice-bullet {
+      color: var(--c-purple-main);
+      font-weight: 700;
+      font-size: 10.5pt;
+      flex-shrink: 0;
+    }
+
+    .notice-text-content {
+      font-size: 10.5pt;
+      font-weight: 500;
+      color: var(--color-text-main);
+      line-height: 1.25;
+    }
+
+    /* ==========================================================================
+       ★ 最下部コラム（先月の振り返り / 牧師の一言：ツートンカラー）
+       ========================================================================== */
+    .bottom-section {
+      border-top: 1.5px solid #CBD5E1;
+      padding-top: 5px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5mm;
+      min-height: 38mm;
+    }
+
+    .bottom-card {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      border-radius: 5px;
+      padding: 6px 10px;
+    }
+    .bottom-card.col-left {
+      background: var(--c-blue-bg);
+      border: 1.2px solid var(--c-blue-border);
+      border-left: 3.5px solid var(--c-blue-main);
+    }
+    .bottom-card.col-right {
+      background: var(--c-amber-bg);
+      border: 1.2px solid var(--c-amber-border);
+      border-left: 3.5px solid var(--c-amber-main);
+    }
+
+    .bottom-card-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding-bottom: 2px;
+    }
+
+    .bottom-card-icon {
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .bottom-card.col-left .bottom-card-icon { color: var(--c-blue-main); }
+    .bottom-card.col-right .bottom-card-icon { color: var(--c-amber-main); }
+
+    .bottom-card-title {
+      font-size: 11.2pt;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .bottom-card.col-left .bottom-card-title { color: var(--c-blue-text); }
+    .bottom-card.col-right .bottom-card-title { color: var(--c-amber-text); }
+
+    .bottom-card-body {
+      font-size: 10.4pt;
+      font-weight: 500;
+      line-height: 1.45;
+      color: var(--color-text-main);
+      text-align: justify;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         左側：5タブ切り替え式 編集パネル
+         ========================================================================== -->
+    <aside class="editor-panel" id="editor-panel">
+      
+      <!-- 1. 最上部ヘッダー -->
+      <div class="editor-header">
+        <h1>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          奉仕表 作成エディタ
+        </h1>
+        <div class="header-actions">
+          <button class="lock-btn" id="lock-toggle-btn" onclick="toggleEditLock()" title="編集をロックして誤変更を防ぎます">
+            <span id="lock-btn-icon">🔓</span> <span id="lock-btn-text">編集可能</span>
+          </button>
+          <button class="btn btn-share" onclick="copyShareableUrl()" title="この状態の共有リンクをコピー">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            共有
+          </button>
+          <button class="btn btn-primary" onclick="window.print()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            印刷
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. ロック中の警告バー -->
+      <div class="lock-banner-bar" id="lock-banner-bar">
+        <span>🔒 編集ロック中（閲覧・印刷専用モード）</span>
+        <button class="btn btn-secondary btn-unlock" onclick="toggleEditLock()" style="padding: 2px 8px; font-size: 11px;">ロック解除</button>
+      </div>
+
+      <!-- 3. 上部固定：対象年月 ＆ 月別アーカイブ ＆ 完成保存 -->
+      <div class="editor-top-sticky">
+        <div class="top-controls-row">
+          <div class="month-select-group">
+            <span style="font-weight:700; color:#1E293B; font-size:12px;">📅 対象:</span>
+            <select id="select-year" class="form-control" style="width: 84px; padding: 4px 6px;" onchange="onMonthOrYearChanged()">
+              <option value="2025">2025年</option>
+              <option value="2026" selected>2026年</option>
+              <option value="2027">2027年</option>
+              <option value="2028">2028年</option>
+              <option value="2029">2029年</option>
+              <option value="2030">2030年</option>
+            </select>
+            <select id="select-month" class="form-control" style="width: 78px; padding: 4px 6px;" onchange="onMonthOrYearChanged()">
+              <option value="1">1月号</option>
+              <option value="2">2月号</option>
+              <option value="3">3月号</option>
+              <option value="4">4月号</option>
+              <option value="5">5月号</option>
+              <option value="6">6月号</option>
+              <option value="7">7月号</option>
+              <option value="8" selected>8月号</option>
+              <option value="9">9月号</option>
+              <option value="10">10月号</option>
+              <option value="11">11月号</option>
+              <option value="12">12月号</option>
+            </select>
+            <button class="btn btn-secondary" onclick="generateMonthDates()" style="padding: 4px 7px; font-size: 11px;" title="日曜・水曜の日付をカレンダーから再計算">
+              🔄 再計算
+            </button>
+          </div>
+          <button class="btn btn-success" onclick="saveAsFinalSnapshot()" style="padding: 5px 10px; font-size: 11.5px;">
+            ✅ 今月を完成保存！
+          </button>
+        </div>
+
+        <!-- 保存済み月別チップ一覧 -->
+        <div class="archive-mini-list" id="archive-list-container"></div>
+      </div>
+
+      <!-- 4. 5つのタブナビゲーションバー -->
+      <nav class="editor-tab-nav">
+        <button class="tab-nav-btn active" id="tab-btn-sunday" onclick="switchTab('sunday')">
+          日曜礼拝
+        </button>
+        <button class="tab-nav-btn" id="tab-btn-prayer" onclick="switchTab('prayer')">
+          祈祷会
+        </button>
+        <button class="tab-nav-btn" id="tab-btn-events" onclick="switchTab('events')">
+          行事・連絡
+        </button>
+        <button class="tab-nav-btn" id="tab-btn-column" onclick="switchTab('column')">
+          コラム
+        </button>
+        <button class="tab-nav-btn" id="tab-btn-fixed" onclick="switchTab('fixed')">
+          固定
+        </button>
+      </nav>
+
+      <!-- 5. タブ本体（切り替え式） -->
+      <div class="editor-body">
+        
+        <!-- タブ 1：日曜礼拝 -->
+        <div class="tab-page active" id="page-sunday">
+          <div class="form-section-title">
+            <span>日曜礼拝 奉仕担当（毎週日曜）</span>
+            <button class="btn btn-secondary" onclick="addSundayRow()" style="padding: 3px 8px; font-size: 11.5px;">＋ 行追加</button>
+          </div>
+          <div id="sunday-rows-container"></div>
+        </div>
+
+        <!-- タブ 2：祈祷会 -->
+        <div class="tab-page" id="page-prayer">
+          <section class="form-section">
+            <div class="form-section-title">
+              <span>水曜祈祷会 奉仕担当</span>
+              <button class="btn btn-secondary" onclick="addWednesdayRow()" style="padding: 2px 6px; font-size: 11px;">＋ 行追加</button>
+            </div>
+            <div id="wednesday-rows-container"></div>
+          </section>
+
+          <section class="form-section">
+            <div class="form-section-title">
+              <span>今月の祈祷課題（①〜④）</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">① 祈祷課題 1</label>
+              <input type="text" id="input-prayer-1" class="form-control" value="教会メンバーの守り" oninput="onDataChanged()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">② 祈祷課題 2</label>
+              <input type="text" id="input-prayer-2" class="form-control" value="牧師家族の健康" oninput="onDataChanged()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">③ 祈祷課題 3</label>
+              <input type="text" id="input-prayer-3" class="form-control" value="地域の救い" oninput="onDataChanged()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">④ 祈祷課題 4</label>
+              <input type="text" id="input-prayer-4" class="form-control" value="集会の祝福" oninput="onDataChanged()">
+            </div>
+          </section>
+        </div>
+
+        <!-- タブ 3：行事予定 ＆ 連絡事項 -->
+        <div class="tab-page" id="page-events">
+          <section class="form-section">
+            <div class="form-section-title">
+              <span>今月以降の行事予定一覧</span>
+              <button class="btn btn-secondary" onclick="addEventRow()" style="padding: 3px 8px; font-size: 11.5px;">＋ 行事追加</button>
+            </div>
+            <div id="events-rows-container"></div>
+          </section>
+
+          <section class="form-section">
+            <div class="form-section-title">
+              <span>連絡事項・お知らせ（行事予定の下に表示）</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">連絡事項タイトル</label>
+              <input type="text" id="input-notice-title" class="form-control" style="margin-bottom:4px; font-weight:700;" value="連絡事項・お知らせ" oninput="onDataChanged()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">連絡事項 本文（改行対応・1行ずつ表示）</label>
+              <textarea id="input-notice-body" class="form-control" style="min-height:64px;" placeholder="例: 次回の愛餐会費の納入をお願いいたします。&#10;駐車場のご利用時は奥から順に詰めて駐車をお願いいたします。" oninput="onDataChanged()">次回の愛餐会費の納入をお願いいたします。
+駐車場のご利用時は奥から順に詰めて駐車をお願いいたします。</textarea>
+            </div>
+          </section>
+        </div>
+
+        <!-- タブ 4：今月のコラム -->
+        <div class="tab-page" id="page-column">
+          <section class="form-section">
+            <div class="form-section-title">
+              <span>最下部コラム（毎月更新）</span>
+            </div>
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label class="form-label">左コラム タイトル ＆ 本文</label>
+              <input type="text" id="input-col1-title" class="form-control" style="margin-bottom:4px; font-weight:700;" value="先月の振り返り" oninput="onDataChanged()">
+              <textarea id="input-col1-body" class="form-control" oninput="onDataChanged()">新潟グレイスチャペルにて夫婦セミナーを開催。多くのご家庭が参加され、家庭の土台を主に据える恵みを分かち合いました。</textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">右コラム タイトル ＆ 本文</label>
+              <input type="text" id="input-col2-title" class="form-control" style="margin-bottom:4px; font-weight:700;" value="牧師からの一言" oninput="onDataChanged()">
+              <textarea id="input-col2-body" class="form-control" oninput="onDataChanged()">カブトムシの飼育を通して――餌と土は整えられても、育てるのは私ではありません。「成長させたのは神です」の恵み。</textarea>
+            </div>
+          </section>
+        </div>
+
+        <!-- タブ 5：固定設定 -->
+        <div class="tab-page" id="page-fixed">
+          <section class="form-section">
+            <div class="form-section-title">
+              <span>フォント設定（書体パターン）</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">用紙全体のフォント種類</label>
+              <select id="setting-font-select" class="form-control" onchange="changeFontPattern(this.value)">
+                <option value="zen-kaku" selected>Zen 角ゴシック（標準・モダンですっきり）</option>
+                <option value="noto-serif">Noto 明朝体（上品・格式ある伝統的な佇まい）</option>
+                <option value="rounded">M PLUS 丸ゴシック（親しみやすく温かい印象）</option>
+                <option value="biz-ud">BIZ UDゴシック（UD高視認性・くっきり読みやすい）</option>
+                <option value="klee">クレー（教科書・ペン字風の優しい手書き調）</option>
+              </select>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <div class="form-section-title">
+              <span>教会情報 ＆ 年度テーマ</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">教会名</label>
+              <input type="text" id="input-church-name" class="form-control" value="新発田いのちのパンチャーチ" oninput="onDataChanged()">
+            </div>
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label">テーマ年度</label>
+                <input type="text" id="input-theme-year" class="form-control" value="2026" oninput="onDataChanged()">
+              </div>
+              <div class="form-group">
+                <label class="form-label">年度テーマ</label>
+                <input type="text" id="input-theme-title" class="form-control" value="「ここは荒野。〜主と出会い、ともに成長できる場所〜」" oninput="onDataChanged()">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">年間テーマ聖句</label>
+              <input type="text" id="input-theme-verse" class="form-control" value="年間聖句：申命記 8章3節「人はパンだけで生きるのではなく、主の御口から出るすべてのことばで生きる」" oninput="onDataChanged()">
+            </div>
+          </section>
+
+          <section class="form-section">
+            <div class="form-section-title">
+              <span>祈祷会・定例集会の時間案内（固定表記）</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">水曜祈祷会 右上の時間表記</label>
+              <input type="text" id="input-wed-subtime" class="form-control" value="昼 10:30〜 ／ 夜 19:30〜 パンきっず祈祷会" oninput="onDataChanged()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">早天祈祷会 名称 ＆ 時間</label>
+              <div class="form-row-2">
+                <input type="text" id="input-weekly-1-name" class="form-control" value="早天祈祷会" oninput="onDataChanged()">
+                <input type="text" id="input-weekly-1-time" class="form-control" value="月〜金 6:00〜6:30" oninput="onDataChanged()">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">教会掃除 名称 ＆ 時間</label>
+              <div class="form-row-2">
+                <input type="text" id="input-weekly-2-name" class="form-control" value="教会掃除" oninput="onDataChanged()">
+                <input type="text" id="input-weekly-2-time" class="form-control" value="毎週金曜 10:00〜" oninput="onDataChanged()">
+              </div>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <div class="form-section-title">
+              <span>奉仕者マスター（プルダウン候補）</span>
+            </div>
+            <div style="display:flex; gap:6px;">
+              <input type="text" id="new-member-input" class="form-control" placeholder="新しい奉仕者名を入力">
+              <button class="btn btn-secondary" onclick="addNewMember()" style="flex-shrink:0;">追加</button>
+            </div>
+            <div class="master-tags-box" id="member-tags-container"></div>
+          </section>
+
+          <section class="form-section">
+            <div class="form-section-title">
+              <span>備考マスター（手入力で自動学習）</span>
+            </div>
+            <div style="display:flex; gap:6px;">
+              <input type="text" id="new-note-input" class="form-control" placeholder="新しい備考項目を追加">
+              <button class="btn btn-secondary" onclick="addNewNoteMaster()" style="flex-shrink:0;">追加</button>
+            </div>
+            <div class="master-tags-box" id="note-tags-container"></div>
+          </section>
+
+          <section class="form-section">
+            <div class="form-section-title">
+              <span>行事カテゴリ マスター（種別バッジ）</span>
+            </div>
+            <div style="display:flex; gap:6px;">
+              <input type="text" id="new-category-input" class="form-control" placeholder="新しい行事カテゴリを追加">
+              <button class="btn btn-secondary" onclick="addNewCategoryMaster()" style="flex-shrink:0;">追加</button>
+            </div>
+            <div class="master-tags-box" id="category-tags-container"></div>
+          </section>
+        </div>
+
+      </div>
+
+      <!-- 6. フッター操作 -->
+      <div class="editor-footer">
+        <button class="btn btn-secondary" onclick="saveDataToJson()">💾 Googleドライブ保存用JSON</button>
+        <label class="btn btn-secondary" style="cursor:pointer; margin-bottom:0;">
+          📂 JSON読込
+          <input type="file" id="json-file-input" accept=".json" style="display:none;" onchange="loadDataFromJson(event)">
+        </label>
+        <button class="btn btn-secondary" onclick="resetToDefaults()" title="初期データに戻す">🔄 リセット</button>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+       右側：リアルタイム A4 プレビューパネル
+       ========================================================================== -->
+    <main class="preview-panel" id="preview-panel-container">
+      
+      <!-- 操作ツールバー -->
+      <div class="preview-toolbar">
+        <div class="toolbar-left-group">
+          <div class="font-select-group">
+            <label for="toolbar-font-select">書体:</label>
+            <select id="toolbar-font-select" class="font-dropdown" onchange="changeFontPattern(this.value)">
+              <option value="zen-kaku" selected>Zen 角ゴシック（標準）</option>
+              <option value="noto-serif">Noto 明朝体（上品・伝統）</option>
+              <option value="rounded">M PLUS 丸ゴシック（親しみ）</option>
+              <option value="biz-ud">BIZ UDゴシック（くっきり）</option>
+              <option value="klee">クレー（ペン字・手書き調）</option>
+            </select>
+          </div>
+
+          <div class="zoom-controls-group">
+            <span style="font-size:11.5px; font-weight:700; color:#94A3B8;">ズーム:</span>
+            <button class="zoom-btn" onclick="changeZoom(-0.05)" title="縮小">－</button>
+            <span class="zoom-level-badge" id="zoom-badge">100%</span>
+            <button class="zoom-btn" onclick="changeZoom(0.05)" title="拡大">＋</button>
+            <button class="zoom-btn" onclick="fitToScreen()" title="画面の高さにぴったり合わせる">全体表示</button>
+            <button class="zoom-btn" onclick="setZoom(1.0)" title="等倍（100%）に戻す">100%</button>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="window.print()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          A4用紙に印刷 / PDF保存
+        </button>
+      </div>
+
+      <!-- ズーム拡大縮小用のラッパー -->
+      <div class="sheet-scalable-outer" id="sheet-scalable-outer">
+        
+        <!-- ★ A4用紙コンテナ（絵文字なし・SVGアイコン＆洗練カラー） -->
+        <div class="sheet" id="print-sheet">
+          <div>
+            <!-- 1. 最上部ヘッダー（端正なネイビー単色ライン ＆ 黒文字タイトル ＆ アイコニックSVGロゴ） -->
+            <header>
+              <div class="header-top">
+                <div class="header-left">
+                  <!-- 新発田いのちのパンチャーチ 専用シンボルロゴ（モダン・アイコニック版） -->
+                  <svg class="church-symbol-svg" viewBox="0 0 100 100">
+                    <defs>
+                      <linearGradient id="goldRing" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#F59E0B"/>
+                        <stop offset="100%" stop-color="#D97706"/>
+                      </linearGradient>
+                      <linearGradient id="breadFill" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#FBBF24"/>
+                        <stop offset="100%" stop-color="#D97706"/>
+                      </linearGradient>
+                    </defs>
+                    
+                    <!-- 背景サークル（ソフトゴールドの縁取り） -->
+                    <circle cx="50" cy="50" r="47" fill="#FFFFFF" stroke="url(#goldRing)" stroke-width="2.8"/>
+                    <circle cx="50" cy="50" r="43.5" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1"/>
+
+                    <!-- 麦の穂（左側の包み込むアーチ） -->
+                    <path d="M 24 70 C 18 52, 22 36, 32 25" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round"/>
+                    <!-- 麦の粒 -->
+                    <path d="M 23 60 C 17 58, 16 52, 22 51 C 28 50, 27 57, 23 60 Z" fill="#059669"/>
+                    <path d="M 22 49 C 16 46, 17 40, 23 40 C 29 40, 28 47, 22 49 Z" fill="#10B981"/>
+                    <path d="M 24 39 C 19 35, 21 29, 27 30 C 32 31, 30 38, 24 39 Z" fill="#059669"/>
+                    <path d="M 29 30 C 26 24, 30 19, 35 22 C 38 25, 35 30, 29 30 Z" fill="#10B981"/>
+
+                    <!-- メインモチーフ：ふっくらと温かい「いのちのパン」 -->
+                    <path d="M 33 55 C 33 42, 67 42, 67 55 C 67 66, 58 72, 50 72 C 42 72, 33 66, 33 55 Z" fill="url(#breadFill)" stroke="#B45309" stroke-width="1.8"/>
+                    
+                    <!-- パンの香ばしいクープ（光のライン） -->
+                    <path d="M 40 50 Q 44 54 44 60" fill="none" stroke="#FEF3C7" stroke-width="2.2" stroke-linecap="round"/>
+                    <path d="M 60 50 Q 56 54 56 60" fill="none" stroke="#FEF3C7" stroke-width="2.2" stroke-linecap="round"/>
+
+                    <!-- パンの中心から天に向かって輝く「十字架」（救いと生命） -->
+                    <!-- 十字架の白抜きグロー -->
+                    <path d="M 50 18 L 50 48 M 38 29 L 62 29" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                    <!-- 十字架の本体（ロイヤルネイビー＆ゴールド） -->
+                    <path d="M 50 18 L 50 48" stroke="#1E3A8A" stroke-width="3.2" stroke-linecap="round"/>
+                    <path d="M 38 29 L 62 29" stroke="#1E3A8A" stroke-width="3.2" stroke-linecap="round"/>
+                    <circle cx="50" cy="29" r="2" fill="#F59E0B"/>
+
+                    <!-- 祝福の小さな輝き星 -->
+                    <path d="M 72 26 L 73.5 30 L 77.5 31.5 L 73.5 33 L 72 37 L 70.5 33 L 66.5 31.5 L 70.5 30 Z" fill="#F59E0B"/>
+                  </svg>
+                  <div class="combined-doc-title">
+                    <span class="church-name-main" id="view-church-name">新発田いのちのパンチャーチ</span>
+                    <span class="doc-sub-title-badge">奉仕担当表</span>
+                  </div>
+                </div>
+                <div class="header-right">
+                  <div class="issue-text-wrap" id="view-issue-wrap">
+                    <span id="view-issue-year">2026年</span>
+                    <span class="issue-month-num" id="view-issue-month">8</span>
+                    <span>月号</span>
+                  </div>
+                </div>
+              </div>
+              <div class="header-solid-divider"></div>
+
+              <!-- ★ 2026年度テーマ（温かみのあるアンバー調） -->
+              <div class="theme-boxed-card">
+                <div class="theme-label-badge-stacked">
+                  <span class="year-part" id="view-theme-year-badge">2026年度</span>
+                  <span class="text-part">テーマ</span>
+                </div>
+                <div class="theme-texts">
+                  <div class="theme-heading" id="view-theme-title">「ここは荒野。〜主と出会い、ともに成長できる場所〜」</div>
+                  <div class="theme-verse" id="view-theme-verse">年間聖句：申命記 8章3節「人はパンだけで生きるのではなく、主の御口から出るすべてのことばで生きる」</div>
+                </div>
+              </div>
+            </header>
+
+            <!-- 2. 日曜礼拝 奉仕担当（ブルー基調 ＆ 説教表記） -->
+            <section class="sunday-section">
+              <div class="colorful-section-header">
+                <div class="header-left-badge">
+                  <div class="section-icon-badge blue">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="22"/><line x1="5" y1="8" x2="19" y2="8"/></svg>
+                  </div>
+                  <span class="section-title-text blue">日曜礼拝　奉仕担当</span>
+                </div>
+                <span class="section-sub-info">毎週日曜 10:30〜</span>
+              </div>
+              <table class="custom-table sunday-table">
+                <thead>
+                  <tr>
+                    <th style="width: 13.5%;">日付</th>
+                    <th style="width: 11%;">説教</th>
+                    <th style="width: 7.5%;">司会</th>
+                    <th style="width: 7.5%;">奏楽</th>
+                    <th style="width: 10%;">ドラム<br>(カホン)</th>
+                    <th style="width: 7.5%;">PPT</th>
+                    <th style="width: 7.5%;">受付</th>
+                    <th style="width: 7.5%;">祈祷</th>
+                    <th style="width: 8.5%;">パン<br>キッズ</th>
+                    <th style="width: 19.5%;">備考</th>
+                  </tr>
+                </thead>
+                <tbody id="view-sunday-tbody"></tbody>
+              </table>
+            </section>
+
+            <!-- 3. 中段エリア（水曜祈祷会：説教表記 ＆ 教会掃除 ＆ 祈祷課題） -->
+            <section class="middle-grid-top">
+              <!-- 左：水曜祈祷会 -->
+              <div class="wednesday-box">
+                <div class="colorful-section-header">
+                  <div class="header-left-badge">
+                    <div class="section-icon-badge green">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    </div>
+                    <span class="section-title-text green">水曜祈祷会 奉仕担当</span>
+                  </div>
+                  <span class="section-sub-info" id="view-wed-subtime">昼 10:30〜 ／ 夜 19:30〜 パンきっず祈祷会</span>
+                </div>
+                <table class="custom-table wednesday-table" style="margin-top: 2px;">
+                  <thead>
+                    <tr>
+                      <th style="width: 14%;">日付</th>
+                      <th style="width: 16%;">説教</th>
+                      <th style="width: 13%;">司会</th>
+                      <th style="width: 13%;">奏楽</th>
+                      <th style="width: 16%;">ドラム<br>(カホン)</th>
+                      <th style="width: 13%;">PPT</th>
+                      <th style="width: 15%;">受付</th>
+                    </tr>
+                  </thead>
+                  <tbody id="view-wednesday-tbody"></tbody>
+                </table>
+              </div>
+
+              <!-- 右：早天・教会掃除 ＆ 祈祷課題 -->
+              <div class="right-column-container">
+                <div class="weekly-plain-box">
+                  <div class="weekly-row-item">
+                    <div class="weekly-mini-badge">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                    </div>
+                    <div class="weekly-text-inline">
+                      <strong id="view-weekly-1-name">早天祈祷会</strong>
+                      <span class="time-str" id="view-weekly-1-time">月〜金 6:00〜6:30</span>
+                    </div>
+                  </div>
+                  <div class="weekly-row-item">
+                    <div class="weekly-mini-badge">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v2M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07l14.14-14.14"/></svg>
+                    </div>
+                    <div class="weekly-text-inline">
+                      <strong id="view-weekly-2-name">教会掃除</strong>
+                      <span class="time-str" id="view-weekly-2-time">毎週金曜 10:00〜</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 祈祷課題 -->
+                <div class="prayer-card-standalone">
+                  <div class="card-mini-header">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                    <span class="card-mini-title">今月の祈祷課題</span>
+                  </div>
+                  <div class="prayer-stacked-list">
+                    <div class="prayer-item-row"><span class="num">①</span> <span id="view-prayer-1">教会メンバーの守り</span></div>
+                    <div class="prayer-item-row"><span class="num">②</span> <span id="view-prayer-2">牧師家族の健康</span></div>
+                    <div class="prayer-item-row"><span class="num">③</span> <span id="view-prayer-3">地域の救い</span></div>
+                    <div class="prayer-item-row"><span class="num">④</span> <span id="view-prayer-4">集会の祝福</span></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 4. 今月以降の行事予定一覧 -->
+            <section class="events-boxed-section">
+              <div class="colorful-section-header">
+                <div class="header-left-badge">
+                  <div class="section-icon-badge orange">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  </div>
+                  <span class="section-title-text orange">今月以降の行事予定一覧</span>
+                </div>
+              </div>
+              <div class="events-full-columns" id="view-events-container"></div>
+            </section>
+
+            <!-- 5. 連絡事項・お知らせ -->
+            <section class="notice-boxed-section" id="view-notice-section">
+              <div class="colorful-section-header">
+                <div class="header-left-badge">
+                  <div class="section-icon-badge purple">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                  </div>
+                  <span class="section-title-text purple" id="view-notice-title">連絡事項・お知らせ</span>
+                </div>
+              </div>
+              <div class="notice-list-container" id="view-notice-list-container"></div>
+            </section>
+          </div>
+
+          <!-- 6. 最下部コラム（先月の振り返り / 牧師からの一言） -->
+          <footer class="bottom-section">
+            <div class="bottom-card col-left">
+              <div class="bottom-card-header">
+                <div class="bottom-card-icon">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                </div>
+                <span class="bottom-card-title" id="view-col1-title">先月の振り返り</span>
+              </div>
+              <div class="bottom-card-body" id="view-col1-body">
+                新潟グレイスチャペルにて夫婦セミナーを開催。多くのご家庭が参加され、家庭の土台を主に据える恵みを分かち合いました。
+              </div>
+            </div>
+            <div class="bottom-card col-right">
+              <div class="bottom-card-header">
+                <div class="bottom-card-icon">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg>
+                </div>
+                <span class="bottom-card-title" id="view-col2-title">牧師からの一言</span>
+              </div>
+              <div class="bottom-card-body" id="view-col2-body">
+                カブトムシの飼育を通して――餌と土は整えられても、育てるのは私ではありません。「成長させたのは神です」の恵み。
+              </div>
+            </div>
+          </footer>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- トースト通知 -->
+  <div class="toast-banner" id="toast-banner">
+    <span>共有リンクをクリップボードにコピーしました！</span>
+  </div>
+
+  <!-- ==========================================================================
+       JavaScript（データ管理・描画ロジック）
+       ========================================================================== -->
+  <script>
+    // マスターデータ
+    let memberList = ["井上師", "すみれ師", "吉田", "須藤", "荒木", "新潟グレイス<br>チャペル牧師", "—"];
+    let tagList = ["日曜礼拝", "聖餐式礼拝", "交換講壇礼拝", "特別礼拝", "伝道礼拝", "クリスマス礼拝", "イースター礼拝"];
+    let noteList = ["愛餐会", "教会会議", "学び会", "8月誕生会・愛餐会", "誕生会", "シニアの会", "—"];
+    let categoryList = ["集会", "プログラム", "お休み", "奉仕", "特別集会", "会議", "交わり", "その他"];
+    let selectedFont = "zen-kaku";
+    let isLocked = false;
+    let currentZoom = 0.85;
+
+    const ARCHIVE_INDEX_KEY = "church_schedule_archive_index_v1";
+
+    // デフォルトデータ
+    const DEFAULT_STATE = {
+      year: "2026",
+      month: "8",
+      selectedFont: "zen-kaku",
+      churchName: "新発田いのちのパンチャーチ",
+      themeYear: "2026",
+      themeTitle: "「ここは荒野。〜主と出会い、ともに成長できる場所〜」",
+      themeVerse: "年間聖句：申命記 8章3節「人はパンだけで生きるのではなく、主の御口から出るすべてのことばで生きる」",
+      memberList: ["井上師", "すみれ師", "吉田", "須藤", "荒木", "新潟グレイス<br>チャペル牧師", "—"],
+      tagList: ["日曜礼拝", "聖餐式礼拝", "交換講壇礼拝", "特別礼拝", "伝道礼拝", "クリスマス礼拝", "イースター礼拝"],
+      noteList: ["愛餐会", "教会会議", "学び会", "8月誕生会・愛餐会", "誕生会", "シニアの会", "—"],
+      categoryList: ["集会", "プログラム", "お休み", "奉仕", "特別集会", "会議", "交わり", "その他"],
+      isLocked: false,
+      sundayData: [
+        { date: "8/2", tag: "聖餐式礼拝", isTagRed: false, message: "井上師", chair: "吉田", music: "須藤", drum: "荒木", ppt: "吉田", reception: "荒木", prayer: "すみれ師", kids: "すみれ師", note: "愛餐会", isNoteRed: false },
+        { date: "8/9", tag: "日曜礼拝", isTagRed: false, message: "井上師", chair: "須藤", music: "すみれ師", drum: "吉田", ppt: "荒木", reception: "須藤", prayer: "井上師", kids: "荒木", note: "教会会議", isNoteRed: false },
+        { date: "8/16", tag: "交換講壇礼拝", isTagRed: false, message: "新潟グレイス<br>チャペル牧師", chair: "井上師", music: "須藤", drum: "荒木", ppt: "吉田", reception: "須藤", prayer: "すみれ師", kids: "すみれ師", note: "学び会", isNoteRed: false },
+        { date: "8/23", tag: "日曜礼拝", isTagRed: false, message: "井上師", chair: "荒木", music: "すみれ師", drum: "吉田", ppt: "須藤", reception: "荒木", prayer: "すみれ師", kids: "吉田", note: "—", isNoteRed: false },
+        { date: "8/30", tag: "日曜礼拝", isTagRed: false, message: "すみれ師", chair: "吉田", music: "須藤", drum: "荒木", ppt: "吉田", reception: "須藤", prayer: "井上師", kids: "すみれ師", note: "8月誕生会・愛餐会", isNoteRed: false }
+      ],
+      wednesdayData: [
+        { date: "8/5", isClosed: false, message: "井上師", chair: "吉田", music: "須藤", drum: "荒木", ppt: "吉田", reception: "荒木", note: "" },
+        { date: "8/12", isClosed: false, message: "すみれ師", chair: "須藤", music: "すみれ師", drum: "吉田", ppt: "荒木", reception: "吉田", note: "" },
+        { date: "8/19", isClosed: false, message: "井上師", chair: "荒木", music: "須藤", drum: "荒木", ppt: "吉田", reception: "須藤", note: "" },
+        { date: "8/26", isClosed: true, message: "", chair: "", music: "", drum: "", ppt: "", reception: "", note: "休会（CBCキャンプ奉仕のため）" }
+      ],
+      wedSubtime: "昼 10:30〜 ／ 夜 19:30〜 パンきっず祈祷会",
+      weekly1Name: "早天祈祷会",
+      weekly1Time: "月〜金 6:00〜6:30",
+      weekly2Name: "教会掃除",
+      weekly2Time: "毎週金曜 10:00〜",
+      prayer1: "教会メンバーの守り",
+      prayer2: "牧師家族の健康",
+      prayer3: "地域の救い",
+      prayer4: "集会の祝福",
+      eventsData: [
+        { date: "8/1 (土)", category: "奉仕", detail: "井上師 群馬教会 奉仕 (不在)" },
+        { date: "8/3 (月)", category: "会議", detail: "礼拝後 愛餐会・教会会議" },
+        { date: "8/10 (月)", category: "集会", detail: "礼拝後 学び会" },
+        { date: "8/11 (火祝)", category: "プログラム", detail: "子どもプログラム「教会で遊ぼう」" },
+        { date: "8/17 (月)", category: "会議", detail: "礼拝後 愛餐会・教会会議" },
+        { date: "8/20 (木)", category: "集会", detail: "シニアの会 10:00〜" },
+        { date: "8/25〜27", category: "お休み", detail: "CBCキャンプ奉仕 聖嗣師 不在" },
+        { date: "8/31 (月)", category: "交わり", detail: "礼拝後 愛餐会 8月お誕生日会" },
+        { date: "9/6 (日)", category: "集会", detail: "秋の特別伝道礼拝・愛餐会" },
+        { date: "9/21 (月祝)", category: "プログラム", detail: "敬老祝福プログラム＆交わり会" }
+      ],
+      noticeTitle: "連絡事項・お知らせ",
+      noticeBody: "次回の愛餐会費の納入をお願いいたします。\n駐車場のご利用時は奥から順に詰めて駐車をお願いいたします。",
+      col1Title: "先月の振り返り",
+      col1Body: "新潟グレイスチャペルにて夫婦セミナーを開催。多くのご家庭が参加され、家庭の土台を主に据える恵みを分かち合いました。",
+      col2Title: "牧師からの一言",
+      col2Body: "カブトムシの飼育を通して――餌と土は整えられても、育てるのは私ではありません。「成長させたのは神です」の恵み。"
+    };
+
+    let sundayData = JSON.parse(JSON.stringify(DEFAULT_STATE.sundayData));
+    let wednesdayData = JSON.parse(JSON.stringify(DEFAULT_STATE.wednesdayData));
+    let eventsData = JSON.parse(JSON.stringify(DEFAULT_STATE.eventsData));
+
+    // フォント切り替え処理
+    function changeFontPattern(fontKey) {
+      selectedFont = fontKey;
+      document.getElementById("toolbar-font-select").value = fontKey;
+      document.getElementById("setting-font-select").value = fontKey;
+
+      const sheet = document.getElementById("print-sheet");
+      sheet.classList.remove("font-style-zen-kaku", "font-style-noto-serif", "font-style-rounded", "font-style-biz-ud", "font-style-klee");
+      
+      const fontClassMap = {
+        "zen-kaku": "font-style-zen-kaku",
+        "noto-serif": "font-style-noto-serif",
+        "rounded": "font-style-rounded",
+        "biz-ud": "font-style-biz-ud",
+        "klee": "font-style-klee"
+      };
+
+      sheet.classList.add(fontClassMap[fontKey] || "font-style-zen-kaku");
+      onDataChanged();
+
+      const fontNames = {
+        "zen-kaku": "Zen 角ゴシック（標準）",
+        "noto-serif": "Noto 明朝体（上品・伝統）",
+        "rounded": "M PLUS 丸ゴシック（親しみ）",
+        "biz-ud": "BIZ UDゴシック（UD高視認性）",
+        "klee": "クレー（ペン字調）"
+      };
+      showToast(`書体を「${fontNames[fontKey] || fontKey}」に変更しました`);
+    }
+
+    // タブ切り替え処理
+    function switchTab(tabKey) {
+      const tabs = ["sunday", "prayer", "events", "column", "fixed"];
+      tabs.forEach(key => {
+        const btn = document.getElementById(`tab-btn-${key}`);
+        const page = document.getElementById(`page-${key}`);
+        if (key === tabKey) {
+          btn.classList.add("active");
+          page.classList.add("active");
+        } else {
+          btn.classList.remove("active");
+          page.classList.remove("active");
+        }
+      });
+    }
+
+    // ズーム機能
+    function setZoom(zoom) {
+      currentZoom = Math.max(0.4, Math.min(1.5, zoom));
+      const outer = document.getElementById("sheet-scalable-outer");
+      outer.style.transform = `scale(${currentZoom})`;
+      document.getElementById("zoom-badge").innerText = `${Math.round(currentZoom * 100)}%`;
+      
+      const sheet = document.getElementById("print-sheet");
+      const scaledHeight = sheet.offsetHeight * currentZoom;
+      outer.style.height = `${scaledHeight + 40}px`;
+    }
+
+    function changeZoom(delta) {
+      setZoom(currentZoom + delta);
+    }
+
+    function fitToScreen() {
+      const container = document.getElementById("preview-panel-container");
+      const sheet = document.getElementById("print-sheet");
+      const availableHeight = container.clientHeight - 80;
+      const sheetHeight = sheet.offsetHeight || 1122;
+
+      const calculatedZoom = availableHeight / sheetHeight;
+      setZoom(calculatedZoom);
+      showToast(`画面に合わせて ${Math.round(calculatedZoom * 100)}% に調整しました`);
+    }
+
+    // 月別アーカイブ管理
+    function getArchiveIndex() {
+      try {
+        const raw = localStorage.getItem(ARCHIVE_INDEX_KEY);
+        return raw ? JSON.parse(raw) : ["2026_8"];
+      } catch (e) {
+        return ["2026_8"];
+      }
+    }
+
+    function saveArchiveIndex(indexArr) {
+      localStorage.setItem(ARCHIVE_INDEX_KEY, JSON.stringify(indexArr));
+      renderArchiveList();
+    }
+
+    function saveAsFinalSnapshot() {
+      const state = getCurrentState();
+      const key = `${state.year}_${state.month}`;
+      const storageKey = `church_schedule_snapshot_${key}`;
+
+      state.isLocked = true;
+      localStorage.setItem(storageKey, JSON.stringify(state));
+
+      const indexArr = getArchiveIndex();
+      if (!indexArr.includes(key)) {
+        indexArr.unshift(key);
+        saveArchiveIndex(indexArr);
+      } else {
+        renderArchiveList();
+      }
+
+      applyState(state);
+      showToast(`${state.year}年${state.month}月号を完成版として保存しました！`);
+    }
+
+    function loadArchiveMonth(key) {
+      const storageKey = `church_schedule_snapshot_${key}`;
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          applyState(data);
+          renderArchiveList();
+          showToast(`${data.year}年${data.month}月号（完成版）を表示しました`);
+          return;
+        } catch (e) {}
+      }
+      const [y, m] = key.split("_");
+      document.getElementById("select-year").value = y;
+      document.getElementById("select-month").value = m;
+      onMonthOrYearChanged();
+    }
+
+    function deleteArchiveMonth(key, event) {
+      event.stopPropagation();
+      const [y, m] = key.split("_");
+      if (confirm(`${y}年${m}月号の保存データを削除しますか？`)) {
+        localStorage.removeItem(`church_schedule_snapshot_${key}`);
+        const indexArr = getArchiveIndex().filter(k => k !== key);
+        saveArchiveIndex(indexArr);
+        showToast(`${y}年${m}月号を削除しました`);
+      }
+    }
+
+    function renderArchiveList() {
+      const container = document.getElementById("archive-list-container");
+      const indexArr = getArchiveIndex();
+      const currentKey = `${document.getElementById("select-year").value}_${document.getElementById("select-month").value}`;
+
+      if (indexArr.length === 0) {
+        container.innerHTML = `<span style="font-size:11px; color:#64748B;">保存された月はありません</span>`;
+        return;
+      }
+
+      container.innerHTML = indexArr.map(key => {
+        const [y, m] = key.split("_");
+        const isActive = key === currentKey;
+        return `
+          <div class="archive-chip ${isActive ? 'active' : ''}" onclick="loadArchiveMonth('${key}')" title="クリックしてこの月の完成データを表示">
+            <span>${y}年 ${m}月号</span>
+            <span class="del-btn" onclick="deleteArchiveMonth('${key}', event)" title="削除">✕</span>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function toggleEditLock() {
+      isLocked = !isLocked;
+      updateLockUI();
+      onDataChanged();
+      showToast(isLocked ? "編集をロックしました（閲覧・印刷専用）" : "編集ロックを解除しました");
+    }
+
+    function updateLockUI() {
+      const panel = document.getElementById("editor-panel");
+      const btn = document.getElementById("lock-toggle-btn");
+      const banner = document.getElementById("lock-banner-bar");
+      const icon = document.getElementById("lock-btn-icon");
+      const text = document.getElementById("lock-btn-text");
+
+      if (isLocked) {
+        panel.classList.add("is-locked");
+        btn.classList.add("locked");
+        banner.classList.add("show");
+        icon.innerText = "🔒";
+        text.innerText = "ロック中";
+      } else {
+        panel.classList.remove("is-locked");
+        btn.classList.remove("locked");
+        banner.classList.remove("show");
+        icon.innerText = "🔓";
+        text.innerText = "編集可能";
+      }
+    }
+
+    function addNewMember() {
+      const input = document.getElementById("new-member-input");
+      const name = input.value.trim();
+      if (name && !memberList.includes(name)) {
+        memberList.push(name);
+        input.value = "";
+        renderMasterTags();
+        renderEditorForms();
+        onDataChanged();
+      }
+    }
+
+    function removeMember(idx) {
+      memberList.splice(idx, 1);
+      renderMasterTags();
+      renderEditorForms();
+      onDataChanged();
+    }
+
+    function addNewNoteMaster() {
+      const input = document.getElementById("new-note-input");
+      const note = input.value.trim();
+      if (note && !noteList.includes(note)) {
+        noteList.push(note);
+        input.value = "";
+        renderMasterTags();
+        renderEditorForms();
+        onDataChanged();
+      }
+    }
+
+    function removeNoteMaster(idx) {
+      noteList.splice(idx, 1);
+      renderMasterTags();
+      renderEditorForms();
+      onDataChanged();
+    }
+
+    function addNewCategoryMaster() {
+      const input = document.getElementById("new-category-input");
+      const cat = input.value.trim();
+      if (cat && !categoryList.includes(cat)) {
+        categoryList.push(cat);
+        input.value = "";
+        renderMasterTags();
+        renderEditorForms();
+        onDataChanged();
+      }
+    }
+
+    function removeCategoryMaster(idx) {
+      categoryList.splice(idx, 1);
+      renderMasterTags();
+      renderEditorForms();
+      onDataChanged();
+    }
+
+    function checkAndAutoAddNote(val) {
+      const trimmed = val.trim();
+      if (trimmed && trimmed !== "—" && !noteList.includes(trimmed)) {
+        noteList.push(trimmed);
+        renderMasterTags();
+        renderEditorForms();
+        onDataChanged();
+      }
+    }
+
+    function renderMasterTags() {
+      document.getElementById("member-tags-container").innerHTML = memberList.map((m, idx) => `
+        <span class="master-tag">
+          ${m}
+          <span class="del" onclick="removeMember(${idx})">×</span>
+        </span>
+      `).join("");
+
+      document.getElementById("note-tags-container").innerHTML = noteList.map((n, idx) => `
+        <span class="master-tag">
+          ${n}
+          <span class="del" onclick="removeNoteMaster(${idx})">×</span>
+        </span>
+      `).join("");
+
+      document.getElementById("category-tags-container").innerHTML = categoryList.map((c, idx) => `
+        <span class="master-tag">
+          ${c}
+          <span class="del" onclick="removeCategoryMaster(${idx})">×</span>
+        </span>
+      `).join("");
+    }
+
+    // 役割ラベル付きコンボ入力UI生成
+    function createRoleField(labelTitle, roleIcon, value, options, onSelectCode, onInputCode, onBlurCode = "", placeholder = "", hasRedToggle = false, isRed = false, onRedToggleCode = "") {
+      const optionsHtml = options.map(opt => `<option value="${opt}">${opt}</option>`).join("");
+      return `
+        <div class="role-field-wrap">
+          <div class="role-field-header">
+            <label class="role-field-label">
+              <span>${roleIcon}</span> ${labelTitle}
+            </label>
+            ${hasRedToggle ? `
+              <label class="red-text-toggle" title="プレビューで赤文字として強調表示">
+                <input type="checkbox" ${isRed ? 'checked' : ''} onchange="${onRedToggleCode}">
+                赤
+              </label>
+            ` : ''}
+          </div>
+          <div class="combo-input-wrap">
+            <input type="text" class="form-control" value="${value}" placeholder="${placeholder || labelTitle}" oninput="${onInputCode}" onblur="${onBlurCode}">
+            <div class="combo-select-btn" title="選択肢から選ぶ">▼</div>
+            <select class="combo-hidden-select" onchange="${onSelectCode}">
+              <option value="" disabled selected>選択</option>
+              ${optionsHtml}
+            </select>
+          </div>
+        </div>
+      `;
+    }
+
+    function onDatePickedForSunday(inputDateElem, idx) {
+      if (!inputDateElem.value) return;
+      const [y, m, d] = inputDateElem.value.split("-");
+      sundayData[idx].date = `${parseInt(m,10)}/${parseInt(d,10)}`;
+      renderEditorForms();
+      onDataChanged();
+    }
+
+    function onDatePickedForWednesday(inputDateElem, idx) {
+      if (!inputDateElem.value) return;
+      const [y, m, d] = inputDateElem.value.split("-");
+      wednesdayData[idx].date = `${parseInt(m,10)}/${parseInt(d,10)}`;
+      renderEditorForms();
+      onDataChanged();
+    }
+
+    function onDatePickedForEvent(inputDateElem, idx) {
+      if (!inputDateElem.value) return;
+      const dateObj = new Date(inputDateElem.value);
+      const days = ["日", "月", "火", "水", "木", "金", "土"];
+      const m = dateObj.getMonth() + 1;
+      const d = dateObj.getDate();
+      const dayName = days[dateObj.getDay()];
+      eventsData[idx].date = `${m}/${d} (${dayName})`;
+      renderEditorForms();
+      onDataChanged();
+    }
+
+    function onMonthOrYearChanged() {
+      const year = document.getElementById("select-year").value;
+      const month = document.getElementById("select-month").value;
+      const key = `${year}_${month}`;
+      const storageKey = `church_schedule_snapshot_${key}`;
+
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          applyState(data);
+          renderArchiveList();
+          showToast(`${year}年${month}月号の保存データを表示しました`);
+          return;
+        } catch (e) {}
+      }
+
+      generateMonthDates();
+      renderArchiveList();
+    }
+
+    function onDataChanged() {
+      renderPreview();
+      saveCurrentActive();
+    }
+
+    function saveCurrentActive() {
+      const state = getCurrentState();
+      try {
+        localStorage.setItem("church_schedule_current_active", JSON.stringify(state));
+      } catch (e) {}
+    }
+
+    function getCurrentState() {
+      return {
+        year: document.getElementById("select-year").value,
+        month: document.getElementById("select-month").value,
+        selectedFont: selectedFont || "zen-kaku",
+        churchName: document.getElementById("input-church-name").value,
+        themeYear: document.getElementById("input-theme-year").value,
+        themeTitle: document.getElementById("input-theme-title").value,
+        themeVerse: document.getElementById("input-theme-verse").value,
+        memberList,
+        tagList,
+        noteList,
+        categoryList,
+        isLocked,
+        sundayData,
+        wednesdayData,
+        wedSubtime: document.getElementById("input-wed-subtime").value,
+        weekly1Name: document.getElementById("input-weekly-1-name").value,
+        weekly1Time: document.getElementById("input-weekly-1-time").value,
+        weekly2Name: document.getElementById("input-weekly-2-name").value,
+        weekly2Time: document.getElementById("input-weekly-2-time").value,
+        prayer1: document.getElementById("input-prayer-1").value,
+        prayer2: document.getElementById("input-prayer-2").value,
+        prayer3: document.getElementById("input-prayer-3").value,
+        prayer4: document.getElementById("input-prayer-4").value,
+        eventsData,
+        noticeTitle: document.getElementById("input-notice-title").value,
+        noticeBody: document.getElementById("input-notice-body").value,
+        col1Title: document.getElementById("input-col1-title").value,
+        col1Body: document.getElementById("input-col1-body").value,
+        col2Title: document.getElementById("input-col2-title").value,
+        col2Body: document.getElementById("input-col2-body").value
+      };
+    }
+
+    function applyState(data) {
+      document.getElementById("select-year").value = data.year || "2026";
+      document.getElementById("select-month").value = data.month || "8";
+      selectedFont = data.selectedFont || "zen-kaku";
+      document.getElementById("toolbar-font-select").value = selectedFont;
+      document.getElementById("setting-font-select").value = selectedFont;
+
+      document.getElementById("input-church-name").value = data.churchName || "";
+      document.getElementById("input-theme-year").value = data.themeYear || "";
+      document.getElementById("input-theme-title").value = data.themeTitle || "";
+      document.getElementById("input-theme-verse").value = data.themeVerse || "";
+      memberList = data.memberList || DEFAULT_STATE.memberList;
+      tagList = data.tagList || DEFAULT_STATE.tagList;
+      noteList = data.noteList || DEFAULT_STATE.noteList;
+      categoryList = data.categoryList || DEFAULT_STATE.categoryList;
+      isLocked = !!data.isLocked;
+
+      sundayData = data.sundayData || [];
+      wednesdayData = (data.wednesdayData || []).map(row => ({
+        date: row.date || "",
+        isClosed: !!row.isClosed,
+        message: row.message || "",
+        chair: row.chair !== undefined ? row.chair : (row.isClosed ? "" : "—"),
+        music: row.music || "",
+        drum: row.drum || "",
+        ppt: row.ppt || "",
+        reception: row.reception || "",
+        note: row.note || ""
+      }));
+      document.getElementById("input-wed-subtime").value = data.wedSubtime || "昼 10:30〜 ／ 夜 19:30〜 パンきっず祈祷会";
+      document.getElementById("input-weekly-1-name").value = data.weekly1Name || "早天祈祷会";
+      document.getElementById("input-weekly-1-time").value = data.weekly1Time || "月〜金 6:00〜6:30";
+      document.getElementById("input-weekly-2-name").value = data.weekly2Name || "教会掃除";
+      document.getElementById("input-weekly-2-time").value = data.weekly2Time || "毎週金曜 10:00〜";
+      document.getElementById("input-prayer-1").value = data.prayer1 || "教会メンバーの守り";
+      document.getElementById("input-prayer-2").value = data.prayer2 || "牧師家族の健康";
+      document.getElementById("input-prayer-3").value = data.prayer3 || "地域の救い";
+      document.getElementById("input-prayer-4").value = data.prayer4 || "集会の祝福";
+      eventsData = data.eventsData || [];
+      document.getElementById("input-notice-title").value = data.noticeTitle || "連絡事項・お知らせ";
+      document.getElementById("input-notice-body").value = data.noticeBody !== undefined ? data.noticeBody : "次回の愛餐会費の納入をお願いいたします。\n駐車場のご利用時は奥から順に詰めて駐車をお願いいたします。";
+      let c1Title = data.col1Title || "先月の振り返り";
+      if (c1Title === "前月の恵み" || c1Title === "先月の恵み") c1Title = "先月の振り返り";
+      document.getElementById("input-col1-title").value = c1Title;
+      document.getElementById("input-col1-body").value = data.col1Body || "";
+
+      let c2Title = data.col2Title || "牧師からの一言";
+      if (c2Title === "牧師室より" || c2Title === "牧師の一言" || c2Title === "牧師の一言メモ") c2Title = "牧師からの一言";
+      document.getElementById("input-col2-title").value = c2Title;
+      document.getElementById("input-col2-body").value = data.col2Body || "";
+
+      // フォントクラス適用
+      const sheet = document.getElementById("print-sheet");
+      sheet.classList.remove("font-style-zen-kaku", "font-style-noto-serif", "font-style-rounded", "font-style-biz-ud", "font-style-klee");
+      const fontClassMap = {
+        "zen-kaku": "font-style-zen-kaku",
+        "noto-serif": "font-style-noto-serif",
+        "rounded": "font-style-rounded",
+        "biz-ud": "font-style-biz-ud",
+        "klee": "font-style-klee"
+      };
+      sheet.classList.add(fontClassMap[selectedFont] || "font-style-zen-kaku");
+
+      updateLockUI();
+      renderMasterTags();
+      renderEditorForms();
+      renderPreview();
+      renderArchiveList();
+    }
+
+    function copyShareableUrl() {
+      const state = getCurrentState();
+      const jsonStr = JSON.stringify(state);
+      const encoded = encodeURIComponent(jsonStr);
+      const url = `${window.location.origin}${window.location.pathname}#data=${encoded}`;
+
+      navigator.clipboard.writeText(url).then(() => {
+        showToast(state.isLocked ? "閲覧専用の共有リンクをコピーしました！" : "共有リンクをクリップボードにコピーしました！");
+      }).catch(() => {
+        prompt("以下の共有URLをコピーしてください：", url);
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast-banner");
+      toast.innerText = msg;
+      toast.style.display = "flex";
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 3500);
+    }
+
+    function generateMonthDates() {
+      const year = parseInt(document.getElementById("select-year").value);
+      const month = parseInt(document.getElementById("select-month").value);
+
+      const sundays = [];
+      const wednesdays = [];
+      const daysInMonth = new Date(year, month, 0).getDate();
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateObj = new Date(year, month - 1, day);
+        const dayOfWeek = dateObj.getDay();
+        if (dayOfWeek === 0) sundays.push(day);
+        else if (dayOfWeek === 3) wednesdays.push(day);
+      }
+
+      sundayData = sundays.map((day, idx) => {
+        const existing = sundayData[idx] || {};
+        return {
+          date: `${month}/${day}`,
+          tag: idx === 0 ? "聖餐式礼拝" : "日曜礼拝",
+          isTagRed: existing.isTagRed || false,
+          message: existing.message || "井上師",
+          chair: existing.chair || "吉田",
+          music: existing.music || "須藤",
+          drum: existing.drum || "荒木",
+          ppt: existing.ppt || "吉田",
+          reception: existing.reception || "荒木",
+          prayer: existing.prayer || "すみれ師",
+          kids: existing.kids || "すみれ師",
+          note: existing.note || (idx === 0 ? "愛餐会" : "—"),
+          isNoteRed: existing.isNoteRed || false
+        };
+      });
+
+      wednesdayData = wednesdays.map((day, idx) => {
+        const existing = wednesdayData[idx] || {};
+        return {
+          date: `${month}/${day}`,
+          isClosed: existing.isClosed || false,
+          message: existing.message || "井上師",
+          chair: existing.chair || (idx === 0 ? "吉田" : (idx === 1 ? "須藤" : "荒木")),
+          music: existing.music || "須藤",
+          drum: existing.drum || "荒木",
+          ppt: existing.ppt || "吉田",
+          reception: existing.reception || "荒木",
+          note: existing.note || ""
+        };
+      });
+
+      renderEditorForms();
+      onDataChanged();
+    }
+
+    // エディタフォーム描画
+    function renderEditorForms() {
+      const year = document.getElementById("select-year").value;
+      const month = String(document.getElementById("select-month").value).padStart(2, "0");
+
+      // 1. 日曜礼拝フォーム
+      const sunContainer = document.getElementById("sunday-rows-container");
+      sunContainer.innerHTML = sundayData.map((row, idx) => {
+        const dayPart = row.date.includes("/") ? row.date.split("/")[1].padStart(2, "0") : "01";
+        const dateValue = `${year}-${month}-${dayPart}`;
+
+        const tagField = createRoleField("礼拝名", "🏷️", row.tag, tagList, `sundayData[${idx}].tag=this.value; renderEditorForms(); onDataChanged();`, `sundayData[${idx}].tag=this.value; onDataChanged();`, "", "礼拝名", true, row.isTagRed, `sundayData[${idx}].isTagRed=this.checked; renderPreview(); saveCurrentActive();`);
+        const noteField = createRoleField("備考", "📝", row.note, noteList, `sundayData[${idx}].note=this.value; renderEditorForms(); onDataChanged();`, `sundayData[${idx}].note=this.value; onDataChanged();`, `checkAndAutoAddNote(this.value)`, "備考", true, row.isNoteRed, `sundayData[${idx}].isNoteRed=this.checked; renderPreview(); saveCurrentActive();`);
+
+        const msgField = createRoleField("説教", "🎙️", row.message, memberList, `sundayData[${idx}].message=this.value; renderEditorForms(); onDataChanged();`, `sundayData[${idx}].message=this.value; onDataChanged();`);
+        const chairField = createRoleField("司会", "🎤", row.chair, memberList, `sundayData[${idx}].chair=this.value; renderEditorForms(); onDataChanged();`, `sundayData[${idx}].chair=this.value; onDataChanged();`);
+        const musicField = createRoleField("奏楽", "🎹", row.music, memberList, `sundayData[${idx}].music=this.value; renderEditorForms(); onDataChanged();`, `sundayData[${idx}].music=this.value; onDataChanged();`);
+        const drumField = createRoleField("ドラム(カホン)", "🥁", row.drum, memberList, `sundayData[${idx}].drum=this.value; renderEditorForms(); onDataChanged();`, `sundayData[${idx}].drum=this.value; onDataChanged();`);
+
+        const pptField = createRoleField("PPT", "💻", row.ppt, memberList, `sundayData[${idx}].ppt=this.value; renderEditorForms(); onDataChanged();`, `sundayData[${idx}].ppt=this.value; onDataChanged();`);
+        const recField = createRoleField("受付", "🚪", row.reception, memberList, `sundayData[${idx}].reception=this.value; renderEditorForms(); onDataChanged();`, `sundayData[${idx}].reception=this.value; onDataChanged();`);
+        const prayerField = createRoleField("祈祷", "🙏", row.prayer, memberList, `sundayData[${idx}].prayer=this.value; renderEditorForms(); onDataChanged();`, `sundayData[${idx}].prayer=this.value; onDataChanged();`);
+        const kidsField = createRoleField("パンキッズ", "👶", row.kids, memberList, `sundayData[${idx}].kids=this.value; renderEditorForms(); onDataChanged();`, `sundayData[${idx}].kids=this.value; onDataChanged();`);
+
+        return `
+          <div class="schedule-item-card">
+            <div class="schedule-card-header">
+              <span>📅 ${row.date} (日)</span>
+              <button class="btn btn-danger" onclick="removeSundayRow(${idx})">削除</button>
+            </div>
+            
+            <!-- 1段目：日付 ｜ 礼拝名 ｜ 備考 -->
+            <div class="form-row-date-tag-note" style="margin-bottom:6px;">
+              <div class="role-field-wrap">
+                <label class="role-field-label">📅 日付</label>
+                <div class="date-picker-wrap">
+                  <input type="text" class="form-control" value="${row.date}" placeholder="日付" oninput="sundayData[${idx}].date=this.value; onDataChanged();">
+                  <input type="date" class="date-picker-native" value="${dateValue}" onchange="onDatePickedForSunday(this, ${idx})" title="カレンダーから選択">
+                </div>
+              </div>
+              ${tagField}
+              ${noteField}
+            </div>
+
+            <!-- 2段目：説教 ｜ 司会 ｜ 奏楽 ｜ ドラム(カホン) -->
+            <div class="form-row-4" style="margin-bottom:6px;">
+              ${msgField}
+              ${chairField}
+              ${musicField}
+              ${drumField}
+            </div>
+
+            <!-- 3段目：PPT ｜ 受付 ｜ 祈祷 ｜ パンキッズ -->
+            <div class="form-row-4">
+              ${pptField}
+              ${recField}
+              ${prayerField}
+              ${kidsField}
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      // 2. 水曜祈祷会フォーム
+      const wedContainer = document.getElementById("wednesday-rows-container");
+      wedContainer.innerHTML = wednesdayData.map((row, idx) => {
+        const dayPart = row.date.includes("/") ? row.date.split("/")[1].padStart(2, "0") : "01";
+        const dateValue = `${year}-${month}-${dayPart}`;
+
+        const msgField = createRoleField("説教", "🎙️", row.message, memberList, `wednesdayData[${idx}].message=this.value; renderEditorForms(); onDataChanged();`, `wednesdayData[${idx}].message=this.value; onDataChanged();`);
+        const chairField = createRoleField("司会", "🎤", row.chair || "—", memberList, `wednesdayData[${idx}].chair=this.value; renderEditorForms(); onDataChanged();`, `wednesdayData[${idx}].chair=this.value; onDataChanged();`);
+        const musicField = createRoleField("奏楽", "🎹", row.music, memberList, `wednesdayData[${idx}].music=this.value; renderEditorForms(); onDataChanged();`, `wednesdayData[${idx}].music=this.value; onDataChanged();`);
+        const drumField = createRoleField("ドラム(カホン)", "🥁", row.drum, memberList, `wednesdayData[${idx}].drum=this.value; renderEditorForms(); onDataChanged();`, `wednesdayData[${idx}].drum=this.value; onDataChanged();`);
+        const pptField = createRoleField("PPT", "💻", row.ppt, memberList, `wednesdayData[${idx}].ppt=this.value; renderEditorForms(); onDataChanged();`, `wednesdayData[${idx}].ppt=this.value; onDataChanged();`);
+        const recField = createRoleField("受付", "🚪", row.reception, memberList, `wednesdayData[${idx}].reception=this.value; renderEditorForms(); onDataChanged();`, `wednesdayData[${idx}].reception=this.value; onDataChanged();`);
+
+        return `
+          <div class="schedule-item-card">
+            <div class="schedule-card-header">
+              <span>📖 ${row.date} (水)</span>
+              <label style="font-size:11.5px; font-weight:normal; display:flex; align-items:center; gap:4px; cursor:pointer;">
+                <input type="checkbox" ${row.isClosed ? 'checked' : ''} onchange="wednesdayData[${idx}].isClosed=this.checked; renderEditorForms(); onDataChanged();">
+                休会にする
+              </label>
+              <button class="btn btn-danger" onclick="removeWednesdayRow(${idx})">削除</button>
+            </div>
+
+            ${row.isClosed ? `
+              <div class="form-row-2" style="margin-bottom:6px; align-items:flex-end;">
+                <div class="role-field-wrap">
+                  <label class="role-field-label">📅 日付</label>
+                  <div class="date-picker-wrap">
+                    <input type="text" class="form-control" value="${row.date}" placeholder="日付" oninput="wednesdayData[${idx}].date=this.value; onDataChanged();">
+                    <input type="date" class="date-picker-native" value="${dateValue}" onchange="onDatePickedForWednesday(this, ${idx})" title="カレンダーから選択">
+                  </div>
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="role-field-label">休会理由・特記事項</label>
+                  <input type="text" class="form-control" value="${row.note || '休会'}" placeholder="例: 休会（CBCキャンプ奉仕のため）" oninput="wednesdayData[${idx}].note=this.value; onDataChanged();">
+                </div>
+              </div>
+            ` : `
+              <!-- 1段目：日付 ｜ 説教 ｜ 司会 -->
+              <div class="form-row-3" style="margin-bottom:6px;">
+                <div class="role-field-wrap">
+                  <label class="role-field-label">📅 日付</label>
+                  <div class="date-picker-wrap">
+                    <input type="text" class="form-control" value="${row.date}" placeholder="日付" oninput="wednesdayData[${idx}].date=this.value; onDataChanged();">
+                    <input type="date" class="date-picker-native" value="${dateValue}" onchange="onDatePickedForWednesday(this, ${idx})" title="カレンダーから選択">
+                  </div>
+                </div>
+                ${msgField}
+                ${chairField}
+              </div>
+
+              <!-- 2段目：奏楽 ｜ ドラム(カホン) ｜ PPT ｜ 受付 -->
+              <div class="form-row-4">
+                ${musicField}
+                ${drumField}
+                ${pptField}
+                ${recField}
+              </div>
+            `}
+          </div>
+        `;
+      }).join("");
+
+      // 3. 行事予定フォーム
+      const eventsContainer = document.getElementById("events-rows-container");
+      eventsContainer.innerHTML = eventsData.map((ev, idx) => {
+        const catCombo = createRoleField("カテゴリ", "🏷️", ev.category || "集会", categoryList, `eventsData[${idx}].category=this.value; renderEditorForms(); onDataChanged();`, `eventsData[${idx}].category=this.value; onDataChanged();`);
+
+        const isFirst = idx === 0;
+        const isLast = idx === eventsData.length - 1;
+
+        return `
+          <div class="schedule-item-card" style="padding: 8px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+              <span style="font-weight:700; font-size:11.5px; color:#0F172A;">行事 ${idx + 1}</span>
+              <div style="display:flex; align-items:center; gap:4px;">
+                <button class="btn-move" onclick="moveEventRow(${idx}, -1)" ${isFirst ? 'disabled' : ''} title="この行事を上に移動">⬆️ 上へ</button>
+                <button class="btn-move" onclick="moveEventRow(${idx}, 1)" ${isLast ? 'disabled' : ''} title="この行事を下に移動">⬇️ 下へ</button>
+                <button class="btn btn-danger" onclick="removeEventRow(${idx})" title="この行事を削除">✕ 削除</button>
+              </div>
+            </div>
+            <div class="form-row-2" style="margin-bottom: 5px;">
+              <div class="role-field-wrap">
+                <label class="role-field-label">📅 日付</label>
+                <div class="date-picker-wrap">
+                  <input type="text" class="form-control" value="${ev.date}" placeholder="日付 (例: 8/1 (土), 9/6 (日))" oninput="eventsData[${idx}].date=this.value; onDataChanged();">
+                  <input type="date" class="date-picker-native" onchange="onDatePickedForEvent(this, ${idx})" title="カレンダーから選択">
+                </div>
+              </div>
+              ${catCombo}
+            </div>
+            <div class="form-group">
+              <label class="role-field-label">📝 行事内容</label>
+              <input type="text" class="form-control" value="${ev.detail}" placeholder="例: 礼拝後 愛餐会・教会会議" oninput="eventsData[${idx}].detail=this.value; onDataChanged();">
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function moveEventRow(idx, direction) {
+      const targetIdx = idx + direction;
+      if (targetIdx < 0 || targetIdx >= eventsData.length) return;
+      
+      const temp = eventsData[idx];
+      eventsData[idx] = eventsData[targetIdx];
+      eventsData[targetIdx] = temp;
+
+      renderEditorForms();
+      onDataChanged();
+      showToast("行事の順番を並び替えました");
+    }
+
+    function getCategoryClass(cat) {
+      if (!cat) return "";
+      if (cat.includes("プログラム") || cat.includes("子ども") || cat.includes("キッズ")) return "cat-program";
+      if (cat.includes("休") || cat.includes("お休み") || cat.includes("不在")) return "cat-off";
+      if (cat.includes("奉仕")) return "cat-duty";
+      if (cat.includes("特別") || cat.includes("キャンプ") || cat.includes("セミナー")) return "cat-special";
+      if (cat.includes("交わり") || cat.includes("愛餐") || cat.includes("誕生")) return "cat-fellowship";
+      if (cat.includes("会議") || cat.includes("打合")) return "cat-meeting";
+      return "cat-service";
+    }
+
+    function renderPreview() {
+      const year = document.getElementById("select-year").value;
+      const month = document.getElementById("select-month").value;
+
+      document.getElementById("view-church-name").innerText = document.getElementById("input-church-name").value;
+      
+      // 年月号の描画
+      document.getElementById("view-issue-year").innerText = `${year}年`;
+      document.getElementById("view-issue-month").innerText = `${month}`;
+
+      // 年度テーマ枠内
+      const themeYear = document.getElementById("input-theme-year").value;
+      document.getElementById("view-theme-year-badge").innerText = `${themeYear}年度`;
+      document.getElementById("view-theme-title").innerText = document.getElementById("input-theme-title").value;
+      document.getElementById("view-theme-verse").innerText = document.getElementById("input-theme-verse").value;
+
+      // 日曜礼拝
+      const sunTbody = document.getElementById("view-sunday-tbody");
+      sunTbody.innerHTML = sundayData.map(row => `
+        <tr>
+          <td>
+            <div class="date-cell-stacked">
+              <span class="date-text">${row.date} <small>(日)</small></span>
+              <span class="service-tag ${row.isTagRed ? 'is-red' : ''}">${row.tag}</span>
+            </div>
+          </td>
+          <td class="member-name">${row.message}</td>
+          <td class="member-name">${row.chair}</td>
+          <td class="member-name">${row.music}</td>
+          <td class="member-name">${row.drum}</td>
+          <td class="member-name">${row.ppt}</td>
+          <td class="member-name">${row.reception}</td>
+          <td class="member-name">${row.prayer}</td>
+          <td class="member-name">${row.kids}</td>
+          <td class="note-text-cell ${row.isNoteRed ? 'is-red' : ''}">${row.note}</td>
+        </tr>
+      `).join("");
+
+      // 水曜祈祷会
+      document.getElementById("view-wed-subtime").innerText = document.getElementById("input-wed-subtime").value;
+      const wedTbody = document.getElementById("view-wednesday-tbody");
+      wedTbody.innerHTML = wednesdayData.map(row => {
+        if (row.isClosed) {
+          return `
+            <tr>
+              <td class="wednesday-date-cell">${row.date} <small>(水)</small></td>
+              <td colspan="6" class="closed-notice-text" style="color: var(--color-text-main); font-size: 10.2pt; font-weight: 500;">${row.note || '休会'}</td>
+            </tr>
+          `;
+        }
+        return `
+          <tr>
+            <td class="wednesday-date-cell">${row.date} <small>(水)</small></td>
+            <td class="member-name">${row.message}</td>
+            <td class="member-name">${row.chair || "—"}</td>
+            <td class="member-name">${row.music}</td>
+            <td class="member-name">${row.drum}</td>
+            <td class="member-name">${row.ppt}</td>
+            <td class="member-name">${row.reception}</td>
+          </tr>
+        `;
+      }).join("");
+
+      // 定期集会（早天祈祷会 ＆ 教会掃除）
+      document.getElementById("view-weekly-1-name").innerText = document.getElementById("input-weekly-1-name").value;
+      document.getElementById("view-weekly-1-time").innerText = document.getElementById("input-weekly-1-time").value;
+      document.getElementById("view-weekly-2-name").innerText = document.getElementById("input-weekly-2-name").value;
+      document.getElementById("view-weekly-2-time").innerText = document.getElementById("input-weekly-2-time").value;
+
+      // 祈祷課題
+      document.getElementById("view-prayer-1").innerText = document.getElementById("input-prayer-1").value;
+      document.getElementById("view-prayer-2").innerText = document.getElementById("input-prayer-2").value;
+      document.getElementById("view-prayer-3").innerText = document.getElementById("input-prayer-3").value;
+      document.getElementById("view-prayer-4").innerText = document.getElementById("input-prayer-4").value;
+
+      // 行事予定一覧
+      const eventsContainer = document.getElementById("view-events-container");
+      eventsContainer.innerHTML = eventsData.map(ev => {
+        const catClass = getCategoryClass(ev.category);
+        const catBadgeHtml = ev.category ? `<span class="event-category-badge ${catClass}">${ev.category}</span>` : '';
+
+        return `
+          <div class="event-row">
+            <span class="event-date-str">${ev.date}</span>
+            ${catBadgeHtml}
+            <span class="event-detail-str" title="${ev.detail}">${ev.detail}</span>
+          </div>
+        `;
+      }).join("");
+
+      // 連絡事項
+      const noticeSection = document.getElementById("view-notice-section");
+      const noticeTitle = document.getElementById("input-notice-title").value.trim();
+      const noticeBody = document.getElementById("input-notice-body").value.trim();
+      
+      if (!noticeBody) {
+        noticeSection.style.display = "none";
+      } else {
+        noticeSection.style.display = "block";
+        document.getElementById("view-notice-title").innerText = noticeTitle || "連絡事項・お知らせ";
+        
+        const lines = noticeBody.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+        const listContainer = document.getElementById("view-notice-list-container");
+        listContainer.innerHTML = lines.map(line => {
+          const cleanLine = line.replace(/^[・\-\*]\s*/, "");
+          return `
+            <div class="notice-item-row">
+              <span class="notice-bullet">・</span>
+              <span class="notice-text-content">${cleanLine}</span>
+            </div>
+          `;
+        }).join("");
+      }
+
+      // 最下部コラム（先月の振り返り / 牧師の一言）
+      document.getElementById("view-col1-title").innerText = document.getElementById("input-col1-title").value;
+      document.getElementById("view-col1-body").innerText = document.getElementById("input-col1-body").value;
+      document.getElementById("view-col2-title").innerText = document.getElementById("input-col2-title").value;
+      document.getElementById("view-col2-body").innerText = document.getElementById("input-col2-body").value;
+    }
+
+    function addSundayRow() {
+      sundayData.push({ date: "8/—", tag: "日曜礼拝", isTagRed: false, message: "井上師", chair: "吉田", music: "須藤", drum: "荒木", ppt: "吉田", reception: "荒木", prayer: "すみれ師", kids: "すみれ師", note: "—", isNoteRed: false });
+      renderEditorForms();
+      onDataChanged();
+    }
+    function removeSundayRow(idx) {
+      sundayData.splice(idx, 1);
+      renderEditorForms();
+      onDataChanged();
+    }
+
+    function addWednesdayRow() {
+      wednesdayData.push({ date: "8/—", isClosed: false, message: "井上師", chair: "吉田", music: "須藤", drum: "荒木", ppt: "吉田", reception: "荒木", note: "" });
+      renderEditorForms();
+      onDataChanged();
+    }
+    function removeWednesdayRow(idx) {
+      wednesdayData.splice(idx, 1);
+      renderEditorForms();
+      onDataChanged();
+    }
+
+    function addEventRow() {
+      eventsData.push({ date: "9/—", category: "集会", detail: "新しい行事予定" });
+      renderEditorForms();
+      onDataChanged();
+    }
+    function removeEventRow(idx) {
+      eventsData.splice(idx, 1);
+      renderEditorForms();
+      onDataChanged();
+    }
+
+    function saveDataToJson() {
+      const state = getCurrentState();
+      const indexArr = getArchiveIndex();
+      const allArchives = {};
+
+      indexArr.forEach(k => {
+        const item = localStorage.getItem(`church_schedule_snapshot_${k}`);
+        if (item) allArchives[k] = JSON.parse(item);
+      });
+
+      const fullBackup = {
+        currentState: state,
+        archiveIndex: indexArr,
+        allArchives: allArchives,
+        exportedAt: new Date().toISOString()
+      };
+
+      const blob = new Blob([JSON.stringify(fullBackup, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `奉仕担当表_全月バックアップ_${state.year}年${state.month}月時点.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast("全月のバックアップJSONを出力しました");
+    }
+
+    function loadDataFromJson(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+
+          if (data.allArchives && data.archiveIndex) {
+            data.archiveIndex.forEach(k => {
+              if (data.allArchives[k]) {
+                localStorage.setItem(`church_schedule_snapshot_${k}`, JSON.stringify(data.allArchives[k]));
+              }
+            });
+            saveArchiveIndex(data.archiveIndex);
+            applyState(data.currentState || data.allArchives[data.archiveIndex[0]]);
+          } else {
+            applyState(data);
+          }
+
+          showToast("データを読み込みました！");
+        } catch (err) {
+          alert("ファイルの読み込みに失敗しました。");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function resetToDefaults() {
+      if (confirm("初期状態にリセットしますか？")) {
+        applyState(DEFAULT_STATE);
+        showToast("初期データに戻しました");
+      }
+    }
+
+    // 初期化実行
+    window.addEventListener("DOMContentLoaded", () => {
+      let loaded = false;
+
+      // 1. URLハッシュ確認
+      if (window.location.hash.startsWith("#data=")) {
+        try {
+          const encoded = window.location.hash.replace("#data=", "");
+          const jsonStr = decodeURIComponent(encoded);
+          const data = JSON.parse(jsonStr);
+          applyState(data);
+          loaded = true;
+          showToast(data.isLocked ? "閲覧専用リンクから開きました" : "共有リンクからデータを復元しました！");
+        } catch (e) {}
+      }
+
+      // 2. 直近のアクティブデータ確認
+      if (!loaded) {
+        try {
+          const saved = localStorage.getItem("church_schedule_current_active");
+          if (saved) {
+            const data = JSON.parse(saved);
+            applyState(data);
+            loaded = true;
+          }
+        } catch (e) {}
+      }
+
+      // 3. デフォルト
+      if (!loaded) {
+        applyState(DEFAULT_STATE);
+        localStorage.setItem("church_schedule_snapshot_2026_8", JSON.stringify(DEFAULT_STATE));
+        saveArchiveIndex(["2026_8"]);
+      } else {
+        renderArchiveList();
+      }
+
+      setTimeout(fitToScreen, 150);
+    });
+  </script>
+</body>
+</html>

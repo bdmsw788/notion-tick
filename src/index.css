@@ -1,0 +1,121 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --bg-main: #FFFFFF;
+  --bg-sidebar: #F8FAFC;
+  --text-main: #0F172A;
+  --accent-primary: #3B82F6;
+}
+
+/* Custom Themes */
+body[data-theme='ticktick_blue'] {
+  --bg-main: #FFFFFF;
+  --bg-sidebar: #F8FAFC;
+  --text-main: #0F172A;
+  --accent-primary: #3B82F6;
+}
+
+body[data-theme='notion_light'] {
+  --bg-main: #FFFFFF;
+  --bg-sidebar: #F7F6F3;
+  --text-main: #37352F;
+  --accent-primary: #2EAADC;
+}
+
+body[data-theme='notion_dark'] {
+  --bg-main: #191919;
+  --bg-sidebar: #202020;
+  --text-main: #D4D4D4;
+  --accent-primary: #3B82F6;
+}
+
+body[data-theme='forest_green'] {
+  --bg-main: #FCFDFD;
+  --bg-sidebar: #F2F7F4;
+  --text-main: #132E23;
+  --accent-primary: #10B981;
+}
+
+body[data-theme='sunset_amber'] {
+  --bg-main: #FFFCF7;
+  --bg-sidebar: #FBF4EA;
+  --text-main: #2E1F11;
+  --accent-primary: #F59E0B;
+}
+
+body[data-theme='nordic_slate'] {
+  --bg-main: #FFFFFF;
+  --bg-sidebar: #F1F5F9;
+  --text-main: #1E293B;
+  --accent-primary: #64748B;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(160, 174, 192, 0.4);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(160, 174, 192, 0.7);
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.15s ease-out forwards;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+::selection {
+  background-color: #3B82F6;
+  color: #FFFFFF;
+}

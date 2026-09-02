@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  
+  <!-- App Icon Background -->
+  <rect width="512" height="512" rx="115" fill="url(#bgGrad)" />
+  
+  <!-- Inner Rounded Card -->
+  <rect x="76" y="76" width="360" height="360" rx="80" fill="#FFFFFF" fill-opacity="0.15" />
+  
+  <!-- Checkmark Shape with Shadow -->
+  <path d="M160 265 L225 330 L355 185" 
+        fill="none" 
+        stroke="#FFFFFF" 
+        stroke-width="48" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"
+        filter="url(#shadow)" />
+        
+  <!-- Small Tick Dot for Focus -->
+  <circle cx="370" cy="140" r="18" fill="#F59E0B" filter="url(#shadow)" />
+</svg>

@@ -119,3 +119,16 @@ body {
   background-color: #3B82F6;
   color: #FFFFFF;
 }
+
+/* Mobile & Touch Drag Optimization */
+.touch-none {
+  touch-action: none !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.touch-pan-y {
+  touch-action: pan-y;
+}
+

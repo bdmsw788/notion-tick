@@ -17,9 +17,11 @@ interface TaskCardProps {
   task: Task;
   list?: TaskList;
   isSelected: boolean;
+  isDragging?: boolean;
   onSelect: () => void;
   onToggleComplete: () => void;
   onDelete: () => void;
+  onPointerDownDrag?: (e: React.PointerEvent) => void;
 }
 
 const PRIORITY_COLORS = {
@@ -33,9 +35,11 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   task,
   list,
   isSelected,
+  isDragging = false,
   onSelect,
   onToggleComplete,
   onDelete,
+  onPointerDownDrag,
 }) => {
   const today = getTodayString();
   const isOverdue = !task.completed && task.dueDate && task.dueDate < today;
@@ -50,16 +54,35 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   return (
     <div
       onClick={onSelect}
-      className={`group relative flex items-start gap-3 px-3.5 py-2.5 rounded-xl border transition-all cursor-pointer select-none ${
+      className={`group relative flex items-start gap-2.5 px-3 py-2.5 rounded-xl border transition-all cursor-pointer select-none ${
         priorityStyle.border
       } border-l-4 ${
-        isSelected
+        isDragging
+          ? 'opacity-40 border-dashed border-blue-400 scale-[0.98]'
+          : isSelected
           ? 'bg-blue-50/70 border-blue-200 shadow-sm ring-1 ring-blue-300/60'
           : task.completed
           ? 'bg-neutral-50/50 border-neutral-200/60 opacity-60 hover:opacity-90'
           : 'bg-white border-neutral-200/70 hover:border-neutral-300 hover:shadow-xs'
       }`}
     >
+      {/* Drag Handle for iPhone / Touch & Desktop */}
+      {onPointerDownDrag && (
+        <div
+          onPointerDown={onPointerDownDrag}
+          className="touch-none flex items-center justify-center p-1 -ml-1 text-neutral-300 hover:text-neutral-600 active:text-blue-600 cursor-grab active:cursor-grabbing transition-colors"
+          title="長押し・ドラッグで移動"
+        >
+          <svg width="12" height="16" viewBox="0 0 12 16" fill="currentColor">
+            <circle cx="3" cy="3" r="1.5" />
+            <circle cx="9" cy="3" r="1.5" />
+            <circle cx="3" cy="8" r="1.5" />
+            <circle cx="9" cy="8" r="1.5" />
+            <circle cx="3" cy="13" r="1.5" />
+            <circle cx="9" cy="13" r="1.5" />
+          </svg>
+        </div>
+      )}
       {/* Checkbox */}
       <button
         type="button"

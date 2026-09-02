@@ -235,6 +235,59 @@ export const App: React.FC = () => {
     });
   };
 
+  const handleMoveTaskToSection = (
+    taskId: string,
+    targetSection: 'today' | 'tomorrow' | 'nodate' | 'completed'
+  ) => {
+    const today = getTodayString();
+    const tomorrow = getOffsetDateString(1);
+
+    setTasks((prev) =>
+      prev.map((t) => {
+        if (t.id !== taskId) return t;
+        if (targetSection === 'completed') {
+          soundManager.playTaskComplete();
+          return {
+            ...t,
+            completed: true,
+            completedAt: new Date().toISOString(),
+            status: 'completed' as const,
+            updatedAt: new Date().toISOString(),
+          };
+        }
+        if (targetSection === 'today') {
+          return {
+            ...t,
+            completed: false,
+            dueDate: today,
+            status: t.status === 'completed' ? 'not_started' : t.status,
+            updatedAt: new Date().toISOString(),
+          };
+        }
+        if (targetSection === 'tomorrow') {
+          return {
+            ...t,
+            completed: false,
+            dueDate: tomorrow,
+            status: t.status === 'completed' ? 'not_started' : t.status,
+            updatedAt: new Date().toISOString(),
+          };
+        }
+        if (targetSection === 'nodate') {
+          return {
+            ...t,
+            completed: false,
+            dueDate: undefined,
+            dueTime: undefined,
+            status: t.status === 'completed' ? 'not_started' : t.status,
+            updatedAt: new Date().toISOString(),
+          };
+        }
+        return t;
+      })
+    );
+  };
+
   // Habit Handlers
   const handleToggleHabitDate = (habitId: string, dateStr: string) => {
     setHabits((prev) =>
@@ -490,6 +543,7 @@ export const App: React.FC = () => {
                 onSelectTask={setSelectedTaskId}
                 onToggleComplete={handleToggleComplete}
                 onDeleteTask={handleDeleteTask}
+                onMoveTaskToSection={handleMoveTaskToSection}
               />
             )}
 

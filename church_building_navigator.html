@@ -106,80 +106,81 @@
 </head>
 <body class="bg-[#FAF7F2] text-[#2C2219] font-sans min-h-screen flex flex-col selection:bg-amber-100 selection:text-amber-900">
 
-  <!-- 聖句バナー -->
-  <div class="bg-gradient-to-r from-[#241B14] via-[#3A291E] to-[#241B14] text-[#EADCC9] text-xs py-1.5 px-4 text-center border-b border-[#4D3728] flex items-center justify-center gap-2 no-print">
-    <span class="text-amber-400">✝</span>
-    <span class="font-serif italic tracking-wide">「知恵によって家は建てられ、英知によって堅く立てられる。」</span>
-    <span class="text-[11px] text-amber-300/80 font-serif">（箴言 24:3）</span>
-  </div>
-
-  <!-- ヘッダー -->
-  <header class="bg-gradient-to-b from-[#2E2016] to-[#1F150E] text-white border-b border-amber-950/60 shadow-warm-lg sticky top-0 z-50 no-print">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-18 py-2 gap-3">
-        <!-- タイトル -->
-        <div class="flex items-center space-x-3.5">
-          <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-300 via-amber-500 to-amber-700 flex items-center justify-center shadow-md shadow-amber-950/40 text-slate-950 font-bold text-2xl border border-amber-200/50">
+  <!-- ヘッダー（すっきり洗練されたモダンWebアプリバー） -->
+  <header class="bg-[#261B12] text-white sticky top-0 z-50 no-print shadow-md border-b border-[#3D2C1E]">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6">
+      <div class="flex items-center justify-between h-14 gap-2 sm:gap-4">
+        
+        <!-- タイトル ＆ ロゴ -->
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 font-bold text-lg shadow-sm shrink-0">
             ✝
           </div>
-          <div>
-            <div class="flex items-center space-x-2">
-              <h1 class="font-serif font-bold text-lg sm:text-xl tracking-tight text-[#FFF8ED] flex items-center gap-2">
-                教会建築・リフォーム総合ナビゲーター
-              </h1>
-              <span class="bg-gradient-to-r from-amber-500/20 to-amber-400/30 text-amber-200 border border-amber-400/30 text-[11px] px-2.5 py-0.5 rounded-full font-sans font-medium hidden sm:inline-block">
-                ✨ ビジュアル・インスパイア版 v5.0
-              </span>
-            </div>
-            <p class="text-xs text-[#C8B8A6] hidden md:block">
-              写真と図解で見る！次世代と地域に神の国の拠点を築くワクワク実践システム
-            </p>
+          <div class="flex items-center gap-2 truncate">
+            <h1 class="font-serif font-bold text-sm sm:text-base tracking-tight text-[#FFF8ED] truncate">
+              教会建築・リフォーム総合ナビゲーター
+            </h1>
+            <span class="bg-amber-500/20 text-amber-300 border border-amber-400/30 text-[10px] px-2 py-0.5 rounded-md font-sans font-medium hidden md:inline-block shrink-0">
+              v6.0
+            </span>
           </div>
         </div>
 
-        <!-- 検索バー -->
+        <!-- 検索バー（コンパクト） -->
         <div class="relative flex-1 max-w-xs hidden lg:block">
           <div class="relative">
-            <input type="text" id="globalSearchInput" oninput="app.handleSearch(this.value)" placeholder="気になる言葉（セットバック・防音・非課税…）を検索" class="w-full bg-[#3D2C20]/90 text-xs text-amber-50 placeholder-amber-200/50 rounded-xl px-3.5 py-2 pl-9 border border-[#5A412F] focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-[#4A3627] transition shadow-inner">
-            <svg class="w-4 h-4 text-amber-300/60 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <input type="text" id="globalSearchInput" oninput="app.handleSearch(this.value)" placeholder="語句・用語を検索（防音、非課税、相場…）" class="w-full bg-[#1C130C] text-xs text-amber-50 placeholder-amber-200/40 rounded-lg px-3 py-1.5 pl-8 border border-[#4A3525] focus:outline-none focus:ring-1 focus:ring-amber-400 focus:bg-[#2A1D13] transition">
+            <svg class="w-3.5 h-3.5 text-amber-300/50 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
           </div>
-          <div id="searchResultsDropdown" class="hidden absolute left-0 right-0 top-11 bg-white text-slate-800 rounded-xl shadow-2xl border border-amber-200 max-h-72 overflow-y-auto z-50 text-xs py-1"></div>
+          <div id="searchResultsDropdown" class="hidden absolute left-0 right-0 top-9 bg-white text-slate-800 rounded-xl shadow-2xl border border-amber-200 max-h-72 overflow-y-auto z-50 text-xs py-1"></div>
         </div>
 
-        <!-- ユーティリティ -->
-        <div class="flex items-center space-x-2">
-          <button onclick="app.openShareModal()" class="px-3 py-1.5 rounded-xl bg-emerald-800/80 hover:bg-emerald-700 text-emerald-100 border border-emerald-500/40 text-xs flex items-center space-x-1.5 transition shadow-xs">
-            <span>📲</span>
-            <span class="font-bold">教会でシェア</span>
+        <!-- ユーティリティ（すっきりコンパクトなボタン群） -->
+        <div class="flex items-center gap-1.5 shrink-0">
+          <!-- シェア -->
+          <button onclick="app.openShareModal()" class="px-2.5 py-1.5 rounded-lg bg-emerald-900/60 hover:bg-emerald-800 text-emerald-200 border border-emerald-600/40 text-xs font-medium flex items-center gap-1 transition" title="LINEやメールで教会メンバーにシェア">
+            <span class="text-xs">📲</span>
+            <span class="hidden sm:inline">シェア</span>
           </button>
-          <button onclick="app.openGlossaryModal()" class="px-3 py-1.5 rounded-xl bg-amber-900/60 hover:bg-amber-800 text-amber-200 border border-amber-600/40 text-xs flex items-center space-x-1.5 transition shadow-xs">
-            <span>📖</span>
-            <span class="font-bold">用語事典</span>
+          
+          <!-- 用語事典 -->
+          <button onclick="app.openGlossaryModal()" class="px-2.5 py-1.5 rounded-lg bg-amber-950/70 hover:bg-amber-900 text-amber-200 border border-amber-700/40 text-xs font-medium flex items-center gap-1 transition" title="初めてでも安心の用語事典">
+            <span class="text-xs">📖</span>
+            <span class="hidden sm:inline">用語事典</span>
           </button>
-          <button onclick="app.exportDataJson()" class="px-2.5 py-1.5 rounded-xl bg-[#3D2C20] hover:bg-[#4E3929] text-amber-200 border border-[#5C4330] text-xs flex items-center space-x-1 transition shadow-xs" title="入力データを保存（共有用）">
+          
+          <div class="h-4 w-[1px] bg-amber-900/60 mx-0.5 hidden sm:block"></div>
+
+          <!-- 保存 -->
+          <button onclick="app.exportDataJson()" class="p-1.5 sm:px-2 rounded-lg bg-[#382618] hover:bg-[#4D3522] text-amber-200 border border-[#523A25] text-xs flex items-center gap-1 transition" title="入力データを保存（JSON）">
             <span>💾</span>
-            <span class="hidden sm:inline">保存</span>
+            <span class="hidden md:inline text-[11px]">保存</span>
           </button>
-          <label class="px-2.5 py-1.5 rounded-xl bg-[#3D2C20] hover:bg-[#4E3929] text-amber-200 border border-[#5C4330] text-xs flex items-center space-x-1 transition shadow-xs cursor-pointer" title="保存したデータを読み込み">
+          
+          <!-- 読込 -->
+          <label class="p-1.5 sm:px-2 rounded-lg bg-[#382618] hover:bg-[#4D3522] text-amber-200 border border-[#523A25] text-xs flex items-center gap-1 transition cursor-pointer" title="保存したデータを読み込み">
             <span>📂</span>
-            <span class="hidden sm:inline">読込</span>
+            <span class="hidden md:inline text-[11px]">読込</span>
             <input type="file" id="importJsonFileInput" onchange="app.importDataJson(event)" accept=".json" class="hidden">
           </label>
-          <button onclick="window.print()" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white font-medium text-xs flex items-center space-x-1.5 transition shadow-sm">
+          
+          <!-- 印刷 -->
+          <button onclick="window.print()" class="p-1.5 sm:px-2 rounded-lg bg-[#382618] hover:bg-[#4D3522] text-amber-200 border border-[#523A25] text-xs flex items-center gap-1 transition" title="印刷またはPDF保存">
             <span>🖨️</span>
-            <span class="hidden md:inline">印刷 / PDF</span>
+            <span class="hidden md:inline text-[11px]">印刷</span>
           </button>
         </div>
+
       </div>
     </div>
 
-    <!-- ステンドグラス調アクセントバー -->
-    <div class="h-1 w-full bg-gradient-to-r from-amber-500 via-rose-500 via-indigo-400 via-emerald-500 to-amber-500 opacity-80"></div>
+    <!-- 極細アクセントライン (1px) -->
+    <div class="h-[2px] w-full bg-gradient-to-r from-amber-600 via-rose-500 via-amber-400 to-amber-600 opacity-60"></div>
 
-    <!-- メインタブバー -->
-    <div class="bg-[#241A12]/95 border-t border-[#3B2A1D] backdrop-blur-md">
+    <!-- メインタブバー（余白を整えスッキリ配置） -->
+    <div class="bg-[#1F150E] border-t border-[#362415]">
       <div class="max-w-7xl mx-auto px-2 sm:px-4">
-        <nav class="flex space-x-1 overflow-x-auto py-2 text-xs font-medium no-scrollbar" id="tabNav">
+        <nav class="flex space-x-1 overflow-x-auto py-1.5 text-xs font-medium no-scrollbar" id="tabNav">
           <button onclick="app.switchTab('guide')" data-tab="guide" class="tab-btn px-3 py-2 rounded-xl whitespace-nowrap transition flex items-center space-x-1.5 text-white bg-amber-700 font-bold shadow-xs">
             <span>🌱</span><span>ビジョン＆入門</span>
           </button>

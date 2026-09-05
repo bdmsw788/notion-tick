@@ -30,6 +30,7 @@ import { TaskDetailPane } from './components/TaskDetailPane';
 import { CommandPalette } from './components/CommandPalette';
 import { NotionSettingsModal } from './components/NotionSettingsModal';
 import { ConfettiCanvas } from './components/ConfettiCanvas';
+import { BottomNav } from './components/BottomNav';
 
 export const App: React.FC = () => {
   // State Initialization from Persistent Storage
@@ -506,7 +507,7 @@ export const App: React.FC = () => {
       )}
 
       {/* 2. Center Workspace Pane */}
-      <main className="flex-1 flex flex-col h-full min-w-0 bg-white overflow-hidden">
+      <main className="flex-1 flex flex-col h-full min-w-0 bg-white overflow-hidden pb-16 md:pb-0">
         <div className="flex-1 flex flex-col p-4 md:p-6 overflow-hidden max-w-5xl mx-auto w-full">
           {/* Header */}
           <MainHeader
@@ -685,6 +686,23 @@ export const App: React.FC = () => {
           setTasks(syncedTasks);
         }}
         onDataImported={handleDataImported}
+      />
+
+      {/* Mobile Bottom Navigation Bar for iPhone / Touch */}
+      <BottomNav
+        activeView={activeView}
+        onSelectView={setActiveView}
+        onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+        onQuickAdd={() => {
+          handleAddTask({
+            title: '新規タスク',
+            listId: currentListId === 'trash' ? 'inbox' : currentListId,
+            priority: 'none',
+            tags: [],
+          });
+        }}
+        onOpenNotionSettings={() => setIsNotionSettingsOpen(true)}
+        activeTaskCount={activeTaskCount}
       />
     </div>
   );

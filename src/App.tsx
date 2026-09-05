@@ -17,8 +17,7 @@ import {
 } from './lib/storage';
 import { soundManager } from './lib/soundEffects';
 
-import { TimelineView } from './components/TimelineView';
-import { MiniTimerBar } from './components/MiniTimerBar';
+import { DailyTimeBlockingView } from './components/DailyTimeBlockingView';
 import { Sidebar } from './components/Sidebar';
 import { MainHeader } from './components/MainHeader';
 import { QuickTaskInput } from './components/QuickTaskInput';
@@ -295,40 +294,6 @@ export const App: React.FC = () => {
     );
   };
 
-  // Timer Handlers for Time Management
-  const runningTask = useMemo(() => tasks.find((t) => t.isRunning) || null, [tasks]);
-
-  const handlePauseRunningTask = (task: Task) => {
-    const now = Date.now();
-    const elapsedMinutes = task.timerStartedAt
-      ? Math.max(1, Math.round((now - task.timerStartedAt) / 60000))
-      : 0;
-    handleUpdateTask({
-      ...task,
-      isRunning: false,
-      timerStartedAt: undefined,
-      actualMinutes: (task.actualMinutes || 0) + elapsedMinutes,
-    });
-  };
-
-  const handleCompleteRunningTask = (task: Task) => {
-    const now = Date.now();
-    const elapsedMinutes = task.timerStartedAt
-      ? Math.max(1, Math.round((now - task.timerStartedAt) / 60000))
-      : 0;
-    handleUpdateTask({
-      ...task,
-      isRunning: false,
-      timerStartedAt: undefined,
-      actualMinutes: (task.actualMinutes || 0) + elapsedMinutes,
-      completed: true,
-      completedAt: new Date().toISOString(),
-      status: 'completed',
-    });
-    soundManager.playTaskComplete();
-    if (settings.confettiEnabled) setConfettiTrigger((p) => p + 1);
-  };
-
   // Habit Handlers
   const handleToggleHabitDate = (habitId: string, dateStr: string) => {
     setHabits((prev) =>
@@ -577,7 +542,7 @@ export const App: React.FC = () => {
           {/* Active View Container */}
           <div className="flex-1 overflow-y-auto pt-1 pr-1">
             {activeView === 'timeline' && (
-              <TimelineView
+              <DailyTimeBlockingView
                 tasks={filteredTasks}
                 lists={lists}
                 selectedTaskId={selectedTaskId}
@@ -595,10 +560,7 @@ export const App: React.FC = () => {
                     tags: data.tags || [],
                   });
                 }}
-                onStartPomodoro={(t) => {
-                  setActiveFocusTask(t);
-                  setActiveView('pomodoro');
-                }}
+                onDeleteTask={handleDeleteTask}
               />
             )}
 
@@ -769,17 +731,6 @@ export const App: React.FC = () => {
         }}
         onOpenNotionSettings={() => setIsNotionSettingsOpen(true)}
         activeTaskCount={activeTaskCount}
-      />
-
-      {/* Dynamic Island Style Mini Timer Bar for Active Task Tracking */}
-      <MiniTimerBar
-        runningTask={runningTask}
-        onPause={handlePauseRunningTask}
-        onComplete={handleCompleteRunningTask}
-        onSelectTask={(id) => {
-          setSelectedTaskId(id);
-          setActiveView('timeline');
-        }}
       />
     </div>
   );

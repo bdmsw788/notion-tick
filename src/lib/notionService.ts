@@ -345,9 +345,11 @@ export const notionService = {
       }
     }
 
-    // 3. Extract Due Date & Time
+    // 3. Extract Due Date & Start Time / Duration
     let dueDate: string | undefined = undefined;
     let dueTime: string | undefined = undefined;
+    let startTime: string | undefined = undefined;
+    let durationMinutes: number | undefined = undefined;
 
     for (const key of Object.keys(props)) {
       const p = props[key];
@@ -356,12 +358,33 @@ export const notionService = {
         if (startStr.includes('T')) {
           const parts = startStr.split('T');
           dueDate = parts[0];
-          dueTime = parts[1].slice(0, 5);
+          const timePart = parts[1].slice(0, 5);
+          startTime = timePart;
+          dueTime = timePart;
+
+          if (p.date.end && p.date.end.includes('T')) {
+            const endParts = p.date.end.split('T');
+            const [sh, sm] = timePart.split(':').map(Number);
+            const [eh, em] = endParts[1].slice(0, 5).split(':').map(Number);
+            const diff = (eh * 60 + em) - (sh * 60 + sm);
+            if (diff > 0) durationMinutes = diff;
+          }
         } else {
           dueDate = startStr;
         }
         break;
       }
+    }
+
+    // Check "時間帯" select property if startTime is still undefined
+    const timeSlotProp = props['時間帯'] || props['時間'] || props['TimeSlot'];
+    if (!startTime && timeSlotProp && timeSlotProp.select && timeSlotProp.select.name) {
+      const slot = timeSlotProp.select.name;
+      if (slot.includes('早朝')) { startTime = '06:00'; durationMinutes = 60; }
+      else if (slot.includes('午前')) { startTime = '09:00'; durationMinutes = 120; }
+      else if (slot.includes('午後')) { startTime = '13:00'; durationMinutes = 120; }
+      else if (slot.includes('夕方')) { startTime = '16:00'; durationMinutes = 90; }
+      else if (slot.includes('夜') || slot.includes('今夜')) { startTime = '20:00'; durationMinutes = 60; }
     }
 
     // 4. Extract Priority
@@ -405,6 +428,8 @@ export const notionService = {
       priority,
       dueDate,
       dueTime,
+      startTime,
+      durationMinutes: durationMinutes || (startTime ? 60 : undefined),
       listId: defaultListId,
       tags,
       subtasks: [],

@@ -47,6 +47,12 @@ export interface Task {
   notionBlocks: NotionBlock[];
   estimatedPomodoros: number;
   completedPomodoros: number;
+  // Time Management Properties
+  startTime?: string; // e.g. "09:00", "14:30"
+  durationMinutes?: number; // estimated duration in minutes e.g. 30, 60, 90
+  actualMinutes?: number; // actual tracked time in minutes
+  isRunning?: boolean; // currently tracking time
+  timerStartedAt?: number; // Date.now() timestamp when timer started
   createdAt: string;
   updatedAt: string;
   notionPageId?: string;
@@ -78,6 +84,7 @@ export type SmartListType =
   | 'trash';
 
 export type ActiveView = 
+  | 'timeline'
   | 'list' 
   | 'kanban' 
   | 'calendar' 

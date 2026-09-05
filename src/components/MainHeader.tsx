@@ -42,12 +42,11 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
   const [showSortMenu, setShowSortMenu] = useState(false);
 
   const views: { id: ActiveView; label: string; icon: React.ReactNode }[] = [
+    { id: 'timeline', label: 'タイムライン', icon: <Clock size={15} /> },
     { id: 'list', label: 'リスト', icon: <List size={15} /> },
     { id: 'kanban', label: 'カンバン', icon: <Kanban size={15} /> },
     { id: 'calendar', label: 'カレンダー', icon: <Calendar size={15} /> },
-    { id: 'matrix', label: 'マトリクス', icon: <Grid size={15} /> },
     { id: 'pomodoro', label: 'ポモドーロ', icon: <Clock size={15} /> },
-    { id: 'habits', label: '習慣', icon: <Sparkles size={15} /> },
   ];
 
   return (
@@ -141,8 +140,8 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
         </div>
       </div>
 
-      {/* Bottom Row: View switcher tab bar */}
-      <div className="flex items-center gap-1 bg-neutral-100/70 p-1 rounded-xl w-fit overflow-x-auto">
+      {/* Bottom Row: View switcher tab bar (Visible on desktop, handled by bottom nav on mobile) */}
+      <div className="hidden md:flex items-center gap-1 bg-neutral-100/70 p-1 rounded-xl w-fit overflow-x-auto">
         {views.map((v) => {
           const isActive = activeView === v.id;
           return (

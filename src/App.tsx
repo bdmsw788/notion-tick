@@ -17,6 +17,8 @@ import {
 } from './lib/storage';
 import { soundManager } from './lib/soundEffects';
 
+import { TimelineView } from './components/TimelineView';
+import { MiniTimerBar } from './components/MiniTimerBar';
 import { Sidebar } from './components/Sidebar';
 import { MainHeader } from './components/MainHeader';
 import { QuickTaskInput } from './components/QuickTaskInput';
@@ -44,7 +46,7 @@ export const App: React.FC = () => {
 
   // UI States
   const [currentListId, setCurrentListId] = useState<string>('inbox');
-  const [activeView, setActiveView] = useState<ActiveView>('list');
+  const [activeView, setActiveView] = useState<ActiveView>('timeline');
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
   const [activeFocusTask, setActiveFocusTask] = useState<Task | null>(null);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
@@ -119,6 +121,8 @@ export const App: React.FC = () => {
     listId: string;
     dueDate?: string;
     dueTime?: string;
+    startTime?: string;
+    durationMinutes?: number;
     priority: Priority;
     tags: string[];
   }) => {
@@ -130,6 +134,8 @@ export const App: React.FC = () => {
       priority: taskData.priority,
       dueDate: taskData.dueDate,
       dueTime: taskData.dueTime,
+      startTime: taskData.startTime,
+      durationMinutes: taskData.durationMinutes,
       listId: taskData.listId,
       tags: taskData.tags,
       subtasks: [],
@@ -287,6 +293,40 @@ export const App: React.FC = () => {
         return t;
       })
     );
+  };
+
+  // Timer Handlers for Time Management
+  const runningTask = useMemo(() => tasks.find((t) => t.isRunning) || null, [tasks]);
+
+  const handlePauseRunningTask = (task: Task) => {
+    const now = Date.now();
+    const elapsedMinutes = task.timerStartedAt
+      ? Math.max(1, Math.round((now - task.timerStartedAt) / 60000))
+      : 0;
+    handleUpdateTask({
+      ...task,
+      isRunning: false,
+      timerStartedAt: undefined,
+      actualMinutes: (task.actualMinutes || 0) + elapsedMinutes,
+    });
+  };
+
+  const handleCompleteRunningTask = (task: Task) => {
+    const now = Date.now();
+    const elapsedMinutes = task.timerStartedAt
+      ? Math.max(1, Math.round((now - task.timerStartedAt) / 60000))
+      : 0;
+    handleUpdateTask({
+      ...task,
+      isRunning: false,
+      timerStartedAt: undefined,
+      actualMinutes: (task.actualMinutes || 0) + elapsedMinutes,
+      completed: true,
+      completedAt: new Date().toISOString(),
+      status: 'completed',
+    });
+    soundManager.playTaskComplete();
+    if (settings.confettiEnabled) setConfettiTrigger((p) => p + 1);
   };
 
   // Habit Handlers
@@ -536,6 +576,32 @@ export const App: React.FC = () => {
 
           {/* Active View Container */}
           <div className="flex-1 overflow-y-auto pt-1 pr-1">
+            {activeView === 'timeline' && (
+              <TimelineView
+                tasks={filteredTasks}
+                lists={lists}
+                selectedTaskId={selectedTaskId}
+                onSelectTask={setSelectedTaskId}
+                onToggleComplete={handleToggleComplete}
+                onUpdateTask={handleUpdateTask}
+                onAddTask={(data) => {
+                  handleAddTask({
+                    title: data.title || '新しいタスク',
+                    listId: currentListId === 'trash' ? 'inbox' : currentListId,
+                    dueDate: data.dueDate,
+                    startTime: data.startTime,
+                    durationMinutes: data.durationMinutes || 60,
+                    priority: data.priority || 'none',
+                    tags: data.tags || [],
+                  });
+                }}
+                onStartPomodoro={(t) => {
+                  setActiveFocusTask(t);
+                  setActiveView('pomodoro');
+                }}
+              />
+            )}
+
             {activeView === 'list' && (
               <TaskListView
                 tasks={filteredTasks}
@@ -703,6 +769,17 @@ export const App: React.FC = () => {
         }}
         onOpenNotionSettings={() => setIsNotionSettingsOpen(true)}
         activeTaskCount={activeTaskCount}
+      />
+
+      {/* Dynamic Island Style Mini Timer Bar for Active Task Tracking */}
+      <MiniTimerBar
+        runningTask={runningTask}
+        onPause={handlePauseRunningTask}
+        onComplete={handleCompleteRunningTask}
+        onSelectTask={(id) => {
+          setSelectedTaskId(id);
+          setActiveView('timeline');
+        }}
       />
     </div>
   );

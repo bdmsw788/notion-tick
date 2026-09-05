@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Task, TaskList } from '../types';
 import { TaskCard } from './TaskCard';
-import { getTodayString, getOffsetDateString } from '../lib/storage';
+import { getTodayString, getOffsetDateString, isTaskDone } from '../lib/storage';
 import { ChevronDown, ChevronRight, CheckCircle2, Inbox } from 'lucide-react';
 
 interface TaskListViewProps {
@@ -43,6 +43,7 @@ export const TaskListView: React.FC<TaskListViewProps> = ({
   const tomorrow = getOffsetDateString(1);
 
   // Group tasks into logical sections
+  const inboxTasks: Task[] = [];
   const overdueTasks: Task[] = [];
   const todayTasks: Task[] = [];
   const tomorrowTasks: Task[] = [];
@@ -51,8 +52,10 @@ export const TaskListView: React.FC<TaskListViewProps> = ({
   const completedTasks: Task[] = [];
 
   tasks.forEach((t) => {
-    if (t.completed) {
+    if (isTaskDone(t)) {
       completedTasks.push(t);
+    } else if (t.status === 'Inbox' && !t.dueDate) {
+      inboxTasks.push(t);
     } else if (t.dueDate) {
       if (t.dueDate < today) {
         overdueTasks.push(t);
@@ -235,6 +238,16 @@ export const TaskListView: React.FC<TaskListViewProps> = ({
         undefined,
         true
       )}
+
+      {/* 1.5. Inbox (未整理) */}
+      {inboxTasks.length > 0 &&
+        renderSection(
+          'inbox',
+          '📥 Inbox (未整理・トリアージ)',
+          inboxTasks,
+          'bg-blue-100 text-blue-800',
+          'nodate'
+        )}
 
       {/* 2. 今日 */}
       {renderSection(

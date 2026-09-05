@@ -1,7 +1,8 @@
-import { Task, TaskList, Habit, PomodoroSession, AppSettings } from '../types';
+import { Task, TaskList, Habit, PomodoroSession, AppSettings, Project, TaskStatus } from '../types';
 
 const STORAGE_KEYS = {
   TASKS: 'notion_tick_tasks_v1',
+  PROJECTS: 'notion_tick_projects_v1',
   LISTS: 'notion_tick_lists_v1',
   HABITS: 'notion_tick_habits_v1',
   POMODORO: 'notion_tick_pomodoro_v1',
@@ -47,6 +48,233 @@ export const formatDisplayDate = (dateStr?: string, timeStr?: string): string =>
   }
 
   return timeStr ? `${datePrefix} ${timeStr}` : datePrefix;
+};
+
+// Notion PARA Projects Initial Data
+export const DEFAULT_PROJECTS: Project[] = [
+  {
+    id: '37e601af-1c24-800d-8433-f0a22efc3c51',
+    name: '【P】教会で遊ぼうスペシャルを行う',
+    category: 'プロジェクト',
+    status: 'アクティブ',
+    targetDate: '2026-08-11',
+    color: '#3B82F6',
+    icon: '🎪'
+  },
+  {
+    id: '37e601af-1c24-808c-9a4e-d684fddf9450',
+    name: '【P】教会の伝道を進める',
+    category: 'プロジェクト',
+    status: 'アクティブ',
+    targetDate: null,
+    color: '#10B981',
+    icon: '⛪'
+  },
+  {
+    id: '37e601af-1c24-8005-aef7-e2dcd879f47c',
+    name: '【P】教会向けモデル事業',
+    category: 'プロジェクト',
+    status: 'アクティブ',
+    targetDate: null,
+    color: '#6366F1',
+    icon: '✨'
+  },
+  {
+    id: '37e601af-1c24-8002-bb61-fe60fc292c06',
+    name: '【P】教区HPの制作をする',
+    category: 'プロジェクト',
+    status: 'アクティブ',
+    targetDate: null,
+    color: '#8B5CF6',
+    icon: '💻'
+  },
+  {
+    id: '37e601af-1c24-8092-8179-eba7692ed97b',
+    name: '【P】子ども聖会を行う',
+    category: 'プロジェクト',
+    status: 'アクティブ',
+    targetDate: null,
+    color: '#EC4899',
+    icon: '🎈'
+  },
+  {
+    id: '37e601af-1c24-80c4-837c-c9f4ca04fd0f',
+    name: '【P】教職研修会をやる',
+    category: 'プロジェクト',
+    status: 'アクティブ',
+    targetDate: null,
+    color: '#F59E0B',
+    icon: '📖'
+  },
+  {
+    id: '311601af-1c24-81c3-9bec-f4824002746d',
+    name: '【P】教会webサイトリニューアル',
+    category: 'プロジェクト',
+    status: 'アクティブ',
+    targetDate: '2025-08-07',
+    color: '#0EA5E9',
+    icon: '🌐'
+  },
+  {
+    id: '311601af-1c24-815d-be15-c83d26e17bab',
+    name: '【P】youtuberとしてデビューする',
+    category: 'プロジェクト',
+    status: 'アクティブ',
+    targetDate: '2025-07-31',
+    color: '#EF4444',
+    icon: '📹'
+  },
+  {
+    id: '311601af-1c24-81c2-9d66-f74e47d1eb49',
+    name: '【P】水道代コスト削減',
+    category: 'プロジェクト',
+    status: 'アクティブ',
+    targetDate: '2025-08-14',
+    color: '#14B8A6',
+    icon: '💧'
+  },
+  {
+    id: '311601af-1c24-81c4-93fa-e69c19b6001c',
+    name: '【P】火災保険に加入',
+    category: 'プロジェクト',
+    status: '完了',
+    targetDate: '2025-08-31',
+    color: '#64748B',
+    icon: '📄'
+  },
+  {
+    id: '311601af-1c24-8112-92b7-e298da5367f7',
+    name: '【P】ダイエットで70kgまで減量',
+    category: 'プロジェクト',
+    status: '未着手',
+    targetDate: null,
+    color: '#84CC16',
+    icon: '🏃'
+  },
+  {
+    id: '311601af-1c24-8185-b6a4-ec2ad95736b5',
+    name: '【A】教会',
+    category: 'エリア',
+    status: 'アクティブ',
+    targetDate: null,
+    color: '#3B82F6',
+    icon: '🏛️'
+  },
+  {
+    id: '311601af-1c24-815c-9326-e39f97b2113c',
+    name: '【A】個人',
+    category: 'エリア',
+    status: 'アクティブ',
+    targetDate: null,
+    color: '#A855F7',
+    icon: '👤'
+  },
+  {
+    id: '311601af-1c24-81d3-967e-e687b151aeb5',
+    name: '【A】家族',
+    category: 'エリア',
+    status: 'アクティブ',
+    targetDate: null,
+    color: '#F97316',
+    icon: '🏡'
+  },
+  {
+    id: '362601af-1c24-8152-ac21-ea2ff8f592c1',
+    name: '暮らし',
+    category: 'active',
+    status: 'アクティブ',
+    targetDate: null,
+    color: '#10B981',
+    icon: '🌱'
+  },
+  {
+    id: '362601af-1c24-81f9-a82d-f2bf90108b97',
+    name: 'Notion運用',
+    category: 'active',
+    status: 'アクティブ',
+    targetDate: null,
+    color: '#6B7280',
+    icon: '⚙️'
+  },
+  {
+    id: '311601af-1c24-8153-8126-f08c013fa032',
+    name: '【R】メンタルモデル',
+    category: 'リソース',
+    status: 'アクティブ',
+    targetDate: null,
+    color: '#6366F1',
+    icon: '🧠'
+  }
+];
+
+// Check if a task is completed based on completed flag or Notion status
+export const isTaskDone = (task: Task): boolean => {
+  return task.completed === true || task.status === '完了' || task.status === 'completed';
+};
+
+// Normalize task status to Notion standard
+export const normalizeTaskStatus = (status?: string): TaskStatus => {
+  if (!status) return 'Inbox';
+  if (status === 'completed') return '完了';
+  if (status === 'in_progress') return '次にやる';
+  if (status === 'not_started') return 'Inbox';
+  if (['Inbox', '次にやる', 'スケジュール', 'プロジェクト', '連絡待ち', 'いつかやる', '完了'].includes(status)) {
+    return status as TaskStatus;
+  }
+  return 'Inbox';
+};
+
+// Status metadata for UI rendering
+export const STATUS_CONFIG: Record<string, { label: string; bg: string; text: string; border: string; desc: string }> = {
+  'Inbox': {
+    label: 'Inbox',
+    bg: 'bg-neutral-100',
+    text: 'text-neutral-700',
+    border: 'border-neutral-300',
+    desc: '未整理・受信箱に入ったばかりのタスク',
+  },
+  '次にやる': {
+    label: '次にやる',
+    bg: 'bg-blue-50',
+    text: 'text-blue-700',
+    border: 'border-blue-300',
+    desc: '直近で実行するネクストアクション',
+  },
+  'スケジュール': {
+    label: 'スケジュール',
+    bg: 'bg-amber-50',
+    text: 'text-amber-700',
+    border: 'border-amber-300',
+    desc: '日付・時間枠が決まった予定',
+  },
+  'プロジェクト': {
+    label: 'プロジェクト',
+    bg: 'bg-purple-50',
+    text: 'text-purple-700',
+    border: 'border-purple-300',
+    desc: '複数タスクを含む大きなプロジェクト',
+  },
+  '連絡待ち': {
+    label: '連絡待ち',
+    bg: 'bg-orange-50',
+    text: 'text-orange-700',
+    border: 'border-orange-300',
+    desc: '他者の返信や対応を待っている状態',
+  },
+  'いつかやる': {
+    label: 'いつかやる',
+    bg: 'bg-emerald-50',
+    text: 'text-emerald-700',
+    border: 'border-emerald-300',
+    desc: '将来やりたいアイデア・保留',
+  },
+  '完了': {
+    label: '完了',
+    bg: 'bg-emerald-100',
+    text: 'text-emerald-800',
+    border: 'border-emerald-400',
+    desc: '終了したタスク',
+  },
 };
 
 // Default Initial Lists
@@ -2970,6 +3198,23 @@ export const DEFAULT_SETTINGS: AppSettings = {
 
 // Storage Service
 export const storageService = {
+  getProjects(): Project[] {
+    try {
+      const data = localStorage.getItem(STORAGE_KEYS.PROJECTS);
+      return data ? JSON.parse(data) : DEFAULT_PROJECTS;
+    } catch {
+      return DEFAULT_PROJECTS;
+    }
+  },
+
+  saveProjects(projects: Project[]) {
+    try {
+      localStorage.setItem(STORAGE_KEYS.PROJECTS, JSON.stringify(projects));
+    } catch {
+      // ignore
+    }
+  },
+
   getTasks(): Task[] {
     try {
       const data = localStorage.getItem(STORAGE_KEYS.TASKS);

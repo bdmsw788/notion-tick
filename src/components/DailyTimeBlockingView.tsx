@@ -215,6 +215,7 @@ export const DailyTimeBlockingView: React.FC<DailyTimeBlockingViewProps> = ({
             ...taskToUpdate,
             dueDate: targetDate,
             startTime: newStartTime,
+            status: taskToUpdate.completed ? '完了' : 'スケジュール',
             durationMinutes: taskToUpdate.durationMinutes || 60,
             updatedAt: new Date().toISOString(),
           });
@@ -254,6 +255,7 @@ export const DailyTimeBlockingView: React.FC<DailyTimeBlockingViewProps> = ({
       dueDate: quickAddSlot.date,
       startTime: startTimeStr,
       durationMinutes: 60,
+      status: 'スケジュール',
       priority: 'none',
       listId: 'inbox',
       tags: [],
@@ -644,9 +646,16 @@ export const DailyTimeBlockingView: React.FC<DailyTimeBlockingViewProps> = ({
                                 >
                                   {task.title}
                                 </span>
-                                <span className="text-[10px] opacity-75 font-mono">
-                                  {task.startTime} ({duration}分)
-                                </span>
+                                <div className="flex items-center gap-1.5 flex-wrap">
+                                  <span className="text-[10px] opacity-75 font-mono">
+                                    {task.startTime} ({duration}分)
+                                  </span>
+                                  {task.projectName && (
+                                    <span className="text-[9px] bg-white/70 px-1 py-0.2 rounded font-bold truncate max-w-[90px] shadow-2xs">
+                                      {task.projectName.replace(/^【[PAR]】/, '')}
+                                    </span>
+                                  )}
+                                </div>
                               </div>
                             </div>
 

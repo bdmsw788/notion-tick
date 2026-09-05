@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { TaskList, SmartListType, ActiveView, Task, ThemeName } from '../types';
-import { getTodayString, getOffsetDateString } from '../lib/storage';
+import { TaskList, SmartListType, ActiveView, Task, ThemeName, Project } from '../types';
+import { getTodayString, getOffsetDateString, isTaskDone } from '../lib/storage';
 import {
   Inbox,
   Calendar,
@@ -21,12 +21,14 @@ import {
   Database,
   Palette,
   Check,
+  FolderKanban,
 } from 'lucide-react';
 
 interface SidebarProps {
   currentListId: string;
   lists: TaskList[];
   tasks: Task[];
+  projects?: Project[];
   activeView: ActiveView;
   currentTheme: ThemeName;
   notionConnected: boolean;
@@ -41,8 +43,9 @@ interface SidebarProps {
   selectedTag: string | null;
 }
 
-const SMART_LISTS: { id: SmartListType; name: string; icon: React.ReactNode; color: string }[] = [
-  { id: 'inbox', name: '受信箱', icon: <Inbox size={16} />, color: 'text-blue-500' },
+const SMART_LISTS: { id: SmartListType | 'projects'; name: string; icon: React.ReactNode; color: string }[] = [
+  { id: 'inbox', name: '受信箱 (Inbox)', icon: <Inbox size={16} />, color: 'text-blue-500' },
+  { id: 'projects', name: 'プロジェクト (PARA)', icon: <FolderKanban size={16} />, color: 'text-indigo-600' },
   { id: 'today', name: '今日', icon: <Sun size={16} />, color: 'text-amber-500' },
   { id: 'tomorrow', name: '明日', icon: <Calendar size={16} />, color: 'text-orange-500' },
   { id: 'next7days', name: '今後7日間', icon: <CalendarDays size={16} />, color: 'text-purple-500' },
@@ -67,6 +70,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   currentListId,
   lists,
   tasks,
+  projects = [],
   activeView,
   currentTheme,
   notionConnected,
@@ -91,18 +95,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const next7DaysEnd = getOffsetDateString(7);
 
   // Compute smart list badge counts
-  const getSmartCount = (id: SmartListType) => {
+  const getSmartCount = (id: SmartListType | 'projects') => {
     switch (id) {
       case 'inbox':
-        return tasks.filter((t) => !t.completed && t.listId === 'inbox').length;
+        return tasks.filter((t) => !isTaskDone(t) && (!t.projectId || t.status === 'Inbox' || t.listId === 'inbox')).length;
+      case 'projects':
+        return tasks.filter((t) => !isTaskDone(t) && !!t.projectId).length;
       case 'today':
-        return tasks.filter((t) => !t.completed && t.dueDate === today).length;
+        return tasks.filter((t) => !isTaskDone(t) && t.dueDate === today).length;
       case 'tomorrow':
-        return tasks.filter((t) => !t.completed && t.dueDate === tomorrow).length;
+        return tasks.filter((t) => !isTaskDone(t) && t.dueDate === tomorrow).length;
       case 'next7days':
-        return tasks.filter((t) => !t.completed && t.dueDate && t.dueDate >= today && t.dueDate <= next7DaysEnd).length;
+        return tasks.filter((t) => !isTaskDone(t) && t.dueDate && t.dueDate >= today && t.dueDate <= next7DaysEnd).length;
       case 'completed':
-        return tasks.filter((t) => t.completed).length;
+        return tasks.filter((t) => isTaskDone(t)).length;
       default:
         return 0;
     }
@@ -170,11 +176,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div className="space-y-0.5">
           {SMART_LISTS.map((item) => {
             const isSelected =
+              (item.id === 'projects' && activeView === 'projects') ||
               (item.id === 'calendar' && activeView === 'calendar') ||
               (item.id === 'matrix' && activeView === 'matrix') ||
               (item.id === 'pomodoro' && activeView === 'pomodoro') ||
               (item.id === 'habits' && activeView === 'habits') ||
-              currentListId === item.id;
+              (activeView === 'list' && currentListId === item.id);
 
             const count = getSmartCount(item.id);
 
@@ -183,7 +190,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 key={item.id}
                 type="button"
                 onClick={() => {
-                  if (item.id === 'calendar') onSelectView('calendar');
+                  if (item.id === 'projects') onSelectView('projects');
+                  else if (item.id === 'calendar') onSelectView('calendar');
                   else if (item.id === 'matrix') onSelectView('matrix');
                   else if (item.id === 'pomodoro') onSelectView('pomodoro');
                   else if (item.id === 'habits') onSelectView('habits');
@@ -313,6 +321,39 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 );
               })}
           </div>
+
+          {/* PARA Projects */}
+          {projects && projects.length > 0 && (
+            <div className="pt-2 border-t border-neutral-200/40">
+              <div className="flex items-center justify-between px-2 py-1 text-[10px] font-bold text-neutral-400 uppercase tracking-wider">
+                <span>PARA プロジェクト</span>
+              </div>
+              <div className="space-y-0.5">
+                {projects.slice(0, 8).map((p) => {
+                  const pTasks = tasks.filter((t) => !isTaskDone(t) && t.projectId === p.id);
+                  return (
+                    <div
+                      key={p.id}
+                      onClick={() => {
+                        onSelectView('projects');
+                      }}
+                      className="group flex items-center justify-between px-3 py-1.5 rounded-xl cursor-pointer hover:bg-neutral-200/60 text-neutral-600 hover:text-neutral-900 transition-all text-xs"
+                    >
+                      <div className="flex items-center gap-2 truncate">
+                        <span>{p.icon || '🎪'}</span>
+                        <span className="truncate">{p.name.replace(/^【[PAR]】/, '')}</span>
+                      </div>
+                      {pTasks.length > 0 && (
+                        <span className="text-[10px] font-bold bg-neutral-200/80 text-neutral-600 px-1.5 py-0.2 rounded-full">
+                          {pTasks.length}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Tags Section */}

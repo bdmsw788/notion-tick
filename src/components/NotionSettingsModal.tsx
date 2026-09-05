@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppSettings, Task, TaskList } from '../types';
+import { AppSettings, Task, TaskList, Project } from '../types';
 import { notionService } from '../lib/notionService';
 import { storageService } from '../lib/storage';
 import {
@@ -22,7 +22,7 @@ interface NotionSettingsModalProps {
   lists: TaskList[];
   onClose: () => void;
   onUpdateSettings: (settings: AppSettings) => void;
-  onTasksSynced: (syncedTasks: Task[]) => void;
+  onTasksSynced: (syncedTasks: Task[], syncedProjects?: Project[]) => void;
   onDataImported: () => void;
 }
 
@@ -75,7 +75,7 @@ export const NotionSettingsModal: React.FC<NotionSettingsModalProps> = ({
         notionDatabaseId: databaseId,
         notionLastSynced: nowStr,
       });
-      onTasksSynced(res.syncedTasks);
+      onTasksSynced(res.syncedTasks, res.syncedProjects);
       setSyncStatus(res.message);
     } else {
       setSyncStatus(res.message || '同期に失敗しました。');

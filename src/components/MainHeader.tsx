@@ -12,6 +12,7 @@ import {
   ArrowUpDown,
   Menu,
   CheckCircle2,
+  FolderKanban,
 } from 'lucide-react';
 
 interface MainHeaderProps {
@@ -43,6 +44,7 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
 
   const views: { id: ActiveView; label: string; icon: React.ReactNode }[] = [
     { id: 'timeline', label: 'タイムライン', icon: <Clock size={15} /> },
+    { id: 'projects', label: 'プロジェクト', icon: <FolderKanban size={15} /> },
     { id: 'list', label: 'リスト', icon: <List size={15} /> },
     { id: 'kanban', label: 'カンバン', icon: <Kanban size={15} /> },
     { id: 'calendar', label: 'カレンダー', icon: <Calendar size={15} /> },
@@ -63,11 +65,11 @@ export const MainHeader: React.FC<MainHeaderProps> = ({
           </button>
 
           <div className="flex items-center gap-2">
-            <span className="text-2xl">{currentList?.icon || '📋'}</span>
+            <span className="text-2xl">{activeView === 'projects' ? '📁' : currentList?.icon || '📋'}</span>
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="text-xl font-black text-neutral-900 tracking-tight">
-                  {currentList?.name || 'タスク一覧'}
+                  {activeView === 'projects' ? 'プロジェクト (PARA)' : currentList?.name || 'タスク一覧'}
                 </h1>
                 <span className="bg-neutral-100 text-neutral-600 text-xs px-2 py-0.5 rounded-full font-semibold">
                   {activeTaskCount}

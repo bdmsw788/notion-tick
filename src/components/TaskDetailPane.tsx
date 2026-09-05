@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Task, TaskList, Priority, TaskStatus } from '../types';
+import { Task, TaskList, Priority, TaskStatus, Project } from '../types';
+import { isTaskDone } from '../lib/storage';
 import { SubtaskList } from './SubtaskList';
 import { NotionBlockEditor } from './NotionBlockEditor';
 import { notionService } from '../lib/notionService';
@@ -18,11 +19,13 @@ import {
   RotateCcw,
   Sparkles,
   ExternalLink,
+  FolderKanban,
 } from 'lucide-react';
 
 interface TaskDetailPaneProps {
   task: Task | null;
   lists: TaskList[];
+  projects?: Project[];
   onUpdateTask: (task: Task) => void;
   onDeleteTask: (taskId: string) => void;
   onClose: () => void;
@@ -38,14 +41,18 @@ const PRIORITY_OPTIONS: { value: Priority; label: string; color: string; border:
 ];
 
 const STATUS_OPTIONS: { value: TaskStatus; label: string; color: string }[] = [
-  { value: 'not_started', label: '未着手', color: 'bg-neutral-100 text-neutral-600' },
-  { value: 'in_progress', label: '進行中', color: 'bg-blue-100 text-blue-700' },
-  { value: 'completed', label: '完了', color: 'bg-emerald-100 text-emerald-700' },
+  { value: 'Inbox', label: '📥 Inbox', color: 'bg-neutral-100 text-neutral-700' },
+  { value: '次にやる', label: '⚡ 次にやる', color: 'bg-blue-100 text-blue-700' },
+  { value: 'スケジュール', label: '📅 予定', color: 'bg-amber-100 text-amber-700' },
+  { value: '連絡待ち', label: '⏳ 連絡待ち', color: 'bg-orange-100 text-orange-700' },
+  { value: 'いつかやる', label: '💡 いつか', color: 'bg-teal-100 text-teal-700' },
+  { value: '完了', label: '✅ 完了', color: 'bg-emerald-100 text-emerald-800' },
 ];
 
 export const TaskDetailPane: React.FC<TaskDetailPaneProps> = ({
   task,
   lists,
+  projects,
   onUpdateTask,
   onDeleteTask,
   onClose,
@@ -63,7 +70,7 @@ export const TaskDetailPane: React.FC<TaskDetailPaneProps> = ({
   const currentList = lists.find((l) => l.id === task.listId) || lists[0];
 
   const handleToggleComplete = () => {
-    const nextCompleted = !task.completed;
+    const nextCompleted = !isTaskDone(task);
     if (nextCompleted && onCompleteSound) {
       onCompleteSound();
     }
@@ -71,7 +78,7 @@ export const TaskDetailPane: React.FC<TaskDetailPaneProps> = ({
       ...task,
       completed: nextCompleted,
       completedAt: nextCompleted ? new Date().toISOString() : undefined,
-      status: nextCompleted ? 'completed' : 'in_progress',
+      status: nextCompleted ? '完了' : '次にやる',
       updatedAt: new Date().toISOString(),
     });
   };
@@ -191,18 +198,48 @@ export const TaskDetailPane: React.FC<TaskDetailPaneProps> = ({
 
         {/* Notion Style Properties Grid */}
         <div className="grid grid-cols-1 gap-2.5 py-3 border-y border-neutral-100 text-xs">
+          {/* Project (PARA) Selector */}
+          <div className="flex items-center justify-between">
+            <span className="flex items-center gap-2 text-neutral-500 w-28">
+              <FolderKanban size={14} className="text-blue-500" />
+              <span>プロジェクト</span>
+            </span>
+            <select
+              value={task.projectId || ''}
+              onChange={(e) => {
+                const selectedPId = e.target.value;
+                const pObj = projects?.find((p) => p.id === selectedPId);
+                onUpdateTask({
+                  ...task,
+                  projectId: selectedPId || undefined,
+                  projectName: pObj?.name || undefined,
+                  listId: selectedPId || task.listId,
+                  updatedAt: new Date().toISOString(),
+                });
+              }}
+              className="flex-1 max-w-[220px] bg-neutral-50 hover:bg-neutral-100 text-neutral-800 rounded-md px-2 py-1 border border-neutral-200 focus:outline-none cursor-pointer text-xs font-semibold"
+            >
+              <option value="">📥 未設定 (Inbox)</option>
+              {projects?.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.icon || '🎪'} {p.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
           {/* List Selector */}
           <div className="flex items-center justify-between">
             <span className="flex items-center gap-2 text-neutral-500 w-28">
               <Folder size={14} className="text-neutral-400" />
-              <span>リスト / PJ</span>
+              <span>リスト</span>
             </span>
             <select
               value={task.listId}
               onChange={(e) =>
                 onUpdateTask({ ...task, listId: e.target.value, updatedAt: new Date().toISOString() })
               }
-              className="flex-1 max-w-[200px] bg-neutral-50 hover:bg-neutral-100 text-neutral-800 rounded-md px-2 py-1 border border-neutral-200 focus:outline-none cursor-pointer"
+              className="flex-1 max-w-[220px] bg-neutral-50 hover:bg-neutral-100 text-neutral-800 rounded-md px-2 py-1 border border-neutral-200 focus:outline-none cursor-pointer"
             >
               {lists.map((l) => (
                 <option key={l.id} value={l.id}>
@@ -264,19 +301,19 @@ export const TaskDetailPane: React.FC<TaskDetailPaneProps> = ({
             </div>
           </div>
 
-          {/* Status */}
-          <div className="flex items-center justify-between">
-            <span className="flex items-center gap-2 text-neutral-500 w-28">
+          {/* Status (Notion GTD / PARA aligned) */}
+          <div className="flex items-start justify-between gap-2 pt-1">
+            <span className="flex items-center gap-2 text-neutral-500 w-28 pt-1">
               <Sparkles size={14} className="text-neutral-400" />
               <span>ステータス</span>
             </span>
-            <div className="flex items-center gap-1">
+            <div className="flex-1 flex flex-wrap justify-end gap-1">
               {STATUS_OPTIONS.map((st) => (
                 <button
                   key={st.value}
                   type="button"
                   onClick={() => {
-                    const isDone = st.value === 'completed';
+                    const isDone = st.value === '完了';
                     onUpdateTask({
                       ...task,
                       status: st.value,
@@ -285,10 +322,10 @@ export const TaskDetailPane: React.FC<TaskDetailPaneProps> = ({
                       updatedAt: new Date().toISOString(),
                     });
                   }}
-                  className={`px-2 py-0.5 rounded text-[11px] font-medium transition-all ${
+                  className={`px-2 py-1 rounded-lg text-[11px] font-semibold transition-all border ${
                     task.status === st.value
-                      ? `${st.color} font-semibold ring-1 ring-neutral-300 shadow-xs`
-                      : 'text-neutral-400 hover:bg-neutral-100'
+                      ? `${st.color} border-current ring-1 ring-blue-300 shadow-xs scale-102`
+                      : 'bg-neutral-50 text-neutral-600 border-neutral-200 hover:bg-neutral-100'
                   }`}
                 >
                   {st.label}

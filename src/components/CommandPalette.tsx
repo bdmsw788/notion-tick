@@ -12,6 +12,7 @@ import {
   Palette,
   ArrowRight,
   Command,
+  FolderKanban,
 } from 'lucide-react';
 
 interface CommandPaletteProps {
@@ -73,6 +74,16 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       run: () => {
         onSelectList('today');
         onSelectView('list');
+        onClose();
+      },
+    },
+    {
+      id: 'act-projects',
+      title: 'プロジェクト管理 (PARA)',
+      category: 'ビュー',
+      icon: <FolderKanban size={16} className="text-indigo-600" />,
+      run: () => {
+        onSelectView('projects');
         onClose();
       },
     },

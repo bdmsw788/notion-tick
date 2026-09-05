@@ -9,11 +9,13 @@ import {
   Priority,
   TaskStatus,
   ThemeName,
+  Project,
 } from './types';
 import {
   storageService,
   getTodayString,
   getOffsetDateString,
+  isTaskDone,
 } from './lib/storage';
 import { soundManager } from './lib/soundEffects';
 
@@ -27,6 +29,7 @@ import { CalendarView } from './components/CalendarView';
 import { EisenhowerMatrixView } from './components/EisenhowerMatrixView';
 import { PomodoroFocusView } from './components/PomodoroFocusView';
 import { HabitTrackerView } from './components/HabitTrackerView';
+import { ProjectsView } from './components/ProjectsView';
 import { TaskDetailPane } from './components/TaskDetailPane';
 import { CommandPalette } from './components/CommandPalette';
 import { NotionSettingsModal } from './components/NotionSettingsModal';
@@ -36,6 +39,7 @@ import { BottomNav } from './components/BottomNav';
 export const App: React.FC = () => {
   // State Initialization from Persistent Storage
   const [tasks, setTasks] = useState<Task[]>(() => storageService.getTasks());
+  const [projects, setProjects] = useState<Project[]>(() => storageService.getProjects());
   const [lists, setLists] = useState<TaskList[]>(() => storageService.getLists());
   const [habits, setHabits] = useState<Habit[]>(() => storageService.getHabits());
   const [pomodoroSessions, setPomodoroSessions] = useState<PomodoroSession[]>(() =>
@@ -67,6 +71,11 @@ export const App: React.FC = () => {
   useEffect(() => {
     storageService.saveTasks(tasks);
   }, [tasks]);
+
+  // Persist Projects
+  useEffect(() => {
+    storageService.saveProjects(projects);
+  }, [projects]);
 
   // Persist Lists
   useEffect(() => {
@@ -122,21 +131,26 @@ export const App: React.FC = () => {
     dueTime?: string;
     startTime?: string;
     durationMinutes?: number;
-    priority: Priority;
-    tags: string[];
+    priority?: Priority;
+    tags?: string[];
+    projectId?: string;
+    projectName?: string;
+    status?: TaskStatus;
   }) => {
     const newTask: Task = {
       id: `task-${Date.now()}`,
       title: taskData.title,
       completed: false,
-      status: 'not_started',
-      priority: taskData.priority,
+      status: taskData.status || 'Inbox',
+      priority: taskData.priority || 'none',
       dueDate: taskData.dueDate,
       dueTime: taskData.dueTime,
       startTime: taskData.startTime,
       durationMinutes: taskData.durationMinutes,
       listId: taskData.listId,
-      tags: taskData.tags,
+      projectId: taskData.projectId,
+      projectName: taskData.projectName,
+      tags: taskData.tags || [],
       subtasks: [],
       notionBlocks: [
         {
@@ -163,7 +177,7 @@ export const App: React.FC = () => {
   };
 
   const handleToggleComplete = (task: Task) => {
-    const nextCompleted = !task.completed;
+    const nextCompleted = !isTaskDone(task);
     if (nextCompleted) {
       triggerTaskCompletionEffects();
     }
@@ -172,7 +186,7 @@ export const App: React.FC = () => {
       ...task,
       completed: nextCompleted,
       completedAt: nextCompleted ? new Date().toISOString() : undefined,
-      status: nextCompleted ? 'completed' : 'in_progress',
+      status: nextCompleted ? '完了' : (task.status === '完了' || task.status === 'completed' ? '次にやる' : task.status),
       updatedAt: new Date().toISOString(),
     };
 
@@ -193,8 +207,8 @@ export const App: React.FC = () => {
     const task = tasks.find((t) => t.id === taskId);
     if (!task) return;
 
-    const isCompleted = status === 'completed';
-    if (isCompleted && !task.completed) {
+    const isCompleted = status === 'completed' || status === '完了';
+    if (isCompleted && !isTaskDone(task)) {
       triggerTaskCompletionEffects();
     }
 
@@ -211,6 +225,26 @@ export const App: React.FC = () => {
     const task = tasks.find((t) => t.id === taskId);
     if (!task) return;
     handleUpdateTask({ ...task, priority, updatedAt: new Date().toISOString() });
+  };
+
+  const handleAddProject = (projectData: Partial<Project>) => {
+    const newProject: Project = {
+      id: projectData.id || `proj-${Date.now()}`,
+      name: projectData.name || '新規プロジェクト',
+      category: projectData.category || 'プロジェクト',
+      status: projectData.status || '進行中',
+      targetDate: projectData.targetDate,
+      color: projectData.color || '#3B82F6',
+      icon: projectData.icon || '📁',
+    };
+    setProjects((prev) => [...prev, newProject]);
+  };
+
+  const handleUpdateProject = (updatedProject: Project) => {
+    setProjects((prev) => prev.map((p) => (p.id === updatedProject.id ? updatedProject : p)));
+    setTasks((prev) =>
+      prev.map((t) => (t.projectId === updatedProject.id ? { ...t, projectName: updatedProject.name } : t))
+    );
   };
 
   // Quick Add helpers
@@ -375,6 +409,7 @@ export const App: React.FC = () => {
 
   const handleDataImported = () => {
     setTasks(storageService.getTasks());
+    setProjects(storageService.getProjects());
     setLists(storageService.getLists());
     setHabits(storageService.getHabits());
     setPomodoroSessions(storageService.getPomodoroSessions());
@@ -402,19 +437,19 @@ export const App: React.FC = () => {
         }
 
         if (currentListId === 'inbox') {
-          return t.listId === 'inbox';
+          return t.listId === 'inbox' || t.status === 'Inbox' || (!t.projectId && !isTaskDone(t));
         }
         if (currentListId === 'today') {
-          return t.dueDate === today;
+          return !isTaskDone(t) && t.dueDate === today;
         }
         if (currentListId === 'tomorrow') {
-          return t.dueDate === tomorrow;
+          return !isTaskDone(t) && t.dueDate === tomorrow;
         }
         if (currentListId === 'next7days') {
-          return t.dueDate && t.dueDate >= today && t.dueDate <= next7DaysEnd;
+          return !isTaskDone(t) && !!t.dueDate && t.dueDate >= today && t.dueDate <= next7DaysEnd;
         }
         if (currentListId === 'completed') {
-          return t.completed;
+          return isTaskDone(t);
         }
         if (currentListId === 'trash') {
           return false;
@@ -439,7 +474,7 @@ export const App: React.FC = () => {
       });
   }, [tasks, currentListId, selectedTag, searchQuery, sortBy]);
 
-  const activeTaskCount = filteredTasks.filter((t) => !t.completed).length;
+  const activeTaskCount = filteredTasks.filter((t) => !isTaskDone(t)).length;
   const currentListObj = lists.find((l) => l.id === currentListId) || {
     id: currentListId,
     name:
@@ -482,6 +517,7 @@ export const App: React.FC = () => {
           currentListId={currentListId}
           lists={lists}
           tasks={tasks}
+          projects={projects}
           activeView={activeView}
           currentTheme={settings.theme}
           notionConnected={!!settings.notionApiKey && !!settings.notionDatabaseId}
@@ -561,6 +597,36 @@ export const App: React.FC = () => {
                   });
                 }}
                 onDeleteTask={handleDeleteTask}
+              />
+            )}
+
+            {activeView === 'projects' && (
+              <ProjectsView
+                projects={projects}
+                tasks={tasks}
+                lists={lists}
+                selectedTaskId={selectedTaskId}
+                onSelectTask={setSelectedTaskId}
+                onToggleComplete={handleToggleComplete}
+                onUpdateTask={handleUpdateTask}
+                onAddTask={(data) => {
+                  handleAddTask({
+                    title: data.title || '新しいタスク',
+                    listId: data.listId || 'inbox',
+                    dueDate: data.dueDate,
+                    dueTime: data.dueTime,
+                    startTime: data.startTime,
+                    durationMinutes: data.durationMinutes,
+                    priority: data.priority || 'none',
+                    tags: data.tags || [],
+                    projectId: data.projectId,
+                    projectName: data.projectName,
+                    status: data.status || 'Inbox',
+                  });
+                }}
+                onDeleteTask={handleDeleteTask}
+                onAddProject={handleAddProject}
+                onUpdateProject={handleUpdateProject}
               />
             )}
 
@@ -663,6 +729,7 @@ export const App: React.FC = () => {
           <TaskDetailPane
             task={selectedTaskObj}
             lists={lists}
+            projects={projects}
             onUpdateTask={handleUpdateTask}
             onDeleteTask={handleDeleteTask}
             onClose={() => setSelectedTaskId(null)}
@@ -710,8 +777,11 @@ export const App: React.FC = () => {
         lists={lists}
         onClose={() => setIsNotionSettingsOpen(false)}
         onUpdateSettings={setSettings}
-        onTasksSynced={(syncedTasks) => {
+        onTasksSynced={(syncedTasks, syncedProjects) => {
           setTasks(syncedTasks);
+          if (syncedProjects && syncedProjects.length > 0) {
+            setProjects(syncedProjects);
+          }
         }}
         onDataImported={handleDataImported}
       />

@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { Task, TaskList, TaskStatus } from '../types';
+import { isTaskDone } from '../lib/storage';
 import { TaskCard } from './TaskCard';
-import { Plus, CheckCircle, Clock, Circle } from 'lucide-react';
+import { Plus, CheckCircle, Clock, Circle, Inbox, Calendar, Hourglass, Lightbulb } from 'lucide-react';
 
 interface KanbanBoardViewProps {
   tasks: Task[];
@@ -16,27 +17,51 @@ interface KanbanBoardViewProps {
 
 const COLUMNS: { id: TaskStatus; title: string; icon: React.ReactNode; color: string; bg: string; activeBorder: string }[] = [
   {
-    id: 'not_started',
-    title: '未着手 (To Do)',
-    icon: <Circle size={14} className="text-neutral-400" />,
-    color: 'text-neutral-700',
-    bg: 'bg-neutral-50/80',
+    id: 'Inbox',
+    title: 'Inbox (受信箱)',
+    icon: <Inbox size={14} className="text-neutral-500" />,
+    color: 'text-neutral-800',
+    bg: 'bg-neutral-50/90',
     activeBorder: 'border-neutral-400 ring-2 ring-neutral-300',
   },
   {
-    id: 'in_progress',
-    title: '進行中 (In Progress)',
+    id: '次にやる',
+    title: '次にやる (Next Actions)',
     icon: <Clock size={14} className="text-blue-500" />,
-    color: 'text-blue-700',
+    color: 'text-blue-800',
     bg: 'bg-blue-50/40',
     activeBorder: 'border-blue-500 ring-2 ring-blue-300',
   },
   {
-    id: 'completed',
+    id: 'スケジュール',
+    title: 'スケジュール (予定)',
+    icon: <Calendar size={14} className="text-amber-500" />,
+    color: 'text-amber-800',
+    bg: 'bg-amber-50/40',
+    activeBorder: 'border-amber-500 ring-2 ring-amber-300',
+  },
+  {
+    id: '連絡待ち',
+    title: '連絡待ち (Waiting)',
+    icon: <Hourglass size={14} className="text-orange-500" />,
+    color: 'text-orange-800',
+    bg: 'bg-orange-50/40',
+    activeBorder: 'border-orange-500 ring-2 ring-orange-300',
+  },
+  {
+    id: 'いつかやる',
+    title: 'いつかやる (Someday)',
+    icon: <Lightbulb size={14} className="text-teal-500" />,
+    color: 'text-teal-800',
+    bg: 'bg-teal-50/40',
+    activeBorder: 'border-teal-500 ring-2 ring-teal-300',
+  },
+  {
+    id: '完了',
     title: '完了 (Done)',
     icon: <CheckCircle size={14} className="text-emerald-500" />,
-    color: 'text-emerald-700',
-    bg: 'bg-emerald-50/30',
+    color: 'text-emerald-800',
+    bg: 'bg-emerald-50/40',
     activeBorder: 'border-emerald-500 ring-2 ring-emerald-300',
   },
 ];
@@ -90,7 +115,7 @@ export const KanbanBoardView: React.FC<KanbanBoardViewProps> = ({
     const colEl = el?.closest('[data-column-id]');
     if (colEl) {
       const colId = colEl.getAttribute('data-column-id') as TaskStatus;
-      if (colId && (colId === 'not_started' || colId === 'in_progress' || colId === 'completed')) {
+      if (colId && COLUMNS.some((c) => c.id === colId)) {
         setHoveredCol(colId);
         return;
       }
@@ -106,7 +131,7 @@ export const KanbanBoardView: React.FC<KanbanBoardViewProps> = ({
     const colEl = el?.closest('[data-column-id]');
     const targetCol = colEl ? (colEl.getAttribute('data-column-id') as TaskStatus) : hoveredCol;
 
-    if (targetCol && (targetCol === 'not_started' || targetCol === 'in_progress' || targetCol === 'completed')) {
+    if (targetCol && COLUMNS.some((c) => c.id === targetCol)) {
       if (typeof navigator !== 'undefined' && navigator.vibrate) {
         navigator.vibrate(25);
       }
@@ -144,13 +169,16 @@ export const KanbanBoardView: React.FC<KanbanBoardViewProps> = ({
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerUp}
-      className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-6 h-full items-start overflow-x-auto select-none touch-none-area"
+      className="flex gap-4 pb-6 h-full items-start overflow-x-auto select-none scrollbar-thin"
     >
       {COLUMNS.map((col) => {
         const colTasks = tasks.filter((t) => {
-          if (col.id === 'completed') return t.completed || t.status === 'completed';
-          if (t.completed) return false;
-          return (t.status || 'not_started') === col.id;
+          if (t.isDeleted) return false;
+          if (col.id === '完了') return isTaskDone(t);
+          if (isTaskDone(t)) return false;
+          if (col.id === 'Inbox') return t.status === 'Inbox' || t.status === 'not_started' || (!t.status && !t.projectId);
+          if (col.id === '次にやる') return t.status === '次にやる' || t.status === 'in_progress';
+          return t.status === col.id;
         });
 
         const isColHovered = hoveredCol === col.id && draggingTaskId !== null;
@@ -161,7 +189,7 @@ export const KanbanBoardView: React.FC<KanbanBoardViewProps> = ({
             data-column-id={col.id}
             onDragOver={handleHtml5DragOver}
             onDrop={(e) => handleHtml5Drop(e, col.id)}
-            className={`flex flex-col rounded-2xl border transition-all duration-200 ${col.bg} p-3.5 min-h-[480px] shadow-xs ${
+            className={`w-72 shrink-0 flex flex-col rounded-2xl border transition-all duration-200 ${col.bg} p-3.5 min-h-[480px] shadow-xs ${
               isColHovered
                 ? `${col.activeBorder} scale-[1.01] bg-blue-50/70 shadow-md`
                 : 'border-neutral-200/80'

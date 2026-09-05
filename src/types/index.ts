@@ -1,6 +1,33 @@
 export type Priority = 'none' | 'low' | 'medium' | 'high';
 
-export type TaskStatus = 'not_started' | 'in_progress' | 'completed' | 'archived';
+// Notion-aligned Task Statuses (GTD / PARA workflow)
+export type TaskStatus = 
+  | 'Inbox'        // 受信箱 / 未整理（タスクの初期状態）
+  | '次にやる'     // Next Actions（直近実行するタスク）
+  | 'スケジュール' // Scheduled（日時指定・タイムライン配置）
+  | 'プロジェクト' // Project Task（プロジェクト本体）
+  | '連絡待ち'     // Waiting For（相手の返答・連絡待ち）
+  | 'いつかやる'   // Someday / Maybe（保留・アイデア）
+  | '完了'         // Completed
+  // 互換性エイリアス
+  | 'not_started' 
+  | 'in_progress' 
+  | 'completed' 
+  | 'archived';
+
+// Notion PARA Project model
+export interface Project {
+  id: string; // Notion page ID (UUID) or local ID
+  name: string; // e.g. "【P】教会で遊ぼうスペシャルを行う"
+  category: 'プロジェクト' | 'エリア' | 'リソース' | 'アーカイブ' | string;
+  status: 'アクティブ' | '未着手' | '完了' | 'アーカイブ' | string;
+  targetDate?: string | null; // YYYY-MM-DD
+  color?: string;
+  icon?: string;
+  description?: string;
+  taskCount?: number;
+  completedTaskCount?: number;
+}
 
 export type NotionBlockType = 
   | 'text' 
@@ -42,6 +69,8 @@ export interface Task {
   reminder?: string;
   recurrence?: 'none' | 'daily' | 'weekly' | 'monthly' | 'custom';
   listId: string;
+  projectId?: string; // Linked PARA Project ID
+  projectName?: string; // Display name of Project
   tags: string[];
   subtasks: Subtask[];
   notionBlocks: NotionBlock[];
@@ -86,6 +115,7 @@ export type SmartListType =
 export type ActiveView = 
   | 'timeline'
   | 'list' 
+  | 'projects'
   | 'kanban' 
   | 'calendar' 
   | 'matrix' 

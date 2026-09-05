@@ -7,6 +7,7 @@ import {
   Plus,
   Settings,
   Kanban,
+  FolderKanban,
 } from 'lucide-react';
 
 interface BottomNavProps {
@@ -100,22 +101,22 @@ export const BottomNav: React.FC<BottomNavProps> = ({
           <Plus size={26} strokeWidth={2.6} />
         </button>
 
-        {/* 4. タイマー / 集中 (Focus Timer) */}
+        {/* 4. プロジェクト (Projects / PARA) */}
         <button
           type="button"
           onClick={() => {
             triggerHaptic();
-            onSelectView('pomodoro');
+            onSelectView('projects');
           }}
           className={`relative flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all active:scale-95 ${
-            activeView === 'pomodoro'
+            activeView === 'projects'
               ? 'text-blue-600 font-bold'
               : 'text-neutral-500 hover:text-neutral-800 font-medium'
           }`}
         >
-          <Timer size={22} className={activeView === 'pomodoro' ? 'stroke-[2.5]' : 'stroke-[1.9]'} />
-          <span className="text-[10px] mt-1">タイマー</span>
-          {activeView === 'pomodoro' && (
+          <FolderKanban size={22} className={activeView === 'projects' ? 'stroke-[2.5]' : 'stroke-[1.9]'} />
+          <span className="text-[10px] mt-1">プロジェクト</span>
+          {activeView === 'projects' && (
             <span className="absolute -bottom-1 w-1.5 h-1.5 rounded-full bg-blue-600" />
           )}
         </button>

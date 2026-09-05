@@ -1,9 +1,12 @@
-import { Task, NotionBlock, Priority, TaskStatus } from '../types';
+import { Task, NotionBlock, Priority, TaskStatus, Project } from '../types';
+
+export const NOTION_PARA_DB_ID = '311601af-1c24-8128-b55f-c8d02bff9c2a';
 
 export interface NotionSyncResult {
   success: boolean;
   message: string;
   syncedTasks?: Task[];
+  syncedProjects?: Project[];
   errors?: string[];
 }
 
@@ -301,8 +304,52 @@ export const notionService = {
     }
   },
 
+  // Fetch PARA Projects from Notion PARA Database
+  async fetchProjects(apiKey: string, paraDbId: string = NOTION_PARA_DB_ID): Promise<Project[]> {
+    const cleanApiKey = apiKey.trim();
+    const cleanDbId = normalizeNotionId(paraDbId);
+    if (!cleanApiKey || !cleanDbId) return [];
+
+    try {
+      const res = await this.sendNotionRequest(
+        `/databases/${cleanDbId}/query`,
+        cleanApiKey,
+        'POST',
+        { page_size: 100 }
+      );
+      if (!res.ok) return [];
+
+      const data = await res.json();
+      const pages = data.results || [];
+      return pages.map((p: any) => {
+        const props = p.properties || {};
+        const titleProp = props['名前']?.title || [];
+        const name = titleProp.map((t: any) => t.plain_text).join('').trim() || '無題のプロジェクト';
+        const cat = props['カテゴリー']?.select?.name || 'プロジェクト';
+        const stat = props['ステータス']?.status?.name || 'アクティブ';
+        const targetDate = props['目標期限']?.date?.start || null;
+
+        return {
+          id: p.id,
+          name,
+          category: cat,
+          status: stat,
+          targetDate,
+          color: name.startsWith('【P】') ? '#3B82F6' : name.startsWith('【A】') ? '#10B981' : '#6366F1',
+          icon: name.startsWith('【P】') ? '🎪' : name.startsWith('【A】') ? '🏛️' : '📁',
+        };
+      });
+    } catch {
+      return [];
+    }
+  },
+
   // Parse Notion Page object into our Task interface
-  parseNotionPageToTask(page: any, defaultListId: string = 'inbox'): Task {
+  parseNotionPageToTask(
+    page: any,
+    projectsMap: Record<string, string> = {},
+    defaultListId: string = 'inbox'
+  ): Task {
     const props = page.properties || {};
 
     // 1. Extract Title
@@ -315,33 +362,33 @@ export const notionService = {
       }
     }
 
-    // 2. Extract Completion / Status
+    // 2. Extract Completion & Notion-aligned Status
     let completed = false;
-    let status: TaskStatus = 'not_started';
+    let status: TaskStatus = 'Inbox'; // Default to Inbox (Inbox-first philosophy!)
 
+    // Check status property
+    const statusProp = props['ステータス'] || Object.values(props).find((p: any) => p.type === 'status');
+    if (statusProp && (statusProp as any).status) {
+      const sName = (statusProp as any).status.name || '';
+      if (sName === '完了') {
+        completed = true;
+        status = '完了';
+      } else if (['Inbox', '次にやる', 'スケジュール', 'プロジェクト', '連絡待ち', 'いつかやる'].includes(sName)) {
+        status = sName as TaskStatus;
+      } else if (sName.includes('完了') || sName.includes('done')) {
+        completed = true;
+        status = '完了';
+      } else if (sName.includes('進行') || sName.includes('doing')) {
+        status = '次にやる';
+      }
+    }
+
+    // Fallback checkbox
     for (const key of Object.keys(props)) {
       const p = props[key];
-      if (p.type === 'checkbox') {
-        if (p.checkbox === true) {
-          completed = true;
-          status = 'completed';
-        }
-      } else if (p.type === 'status' && p.status) {
-        const name = p.status.name?.toLowerCase() || '';
-        if (name.includes('完了') || name.includes('done') || name.includes('complete')) {
-          completed = true;
-          status = 'completed';
-        } else if (name.includes('進行') || name.includes('progress') || name.includes('doing')) {
-          status = 'in_progress';
-        }
-      } else if (p.type === 'select' && p.select) {
-        const name = p.select.name?.toLowerCase() || '';
-        if (name.includes('完了') || name.includes('done') || name.includes('complete')) {
-          completed = true;
-          status = 'completed';
-        } else if (name.includes('進行') || name.includes('progress') || name.includes('doing')) {
-          status = 'in_progress';
-        }
+      if (p.type === 'checkbox' && p.checkbox === true) {
+        completed = true;
+        status = '完了';
       }
     }
 
@@ -351,9 +398,9 @@ export const notionService = {
     let startTime: string | undefined = undefined;
     let durationMinutes: number | undefined = undefined;
 
-    for (const key of Object.keys(props)) {
-      const p = props[key];
-      if (p.type === 'date' && p.date && p.date.start) {
+    for (const propName of ['実施予定日', '締切日', '日付', 'Date']) {
+      const p = props[propName];
+      if (p && p.type === 'date' && p.date && p.date.start) {
         const startStr = p.date.start;
         if (startStr.includes('T')) {
           const parts = startStr.split('T');
@@ -387,26 +434,30 @@ export const notionService = {
       else if (slot.includes('夜') || slot.includes('今夜')) { startTime = '20:00'; durationMinutes = 60; }
     }
 
-    // 4. Extract Priority
+    // 4. Extract Project (IB_PARA relation)
+    let projectId: string | undefined = undefined;
+    let projectName: string | undefined = undefined;
+    const paraProp = props['IB_PARA'] || props['プロジェクト'] || props['PARA'];
+    if (paraProp && paraProp.type === 'relation' && paraProp.relation && paraProp.relation.length > 0) {
+      projectId = paraProp.relation[0].id;
+      projectName = projectsMap[projectId] || undefined;
+    }
+
+    // 5. Extract Priority
     let priority: Priority = 'none';
-    for (const key of Object.keys(props)) {
-      const p = props[key];
-      if (
-        (p.type === 'select' && p.select) ||
-        (p.type === 'multi_select' && p.multi_select && p.multi_select[0])
-      ) {
-        const valName = (p.select?.name || p.multi_select?.[0]?.name || '').toLowerCase();
-        if (valName.includes('high') || valName.includes('高') || valName.includes('緊急')) {
-          priority = 'high';
-        } else if (valName.includes('med') || valName.includes('中')) {
-          priority = 'medium';
-        } else if (valName.includes('low') || valName.includes('低')) {
-          priority = 'low';
-        }
+    const prioProp = props['優先順位'] || props['Priority'];
+    if (prioProp && prioProp.type === 'select' && prioProp.select) {
+      const valName = prioProp.select.name || '';
+      if (valName.includes('★★★') || valName.includes('高') || valName.toLowerCase().includes('high')) {
+        priority = 'high';
+      } else if (valName.includes('★★') || valName.includes('中') || valName.toLowerCase().includes('med')) {
+        priority = 'medium';
+      } else if (valName.includes('★') || valName.includes('低') || valName.toLowerCase().includes('low')) {
+        priority = 'low';
       }
     }
 
-    // 5. Extract Tags
+    // 6. Extract Tags
     const tags: string[] = [];
     for (const key of Object.keys(props)) {
       const p = props[key];
@@ -430,7 +481,9 @@ export const notionService = {
       dueTime,
       startTime,
       durationMinutes: durationMinutes || (startTime ? 60 : undefined),
-      listId: defaultListId,
+      listId: projectId || defaultListId,
+      projectId,
+      projectName,
       tags,
       subtasks: [],
       notionBlocks: [
@@ -448,11 +501,83 @@ export const notionService = {
     };
   },
 
-  // Fetch all tasks from Notion Database and sync bidirectionally
+  // Update a single Notion Page (Status, IB_PARA, Date, etc.)
+  async updateNotionPage(
+    apiKey: string,
+    pageId: string,
+    updates: {
+      status?: TaskStatus;
+      completed?: boolean;
+      projectId?: string;
+      dueDate?: string;
+      startTime?: string;
+      title?: string;
+    }
+  ): Promise<boolean> {
+    const cleanApiKey = apiKey.trim();
+    if (!cleanApiKey || !pageId) return false;
+
+    const properties: Record<string, any> = {};
+
+    // 1. Title
+    if (updates.title !== undefined) {
+      properties['名前'] = {
+        title: [{ text: { content: updates.title } }],
+      };
+    }
+
+    // 2. Status
+    if (updates.status !== undefined) {
+      properties['ステータス'] = {
+        status: { name: updates.status },
+      };
+    } else if (updates.completed !== undefined) {
+      properties['ステータス'] = {
+        status: { name: updates.completed ? '完了' : '次にやる' },
+      };
+    }
+
+    // 3. IB_PARA (Project)
+    if (updates.projectId !== undefined) {
+      properties['IB_PARA'] = {
+        relation: updates.projectId ? [{ id: updates.projectId }] : [],
+      };
+    }
+
+    // 4. Due Date
+    if (updates.dueDate !== undefined) {
+      if (updates.dueDate) {
+        let startIso = updates.dueDate;
+        if (updates.startTime) {
+          startIso = `${updates.dueDate}T${updates.startTime}:00.000+09:00`;
+        }
+        properties['実施予定日'] = {
+          date: { start: startIso },
+        };
+      } else {
+        properties['実施予定日'] = { date: null };
+      }
+    }
+
+    try {
+      const res = await this.sendNotionRequest(
+        `/pages/${pageId}`,
+        cleanApiKey,
+        'PATCH',
+        { properties }
+      );
+      return res.ok;
+    } catch {
+      return false;
+    }
+  },
+
+  // Fetch all tasks and projects from Notion Database and sync bidirectionally
   async syncDatabase(
     apiKey: string,
     rawDatabaseId: string,
-    localTasks: Task[]
+    localTasks: Task[],
+    paraDatabaseId: string = NOTION_PARA_DB_ID
   ): Promise<NotionSyncResult> {
     if (!apiKey || !rawDatabaseId) {
       return {
@@ -464,7 +589,14 @@ export const notionService = {
     const databaseId = normalizeNotionId(rawDatabaseId);
 
     try {
-      // 1. Query Database from Notion API
+      // 1. Fetch Projects from PARA DB
+      const projects = await this.fetchProjects(apiKey, paraDatabaseId);
+      const projectsMap: Record<string, string> = {};
+      projects.forEach((p) => {
+        projectsMap[p.id] = p.name;
+      });
+
+      // 2. Query Tasks Database from Notion API
       const res = await this.sendNotionRequest(
         `/databases/${databaseId}/query`,
         apiKey,
@@ -483,23 +615,20 @@ export const notionService = {
       const data = await res.json();
       const pages = data.results || [];
 
-      // 2. Map Notion pages into Tasks
-      const notionTasks: Task[] = pages.map((page: any) => this.parseNotionPageToTask(page));
+      // 3. Map Notion pages into Tasks with project names
+      const notionTasks: Task[] = pages.map((page: any) =>
+        this.parseNotionPageToTask(page, projectsMap)
+      );
 
-      // 3. Merge Notion tasks with existing local tasks
-      // - Keep local blocks and subtasks if task was already synced before
-      // - Add new Notion tasks
-      // - Keep local-only tasks (that haven't been pushed to Notion yet)
+      // 4. Merge Notion tasks with existing local tasks
       const mergedTasks: Task[] = [...notionTasks];
 
       localTasks.forEach((localTask) => {
-        // If this local task matches a Notion page, retain local enriched blocks if present
         const matchingNotionIndex = mergedTasks.findIndex(
           (nt) => nt.notionPageId === localTask.notionPageId || nt.id === localTask.id
         );
 
         if (matchingNotionIndex >= 0) {
-          // Merge local enriched subtasks & notionBlocks if existing
           const current = mergedTasks[matchingNotionIndex];
           mergedTasks[matchingNotionIndex] = {
             ...current,
@@ -510,7 +639,7 @@ export const notionService = {
                 : current.notionBlocks,
             completedPomodoros: localTask.completedPomodoros || 0,
             estimatedPomodoros: localTask.estimatedPomodoros || 2,
-            listId: localTask.listId || current.listId,
+            listId: current.projectId || localTask.listId || current.listId,
           };
         } else if (!localTask.notionPageId) {
           // Local task created on app, preserve it
@@ -520,8 +649,9 @@ export const notionService = {
 
       return {
         success: true,
-        message: `Notionデータベースから ${notionTasks.length}件 のタスクを正常に取得・同期しました！`,
+        message: `Notionデータベースからタスク ${notionTasks.length}件、プロジェクト ${projects.length}件 を正常に同期しました！`,
         syncedTasks: mergedTasks,
+        syncedProjects: projects.length > 0 ? projects : undefined,
       };
     } catch (e: unknown) {
       const err = e as Error;

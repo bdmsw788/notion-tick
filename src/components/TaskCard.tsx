@@ -120,6 +120,46 @@ export const TaskCard: React.FC<TaskCardProps> = ({
 
         {/* Metadata Badges */}
         <div className="flex flex-wrap items-center gap-2 mt-1.5 text-[11px] text-neutral-500">
+          {/* Status Badge */}
+          {task.status && task.status !== 'completed' && task.status !== 'not_started' && (
+            <span
+              className={`inline-flex items-center px-1.5 py-0.5 rounded font-bold text-[10px] border ${
+                task.status === 'Inbox'
+                  ? 'bg-neutral-100 text-neutral-600 border-neutral-200'
+                  : task.status === '次にやる'
+                  ? 'bg-blue-50 text-blue-700 border-blue-200'
+                  : task.status === 'スケジュール'
+                  ? 'bg-amber-50 text-amber-700 border-amber-200'
+                  : task.status === '連絡待ち'
+                  ? 'bg-orange-50 text-orange-700 border-orange-200'
+                  : task.status === 'いつかやる'
+                  ? 'bg-teal-50 text-teal-700 border-teal-200'
+                  : 'bg-neutral-50 text-neutral-600 border-neutral-200'
+              }`}
+            >
+              {task.status}
+            </span>
+          )}
+
+          {/* Project (PARA) Badge */}
+          {task.projectName && (
+            <span
+              className="inline-flex items-center gap-1 text-blue-700 bg-blue-50/80 border border-blue-200 px-1.5 py-0.5 rounded text-[10px] font-bold truncate max-w-[160px]"
+              title={`プロジェクト: ${task.projectName}`}
+            >
+              <span>📁</span>
+              <span className="truncate">{task.projectName.replace(/^【[PAR]】/, '')}</span>
+            </span>
+          )}
+
+          {/* Start Time Badge */}
+          {task.startTime && (
+            <span className="inline-flex items-center gap-1 text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded font-mono text-[10px]">
+              <Clock size={11} />
+              <span>{task.startTime}</span>
+            </span>
+          )}
+
           {/* Due Date Badge */}
           {task.dueDate && (
             <span

@@ -25,6 +25,7 @@ export default defineConfig({
       input: {
         main: './index.html',
         church_navigator: './church_building_navigator.html',
+        gospel_navigator: './gospel_navigator.html',
       },
     },
   },

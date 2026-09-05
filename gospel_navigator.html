@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>福音ナビゲーター | Gospel Navigator - だれでも・いつでも・相手に合わせて伝えられる対話型伝道アプリ</title>
+  
+  <!-- PWA & Mobile Web App Meta -->
+  <meta name="theme-color" content="#FAF7F2">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="description" content="相手に合わせて神様の愛と福音を視覚的にわかりやすく伝えられる対話型伝道プレゼンテーション＆理解アプリ。4つの法則、虹の福音、心の王座・架け橋の動く図解、豆知識集を完全網羅。">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: BIZ UDPGothic & Noto Serif JP & Shippori Mincho -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;500;700&family=Noto+Serif+JP:wght@400;600;700;900&family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Zen Kaku Gothic New"', '"BIZ UDPGothic"', 'sans-serif'],
+            serif: ['"Noto Serif JP"', '"Shippori Mincho"', 'serif'],
+          },
+          colors: {
+            gospel: {
+              gold: '#D99B26',
+              goldLight: '#FEF3C7',
+              goldDark: '#B45309',
+              dark: '#1E293B',
+              red: '#BE123C',
+              redLight: '#FFE4E6',
+              white: '#FFFFFF',
+              green: '#047857',
+              greenLight: '#D1FAE5',
+              blue: '#0284C7',
+              blueLight: '#E0F2FE',
+              purple: '#7C3AED',
+              purpleLight: '#EDE9FE',
+              cream: '#FAF7F2',
+              cardBg: '#FFFDF9',
+              slate: '#334155'
+            }
+          },
+          boxShadow: {
+            'soft': '0 8px 30px rgba(0, 0, 0, 0.06)',
+            'card': '0 4px 20px -2px rgba(90, 60, 30, 0.08)',
+            'float': '0 12px 36px rgba(180, 83, 9, 0.15)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* iOS Safe Area */
+    body {
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Smooth Transitions */
+    .fade-in {
+      animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Custom Scrollbar for Drawer */
+    .custom-scroll::-webkit-scrollbar {
+      width: 5px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #E2E8F0;
+      border-radius: 9999px;
+    }
+
+    /* Pulse animation for interactive buttons */
+    .btn-pulse {
+      animation: gentlePulse 2.5s infinite;
+    }
+    @keyframes gentlePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+  </style>
+</head>
+
+<body class="bg-gospel-cream text-slate-800 font-sans min-h-screen flex flex-col justify-between selection:bg-amber-100 selection:text-amber-900">
+
+  <!-- ==================== TOP NAVIGATION HEADER ==================== -->
+  <header class="sticky top-0 z-40 bg-gospel-cream/95 backdrop-blur-md border-b border-amber-900/10 px-4 py-3 shadow-xs">
+    <div class="max-w-xl mx-auto flex items-center justify-between">
+      <!-- Logo & App Title -->
+      <button onclick="goToHome()" class="flex items-center gap-2 text-left group">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
+          <i data-lucide="cross" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="text-xs font-bold tracking-widest text-amber-800 block uppercase">Gospel Navigator</span>
+          <h1 class="text-base font-bold font-serif text-slate-800 leading-tight">福音ナビゲーター</h1>
+        </div>
+      </button>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-1.5">
+        <!-- Presenter Mode Toggle (カンペ) -->
+        <button id="toggle-hint-btn" onclick="togglePresenterHint()" 
+          title="伝える人向けのヒント・カンペを表示/非表示"
+          class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition-colors bg-white border-amber-200 text-amber-800 hover:bg-amber-50">
+          <i data-lucide="lightbulb" class="w-4 h-4 text-amber-600"></i>
+          <span class="hidden sm:inline" id="hint-btn-text">ヒントON</span>
+        </button>
+
+        <!-- Q&A / Knowledge Base Button -->
+        <button onclick="openKnowledgeModal()" 
+          title="聖書・キリスト教・教会の豆知識＆Q&Aを開く"
+          class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-amber-700 text-white hover:bg-amber-800 transition-colors shadow-xs">
+          <i data-lucide="book-open" class="w-4 h-4"></i>
+          <span>豆知識＆Q&A</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mode Banner & Progress (Visible when presentation active) -->
+    <div id="presentation-header" class="hidden max-w-xl mx-auto mt-2 pt-2 border-t border-amber-900/5">
+      <div class="flex items-center justify-between text-xs text-slate-500 mb-1.5">
+        <div class="flex items-center gap-1.5 font-medium text-amber-900">
+          <span id="current-mode-badge" class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800">
+            虹の架け橋
+          </span>
+          <span id="slide-number-text" class="text-slate-600 font-semibold">1 / 5</span>
+        </div>
+        <button onclick="openModeSelectModal()" class="text-amber-700 hover:underline flex items-center gap-0.5 text-[11px]">
+          <i data-lucide="shuffle" class="w-3 h-3"></i> コース変更
+        </button>
+      </div>
+
+      <!-- Interactive Progress Bar -->
+      <div class="w-full bg-amber-900/10 h-1.5 rounded-full overflow-hidden flex gap-0.5" id="progress-container">
+        <!-- dynamic indicators will be inserted here -->
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN CONTENT CONTAINER ==================== -->
+  <main class="flex-1 max-w-xl w-full mx-auto p-4 flex flex-col justify-center">
+
+    <!-- ================= VIEW 1: HOME / MODE SELECTION ================= -->
+    <section id="view-home" class="fade-in space-y-6 py-2">
+      <!-- Hero Greeting -->
+      <div class="text-center space-y-3 pt-2 pb-1">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100/80 text-amber-900 text-xs font-medium border border-amber-200">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-600"></i>
+          対話しながら伝える・心に届く福音ガイド
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-serif font-bold text-slate-900 tracking-tight leading-snug">
+          「神様の愛」を、<br>
+          <span class="text-amber-700">相手の心に合わせて</span>届ける。
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-md mx-auto">
+          スマホを一緒に見ながら読み進められるインタラクティブな伝道ツールです。
+          相手の関心や持ち時間に合わせて最適なコースを選べます。
+        </p>
+      </div>
+
+      <!-- Mode Selection Cards -->
+      <div class="space-y-3">
+        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider px-1">
+          相手に合わせたコースを選択
+        </div>
+
+        <!-- Mode 1: Rainbow (虹の架け橋) -->
+        <button onclick="startPresentation('rainbow')" 
+          class="w-full bg-white rounded-2xl p-4 text-left border border-amber-100 shadow-card hover:border-amber-400 hover:shadow-md transition-all group flex items-start gap-4">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 via-rose-400 to-emerald-400 flex items-center justify-center text-white shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+            <i data-lucide="rainbow" class="w-6 h-6"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-2">
+              <h3 class="font-bold text-slate-900 text-base group-hover:text-amber-800 transition-colors">
+                ① 虹の架け橋コース
+              </h3>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 shrink-0">一番人気</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-1 leading-normal">
+              7色のストーリー（光・罪・十字架・赦し・成長）で巡る、感覚的・直感的に心に染み渡るアプローチ。
+            </p>
+            <div class="flex items-center gap-3 mt-2 text-[11px] text-amber-700 font-medium">
+              <span>⏱ 約7分</span>
+              <span>👥 初めての方・若者・女性・子ども</span>
+            </div>
+          </div>
+          <i data-lucide="chevron-right" class="w-5 h-5 text-slate-400 self-center group-hover:translate-x-1 transition-transform"></i>
+        </button>
+
+        <!-- Mode 2: 4 Laws (4つの法則) -->
+        <button onclick="startPresentation('four_laws')" 
+          class="w-full bg-white rounded-2xl p-4 text-left border border-amber-100 shadow-card hover:border-amber-400 hover:shadow-md transition-all group flex items-start gap-4">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-600 to-indigo-700 flex items-center justify-center text-white shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+            <i data-lucide="compass" class="w-6 h-6"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-2">
+              <h3 class="font-bold text-slate-900 text-base group-hover:text-sky-800 transition-colors">
+                ② 4つの法則コース
+              </h3>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-sky-100 text-sky-800 shrink-0">王道・論理的</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-1 leading-normal">
+              愛・罪・キリスト・受け入れの4原則。「心の王座（2つの心）」の動く図解で明快に伝えます。
+            </p>
+            <div class="flex items-center gap-3 mt-2 text-[11px] text-sky-700 font-medium">
+              <span>⏱ 約8分</span>
+              <span>👥 筋道立てて知りたい方・社会人・学生</span>
+            </div>
+          </div>
+          <i data-lucide="chevron-right" class="w-5 h-5 text-slate-400 self-center group-hover:translate-x-1 transition-transform"></i>
+        </button>
+
+        <!-- Mode 3: Needs / Themes (お悩み・関心別) -->
+        <button onclick="startPresentation('concerns')" 
+          class="w-full bg-white rounded-2xl p-4 text-left border border-amber-100 shadow-card hover:border-emerald-400 hover:shadow-md transition-all group flex items-start gap-4">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+            <i data-lucide="heart-handshake" class="w-6 h-6"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-2">
+              <h3 class="font-bold text-slate-900 text-base group-hover:text-emerald-800 transition-colors">
+                ③ お悩み・関心別コース
+              </h3>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800 shrink-0">対話型</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-1 leading-normal">
+              「心の安らぎ」「人生の意味」「人間関係・赦し」「科学と聖書」など、相手の今の関心から入る導線。
+            </p>
+            <div class="flex items-center gap-3 mt-2 text-[11px] text-emerald-700 font-medium">
+              <span>⏱ 約10分</span>
+              <span>👥 悩みがある方・知的好奇心のある方</span>
+            </div>
+          </div>
+          <i data-lucide="chevron-right" class="w-5 h-5 text-slate-400 self-center group-hover:translate-x-1 transition-transform"></i>
+        </button>
+
+        <!-- Mode 4: 3-Minute Quick (3分クイック) -->
+        <button onclick="startPresentation('quick')" 
+          class="w-full bg-white rounded-2xl p-4 text-left border border-amber-100 shadow-card hover:border-amber-500 hover:shadow-md transition-all group flex items-start gap-4">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-white shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+            <i data-lucide="zap" class="w-6 h-6"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-2">
+              <h3 class="font-bold text-slate-900 text-base group-hover:text-amber-800 transition-colors">
+                ④ 3分クイック・ダイジェスト
+              </h3>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-orange-100 text-orange-800 shrink-0">時短</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-1 leading-normal">
+              カフェや別れ際の短い時間で、神様の愛と十字架の要点をぎゅっと凝縮して伝えます。
+            </p>
+            <div class="flex items-center gap-3 mt-2 text-[11px] text-amber-700 font-medium">
+              <span>⏱ 約3分</span>
+              <span>👥 時間がない時・まずは大枠を伝えたい時</span>
+            </div>
+          </div>
+          <i data-lucide="chevron-right" class="w-5 h-5 text-slate-400 self-center group-hover:translate-x-1 transition-transform"></i>
+        </button>
+      </div>
+
+      <!-- Quick Feature Highlights -->
+      <div class="grid grid-cols-2 gap-3 pt-2">
+        <div onclick="openInteractiveModal('throne')" class="p-3 bg-amber-50/70 rounded-xl border border-amber-200/60 cursor-pointer hover:bg-amber-100/60 transition-colors">
+          <div class="flex items-center gap-1.5 text-xs font-bold text-amber-900 mb-1">
+            <i data-lucide="crown" class="w-4 h-4 text-amber-700"></i>
+            動く「心の王座」
+          </div>
+          <p class="text-[11px] text-slate-600">自分中心 vs キリスト中心の心を図解で体験</p>
+        </div>
+
+        <div onclick="openInteractiveModal('bridge')" class="p-3 bg-amber-50/70 rounded-xl border border-amber-200/60 cursor-pointer hover:bg-amber-100/60 transition-colors">
+          <div class="flex items-center gap-1.5 text-xs font-bold text-amber-900 mb-1">
+            <i data-lucide="spline" class="w-4 h-4 text-amber-700"></i>
+            動く「十字架の架け橋」
+          </div>
+          <p class="text-[11px] text-slate-600">人間の努力の限界とキリストの架け橋</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VIEW 2: SLIDE PRESENTATION ================= -->
+    <section id="view-presentation" class="hidden flex-1 flex flex-col justify-between py-2">
+      <!-- Main Slide Card -->
+      <div id="slide-card" class="bg-gospel-cardBg rounded-3xl p-5 sm:p-7 shadow-card border border-amber-900/10 min-h-[460px] flex flex-col justify-between fade-in relative overflow-hidden">
+        
+        <!-- Top Badge & Subtitle -->
+        <div>
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <span id="slide-badge" class="px-2.5 py-1 rounded-full text-xs font-bold tracking-wide">
+              Step 1
+            </span>
+            <span id="slide-tagline" class="text-xs font-medium text-slate-500 font-serif">
+              神の愛と目的
+            </span>
+          </div>
+
+          <!-- Slide Main Heading -->
+          <h3 id="slide-title" class="text-xl sm:text-2xl font-serif font-bold text-slate-900 leading-snug mb-3">
+            神様はあなたを愛し、<br>素晴らしい計画を持っています
+          </h3>
+
+          <!-- Slide Body / Visual Area -->
+          <div id="slide-body-content" class="text-sm text-slate-700 leading-relaxed space-y-3">
+            <!-- Dynamic Content Injected Here -->
+          </div>
+        </div>
+
+        <!-- Bible Verse Box -->
+        <div id="slide-verse-box" class="mt-4 p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200/70">
+          <div class="flex items-start gap-2">
+            <i data-lucide="quote" class="w-4 h-4 text-amber-700 shrink-0 mt-0.5"></i>
+            <div>
+              <p id="slide-verse-text" class="text-xs sm:text-sm font-serif text-amber-950 italic leading-relaxed">
+                「神は、実に、そのひとり子をお与えになったほどに、世を愛された。」
+              </p>
+              <div id="slide-verse-ref" class="text-[11px] font-bold text-amber-800 mt-1 text-right">
+                ヨハネの福音書 3章16節
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Presenter Notes (カンペ) Box (Toggleable) -->
+        <div id="presenter-note-box" class="mt-4 p-3 rounded-xl bg-slate-900 text-slate-100 text-xs border border-slate-700 shadow-inner">
+          <div class="flex items-center gap-1.5 text-amber-400 font-bold mb-1">
+            <i data-lucide="lightbulb" class="w-3.5 h-3.5"></i>
+            <span>話者用メモ（相手への問いかけ＆コツ）</span>
+          </div>
+          <p id="presenter-note-text" class="text-slate-300 leading-relaxed">
+            「自分が作られた存在、価値ある存在だと感じたことある？」と穏やかに問いかけてみましょう。
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide Navigation Footer Controls -->
+      <div class="flex items-center justify-between gap-3 mt-4 pt-1">
+        <button id="btn-prev-slide" onclick="prevSlide()" 
+          class="flex items-center justify-center gap-1.5 px-4 py-3 rounded-2xl font-medium text-sm text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition-colors shadow-xs w-28">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>前へ</span>
+        </button>
+
+        <div class="text-center">
+          <button onclick="openKnowledgeModal()" class="text-xs text-amber-800 font-medium hover:underline flex items-center justify-center gap-1 py-1">
+            <i data-lucide="help-circle" class="w-3.5 h-3.5"></i> 質問されたら
+          </button>
+        </div>
+
+        <button id="btn-next-slide" onclick="nextSlide()" 
+          class="flex items-center justify-center gap-1.5 px-5 py-3 rounded-2xl font-bold text-sm text-white bg-amber-700 hover:bg-amber-800 transition-all shadow-md btn-pulse w-32">
+          <span id="next-btn-text">次へ進む</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ================= VIEW 3: PRAYER & NEXT STEPS ================= -->
+    <section id="view-decision" class="hidden fade-in space-y-5 py-2">
+      <div class="bg-white rounded-3xl p-6 shadow-card border border-amber-100 text-center space-y-4">
+        <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-800 mx-auto flex items-center justify-center">
+          <i data-lucide="heart" class="w-7 h-7 fill-amber-700 text-amber-700"></i>
+        </div>
+        
+        <div class="space-y-1">
+          <span class="text-xs font-bold text-amber-700 tracking-wider uppercase">DECISION OF FAITH</span>
+          <h2 class="text-2xl font-serif font-bold text-slate-900">心を開いて、神様と出会う</h2>
+          <p class="text-xs text-slate-600 max-w-sm mx-auto">
+            神様は、形式や立派な言葉ではなく、あなたの心からの率直な願いを見ておられます。
+          </p>
+        </div>
+
+        <!-- Prayer Stepper Card -->
+        <div class="bg-amber-50/60 rounded-2xl p-4 text-left border border-amber-200/60 space-y-3">
+          <div class="flex items-center justify-between text-xs font-bold text-amber-900 border-b border-amber-200/50 pb-2">
+            <span>一緒に祈る「受け入れの祈り」</span>
+            <span class="text-[11px] text-amber-700 font-normal">声に出すか、心の中で復唱</span>
+          </div>
+
+          <!-- Highlighted Prayer Lines -->
+          <div id="prayer-lines" class="space-y-2.5 font-serif text-sm text-slate-800">
+            <div class="p-2 rounded-xl transition-colors bg-amber-200/50 border border-amber-300 font-bold" id="pline-0">
+              「主イエス様、私はあなたを必要としています。」
+            </div>
+            <div class="p-2 rounded-xl transition-colors opacity-70" id="pline-1">
+              「私のこれまでの罪や自分勝手を赦してください。」
+            </div>
+            <div class="p-2 rounded-xl transition-colors opacity-70" id="pline-2">
+              「私のために十字架にかかり、よみがえってくださったことを信じます。」
+            </div>
+            <div class="p-2 rounded-xl transition-colors opacity-70" id="pline-3">
+              「いま私の心の扉を開き、あなたを私の救い主としてお迎えします。」
+            </div>
+            <div class="p-2 rounded-xl transition-colors opacity-70" id="pline-4">
+              「私の人生の王座に座り、私をあなたが望む新しい人へと導いてください。」
+            </div>
+            <div class="p-2 rounded-xl transition-colors opacity-70" id="pline-5">
+              「イエス・キリストのお名前によってお祈りします。アーメン。」
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-1">
+            <button onclick="advancePrayerLine()" class="text-xs text-amber-800 font-bold hover:underline flex items-center gap-1">
+              <i data-lucide="chevron-down" class="w-4 h-4"></i> 次の一行をハイライト
+            </button>
+            <span class="text-[10px] text-slate-500">「アーメン」＝「本当にその通りです」の意</span>
+          </div>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="space-y-2 text-left pt-2">
+          <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">これから始まる新しい歩み</div>
+          
+          <div class="p-3 bg-slate-50 rounded-xl flex items-start gap-3 border border-slate-200">
+            <div class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</div>
+            <div class="text-xs text-slate-700">
+              <strong class="text-slate-900 block font-semibold">神様と毎日話してみる（お祈り）</strong>
+              形式は自由です。「今日の助けをください」「ありがとう」と心で語りかけましょう。
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-50 rounded-xl flex items-start gap-3 border border-slate-200">
+            <div class="w-6 h-6 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</div>
+            <div class="text-xs text-slate-700">
+              <strong class="text-slate-900 block font-semibold">聖書を少しずつ読む</strong>
+              まずは新約聖書の「ヨハネの福音書」や「マルコの福音書」から読むのがおすすめです。
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-50 rounded-xl flex items-start gap-3 border border-slate-200">
+            <div class="w-6 h-6 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">3</div>
+            <div class="text-xs text-slate-700">
+              <strong class="text-slate-900 block font-semibold">教会へ行ってみる（温かい交わり）</strong>
+              一人で信仰を保つのは大変です。共に祈り、励まし合える仲間に出会いましょう。
+            </div>
+          </div>
+        </div>
+
+        <!-- Share & Return Actions -->
+        <div class="pt-3 space-y-2">
+          <button onclick="shareSummary()" class="w-full py-3 px-4 rounded-2xl bg-amber-700 hover:bg-amber-800 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-all">
+            <i data-lucide="share-2" class="w-4 h-4"></i>
+            <span>今日のまとめをLINE等で相手に送る</span>
+          </button>
+
+          <button onclick="goToHome()" class="w-full py-2.5 px-4 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-xs transition-colors">
+            最初の画面に戻る
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="text-center py-3 text-[11px] text-slate-400 max-w-xl mx-auto w-full px-4 border-t border-amber-900/5">
+    福音ナビゲーター &copy; 2026 | だれでも・いつでも・愛をもって
+  </footer>
+
+  <!-- ==================== MODAL: KNOWLEDGE & Q&A DRAWER ==================== -->
+  <div id="modal-knowledge" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-white w-full max-w-lg rounded-t-3xl sm:rounded-3xl max-h-[88vh] flex flex-col shadow-2xl overflow-hidden fade-in">
+      
+      <!-- Drawer Header -->
+      <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-amber-50/70">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-amber-700 text-white flex items-center justify-center">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="font-bold font-serif text-slate-900 text-base">初心者のための豆知識 ＆ Q&A</h3>
+            <p class="text-[11px] text-slate-500">聖書・キリスト教・教会の疑問をわかりやすく解説</p>
+          </div>
+        </div>
+        <button onclick="closeKnowledgeModal()" class="w-8 h-8 rounded-full bg-slate-200/70 hover:bg-slate-300 flex items-center justify-center text-slate-600 transition-colors">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Tab Buttons -->
+      <div class="flex border-b border-slate-200 bg-slate-50 text-xs font-semibold px-2 overflow-x-auto no-scrollbar">
+        <button onclick="switchKnowledgeTab('bible')" id="tab-btn-bible" class="py-2.5 px-3 border-b-2 border-amber-700 text-amber-900 shrink-0">
+          📖 聖書とは
+        </button>
+        <button onclick="switchKnowledgeTab('church')" id="tab-btn-church" class="py-2.5 px-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 shrink-0">
+          ⛪ 教会ってどんな所？
+        </button>
+        <button onclick="switchKnowledgeTab('faith')" id="tab-btn-faith" class="py-2.5 px-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 shrink-0">
+          ✝️ キリスト教のキホン
+        </button>
+        <button onclick="switchKnowledgeTab('qa')" id="tab-btn-qa" class="py-2.5 px-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800 shrink-0">
+          ❓ よくある疑問Q&A
+        </button>
+      </div>
+
+      <!-- Tab Content Area -->
+      <div class="p-4 sm:p-5 overflow-y-auto custom-scroll flex-1 space-y-4 text-xs text-slate-700">
+        
+        <!-- Tab 1: Bible -->
+        <div id="tab-content-bible" class="space-y-3">
+          <div class="bg-amber-50/60 p-3.5 rounded-2xl border border-amber-200/70">
+            <h4 class="font-bold text-amber-900 text-sm mb-1 flex items-center gap-1.5">
+              <i data-lucide="award" class="w-4 h-4 text-amber-700"></i> 世界で最も読まれているベストセラー
+            </h4>
+            <p class="leading-relaxed">
+              聖書は累計60億冊以上発行され、世界の言語の90%以上に翻訳されています。文化、芸術、民主主義、人権思想など、世界の文明の土台となった書物です。
+            </p>
+          </div>
+
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200 space-y-2">
+            <h4 class="font-bold text-slate-900 text-sm">旧約聖書と新約聖書の違い</h4>
+            <div class="grid grid-cols-2 gap-2 text-[11px] pt-1">
+              <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+                <span class="font-bold text-amber-800 block mb-0.5">旧約聖書（39巻）</span>
+                キリスト誕生前の歴史。「救い主（キリスト）が来られる」という神の約束（旧い契約）。
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+                <span class="font-bold text-emerald-800 block mb-0.5">新約聖書（27巻）</span>
+                キリストの誕生、教え、十字架と復活。「約束が成就した」という新しい契約。
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200">
+            <h4 class="font-bold text-slate-900 text-sm mb-1">1600年・40人以上による「奇跡の統一性」</h4>
+            <p class="leading-relaxed">
+              聖書は約1600年の歳月をかけ、王、羊飼い、医者、漁師など40人以上の著者によって書かれましたが、全体を通して「人類に対する神の愛と救い」という一つのテーマで見事に貫かれています。
+            </p>
+          </div>
+        </div>
+
+        <!-- Tab 2: Church -->
+        <div id="tab-content-church" class="hidden space-y-3">
+          <div class="bg-amber-50/60 p-3.5 rounded-2xl border border-amber-200/70">
+            <h4 class="font-bold text-amber-900 text-sm mb-1 flex items-center gap-1.5">
+              <i data-lucide="smile" class="w-4 h-4 text-amber-700"></i> 誰でも自由に行っていいの？
+            </h4>
+            <p class="leading-relaxed font-semibold text-slate-900">
+              はい、クリスチャンでない方、初めての方も大歓迎です！
+            </p>
+            <p class="mt-1 leading-relaxed text-slate-600">
+              教会は「完成された聖人の集まり」ではなく、「心に重荷や傷を持つ人が癒やされ、愛を知るための場所」です。
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div class="p-3 bg-white rounded-xl border border-slate-200">
+              <div class="font-bold text-slate-900 text-xs mb-1 flex items-center gap-1 text-amber-700">
+                <i data-lucide="shirt" class="w-3.5 h-3.5"></i> 服装は？
+              </div>
+              <p class="text-[11px] text-slate-600">普段着・カジュアルで全く問題ありません。スーツを着る必要はありません。</p>
+            </div>
+
+            <div class="p-3 bg-white rounded-xl border border-slate-200">
+              <div class="font-bold text-slate-900 text-xs mb-1 flex items-center gap-1 text-emerald-700">
+                <i data-lucide="coins" class="w-3.5 h-3.5"></i> 献金（お金）は？
+              </div>
+              <p class="text-[11px] text-slate-600">強制や入場料ではありません。感謝を表したい人の完全自由なもので、パスしても大丈夫です。</p>
+            </div>
+
+            <div class="p-3 bg-white rounded-xl border border-slate-200">
+              <div class="font-bold text-slate-900 text-xs mb-1 flex items-center gap-1 text-sky-700">
+                <i data-lucide="book" class="w-3.5 h-3.5"></i> 持ち物は？
+              </div>
+              <p class="text-[11px] text-slate-600">手ぶらでOK。聖書や讃美歌は教会で借りられるか、スクリーンに投影されます。</p>
+            </div>
+
+            <div class="p-3 bg-white rounded-xl border border-slate-200">
+              <div class="font-bold text-slate-900 text-xs mb-1 flex items-center gap-1 text-rose-700">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> 強引な勧誘はある？
+              </div>
+              <p class="text-[11px] text-slate-600">正統的なプロテスタント・カトリック教会では、個人の自由意志を尊重し、無理な勧誘は一切ありません。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Faith -->
+        <div id="tab-content-faith" class="hidden space-y-3">
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200">
+            <h4 class="font-bold text-slate-900 text-sm mb-1">イエス・キリストは実在したの？</h4>
+            <p class="leading-relaxed">
+              はい。イエスは架空の物語ではなく、約2000年前に実在した歴史上の人物です。ローマの歴史家タキトゥスやユダヤの歴史家ヨセフスの記録にも記されており、現在の西暦（紀元後AD）の基準となっています。
+            </p>
+          </div>
+
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200">
+            <h4 class="font-bold text-slate-900 text-sm mb-1">カトリックとプロテスタントの違い</h4>
+            <p class="leading-relaxed mb-2">
+              どちらも同じ聖書を信じるキリスト教徒です。
+            </p>
+            <div class="grid grid-cols-2 gap-2 text-[11px]">
+              <div class="p-2 bg-slate-50 rounded-lg">
+                <strong class="text-amber-900 block">カトリック</strong>
+                教皇を中心とする伝統重視。神父・修道女。マリアを尊ぶ。
+              </div>
+              <div class="p-2 bg-slate-50 rounded-lg">
+                <strong class="text-sky-900 block">プロテスタント</strong>
+                「聖書のみ・恵みのみ・信仰のみ」。牧師。礼拝がシンプルで親しみやすい。
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-amber-50/70 p-3.5 rounded-2xl border border-amber-200">
+            <h4 class="font-bold text-amber-900 text-sm mb-1">怪しいカルト・新興宗教との見分け方</h4>
+            <p class="text-[11px] leading-relaxed text-slate-700">
+              正統なキリスト教会は「使徒信条」を告白し、イエス・キリストのみを救い主とします。「現世の特定の教祖をメシアとする」「高額な物品販売や全財産献金を強要する」「家族との断絶を迫る」団体は正統なキリスト教ではありません。
+            </p>
+          </div>
+        </div>
+
+        <!-- Tab 4: Q&A -->
+        <div id="tab-content-qa" class="hidden space-y-2.5">
+          <details class="bg-white p-3 rounded-xl border border-slate-200 group">
+            <summary class="font-bold text-slate-900 cursor-pointer flex items-center justify-between text-xs list-none">
+              <span>Q. なぜ世界には戦争や苦しみがあるの？</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform"></i>
+            </summary>
+            <p class="mt-2 text-[11px] text-slate-600 leading-relaxed pt-1 border-t border-slate-100">
+              神様は人間をロボットではなく、愛するために「自由意志」を与えられました。しかし人間が神から離れ、自己中心に生きた結果、争いや不公正が生まれました。神様は苦しみを放置せず、ご自身がイエスとして十字架の苦しみを背負い、共にいて希望を与えてくださいます。
+            </p>
+          </details>
+
+          <details class="bg-white p-3 rounded-xl border border-slate-200 group">
+            <summary class="font-bold text-slate-900 cursor-pointer flex items-center justify-between text-xs list-none">
+              <span>Q. 目に見えない神様をどうやって信じるの？</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform"></i>
+            </summary>
+            <p class="mt-2 text-[11px] text-slate-600 leading-relaxed pt-1 border-t border-slate-100">
+              空気や愛、Wi-Fiの電波も目には見えませんが、その働き（呼吸できる、温かい気持ちになる、ネットが繋がる）によって存在を実感します。同様に、壮大な宇宙の秩序、聖書の言葉の力、祈りへの答えや人生の変化を通じて神様の実在を体験できます。
+            </p>
+          </details>
+
+          <details class="bg-white p-3 rounded-xl border border-slate-200 group">
+            <summary class="font-bold text-slate-900 cursor-pointer flex items-center justify-between text-xs list-none">
+              <span>Q. 先祖供養やお墓参りはどうなるの？</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform"></i>
+            </summary>
+            <p class="mt-2 text-[11px] text-slate-600 leading-relaxed pt-1 border-t border-slate-100">
+              キリスト教でも両親や先祖を敬い、感謝することをとても大切にします（十戒の第5戒「あなたの父母を敬え」）。死者を神として拝むことはしませんが、記念会やお墓を訪れて感謝と祈りを捧げることは温かく行われています。
+            </p>
+          </details>
+
+          <details class="bg-white p-3 rounded-xl border border-slate-200 group">
+            <summary class="font-bold text-slate-900 cursor-pointer flex items-center justify-between text-xs list-none">
+              <span>Q. 「罪」って犯罪のこと？悪いことしてないけど…</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 group-open:rotate-180 transition-transform"></i>
+            </summary>
+            <p class="mt-2 text-[11px] text-slate-600 leading-relaxed pt-1 border-t border-slate-100">
+              聖書でいう「罪（ハマルティア）」は、法律違反だけでなく、「的を外れる」という意味です。人間を造られた創造主（神様）を無視して「自分が神」として生きること、そして心の中の妬み、偽り、無関心も神様の基準から見ると罪とされます。
+            </p>
+          </details>
+        </div>
+
+      </div>
+
+      <!-- Drawer Footer -->
+      <div class="p-3 border-t border-slate-100 bg-slate-50 text-center">
+        <button onclick="closeKnowledgeModal()" class="w-full py-2 bg-slate-800 text-white rounded-xl text-xs font-bold hover:bg-slate-900 transition-colors">
+          閉じて説明に戻る
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: INTERACTIVE VISUALS ==================== -->
+  <div id="modal-interactive" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-3xl p-5 shadow-2xl space-y-4 fade-in">
+      
+      <!-- Interactive 1: Throne Simulation -->
+      <div id="interactive-throne" class="space-y-4 hidden">
+        <div class="flex items-center justify-between">
+          <h4 class="font-serif font-bold text-slate-900 text-lg flex items-center gap-1.5">
+            <i data-lucide="crown" class="w-5 h-5 text-amber-600"></i>
+            心の王座シミュレーター
+          </h4>
+          <button onclick="closeInteractiveModal()" class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <p class="text-xs text-slate-600">
+          あなたの心の中心（王座）には、今だれが座っていますか？ ボタンを押して違いを比較してみてください。
+        </p>
+
+        <!-- Toggle Switch -->
+        <div class="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-2xl text-xs font-bold">
+          <button id="throne-btn-self" onclick="setThroneState('self')" class="py-2 rounded-xl bg-white shadow-xs text-slate-900 transition-all">
+            👤 自分が座る心
+          </button>
+          <button id="throne-btn-christ" onclick="setThroneState('christ')" class="py-2 rounded-xl text-slate-500 hover:text-slate-900 transition-all">
+            ✝️ キリストが座る心
+          </button>
+        </div>
+
+        <!-- Heart Visual Canvas Simulation -->
+        <div id="throne-visual-box" class="p-6 rounded-2xl bg-amber-50/60 border border-amber-200/70 text-center transition-all min-h-[200px] flex flex-col items-center justify-center relative">
+          <!-- Self-Centered UI -->
+          <div id="throne-self-view" class="space-y-3 w-full">
+            <div class="relative w-28 h-28 mx-auto rounded-full border-4 border-dashed border-slate-400 bg-white flex flex-col items-center justify-center shadow-inner">
+              <div class="w-10 h-10 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold text-sm shadow">
+                自我
+              </div>
+              <span class="text-[10px] text-slate-500 font-bold mt-1">心の王座</span>
+              <div class="absolute -top-2 -right-2 text-rose-500 text-xs font-bold animate-bounce">不安💦</div>
+              <div class="absolute -bottom-2 -left-2 text-amber-600 text-xs font-bold">焦り⚡</div>
+            </div>
+            <div class="text-xs text-slate-700 bg-white/80 p-2.5 rounded-xl border border-slate-200">
+              <strong class="text-rose-700 block font-bold mb-0.5">自己中心の生活（キリストは外）</strong>
+              自分がすべて背負い込み、他者との比較や将来の不安、葛藤に心が乱れがちになります。
+            </div>
+          </div>
+
+          <!-- Christ-Centered UI -->
+          <div id="throne-christ-view" class="hidden space-y-3 w-full">
+            <div class="relative w-28 h-28 mx-auto rounded-full border-4 border-solid border-amber-400 bg-amber-50 flex flex-col items-center justify-center shadow-md">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-600 to-amber-400 text-white flex items-center justify-center font-bold text-base shadow">
+                ✝️
+              </div>
+              <span class="text-[10px] text-amber-800 font-bold mt-1">キリストの王座</span>
+              <div class="absolute -top-2 -right-2 text-emerald-600 text-xs font-bold animate-pulse">平安🕊️</div>
+              <div class="absolute -bottom-2 -left-2 text-sky-600 text-xs font-bold">調和✨</div>
+            </div>
+            <div class="text-xs text-slate-700 bg-white/80 p-2.5 rounded-xl border border-amber-200">
+              <strong class="text-emerald-800 block font-bold mb-0.5">キリスト中心の生活（調和と愛）</strong>
+              イエス様が舵を取り、自分は愛され導かれる存在に。心に深い安らぎと目的が生まれます。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive 2: Bridge to Life -->
+      <div id="interactive-bridge" class="space-y-4 hidden">
+        <div class="flex items-center justify-between">
+          <h4 class="font-serif font-bold text-slate-900 text-lg flex items-center gap-1.5">
+            <i data-lucide="spline" class="w-5 h-5 text-emerald-600"></i>
+            いのちの架け橋（Bridge of Life）
+          </h4>
+          <button onclick="closeInteractiveModal()" class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <p class="text-xs text-slate-600">
+          神様と人間の間には「罪の谷」があります。どうすれば届くでしょうか？
+        </p>
+
+        <!-- Visual Chasm Canvas -->
+        <div class="bg-slate-900 rounded-2xl p-4 text-white relative min-h-[190px] flex flex-col justify-between overflow-hidden">
+          <!-- Cliffs -->
+          <div class="flex justify-between items-start text-xs font-bold pt-1 z-10">
+            <div class="bg-slate-800/80 px-2.5 py-1 rounded-lg border border-slate-700 text-slate-200">
+              👤 人間<br><span class="text-[10px] text-slate-400 font-normal">有限・罪</span>
+            </div>
+            <div class="bg-amber-950/80 px-2.5 py-1 rounded-lg border border-amber-500/50 text-amber-200 text-right">
+              👑 神様<br><span class="text-[10px] text-amber-300 font-normal">聖・永遠の命</span>
+            </div>
+          </div>
+
+          <!-- Chasm Bottom -->
+          <div class="text-center my-auto py-2 z-10">
+            <span class="text-[10px] uppercase tracking-widest text-rose-400 font-bold bg-rose-950/60 px-2.5 py-0.5 rounded-full border border-rose-800">
+              深い裂け目（罪と死）
+            </span>
+          </div>
+
+          <!-- Failed Effort Arrow (Animated) -->
+          <div id="bridge-failed-arrow" class="hidden absolute top-12 left-14 w-28 h-8 border-t-2 border-dashed border-rose-400 z-10">
+            <span class="text-[10px] text-rose-300 bg-slate-900 px-1">善行・宗教 ❌ 届かない</span>
+          </div>
+
+          <!-- Cross Bridge (Animated) -->
+          <div id="bridge-cross" class="hidden absolute inset-0 flex items-center justify-center z-10">
+            <div class="relative w-full px-10 flex items-center justify-center">
+              <div class="w-full h-3 bg-amber-400 rounded shadow-[0_0_15px_rgba(251,191,36,0.6)]"></div>
+              <div class="absolute w-3 h-20 bg-amber-400 rounded -top-8 shadow-[0_0_15px_rgba(251,191,36,0.6)]"></div>
+              <span class="absolute -bottom-6 text-xs text-amber-200 font-bold bg-slate-900/90 px-2 py-0.5 rounded-full border border-amber-400">
+                ✝️ イエスの十字架が橋となる！
+              </span>
+            </div>
+          </div>
+
+          <!-- Base of chasm -->
+          <div class="text-[10px] text-slate-500 text-center z-10">
+            ヨハネ 14:6「わたしが道であり、真理であり、いのちなのです。」
+          </div>
+        </div>
+
+        <!-- Action Buttons for Bridge -->
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="triggerBridgeEffort('fail')" class="py-2.5 px-3 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors">
+            人為の努力（道徳・善行）
+          </button>
+          <button onclick="triggerBridgeEffort('cross')" class="py-2.5 px-3 rounded-xl bg-amber-700 text-white text-xs font-bold hover:bg-amber-800 transition-all shadow-sm">
+            ✝️ キリストの十字架
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== LOGIC & DATA SCRIPT ==================== -->
+  <script>
+    // ---------- STATE MANAGEMENT ----------
+    let currentMode = 'rainbow'; // 'rainbow' | 'four_laws' | 'concerns' | 'quick'
+    let currentSlideIndex = 0;
+    let isPresenterHintVisible = true;
+    let currentPrayerIndex = 0;
+
+    // ---------- SLIDE DATA DEFINITIONS ----------
+    const PRESENTATION_DATA = {
+      // 1. RAINBOW GOSPEL (虹の架け橋)
+      rainbow: {
+        title: '虹の架け橋コース',
+        slides: [
+          {
+            badge: '🌈 1. 金色（光・天国）',
+            tagline: '神の愛と素晴らしい世界',
+            title: '神様はあなたを愛し、\n尊い存在として造られました',
+            body: `
+              <p>金色は、神様の栄光と天国、そして変わらない愛を表しています。</p>
+              <p>聖書は、私たちが偶然の産物ではなく、神様が一人ひとりをかけがえのない宝物として、素晴らしい目的をもって創造されたと語っています。</p>
+              <div class="p-3 bg-amber-100/50 rounded-xl border border-amber-200 text-amber-950 font-medium text-xs">
+                ✨ あなたの命には、測り知れない価値があります。
+              </div>
+            `,
+            verse: '「わたしの目には、あなたは高価で尊い。わたしはあなたを愛している。」',
+            ref: 'イザヤ書 43章4節',
+            note: '「金色ってどんなイメージ？」と相手に投げかけ、自分が神様に大切にされている存在であるという安心感をまず届けましょう。'
+          },
+          {
+            badge: '⚫ 2. 黒・暗闇（罪・的外れ）',
+            tagline: '神様からの迷子・断絶',
+            title: 'しかし人間は、\n愛の神様から離れてしまいました',
+            body: `
+              <p>黒や灰色は、私たちの心にある暗闇や迷いを表しています。</p>
+              <p>聖書でいう「罪（ハマルティア）」とは、単なる法律違反ではなく、矢が<strong>「的を外れる」</strong>という意味です。神様を忘れ、自分が神のように自己中心に生きてしまうことです。</p>
+              <p>その結果、不安、孤独、争い、そして死への恐れが世界と人の心を満たすようになりました。</p>
+            `,
+            verse: '「すべての人は罪を犯して、神の栄光を受けることができず…」',
+            ref: 'ローマ人への手紙 3章23節',
+            note: '相手を責めるのではなく「私たちみんな、どこかで心に寂しさや的外れな思いを抱えていますよね」と共感をもって話します。'
+          },
+          {
+            badge: '🔴 3. 赤色（十字架と血潮）',
+            tagline: '身代わりの愛',
+            title: '神様は愛するあなたを救うため、\nイエス様を十字架に遣わされました',
+            body: `
+              <p>赤色は、イエス・キリストが十字架の上で流された「命の血（愛の犠牲）」を表しています。</p>
+              <p>人間が自分の努力や善行で神様の元に戻れないことを知っていた神様は、ひとり子イエス様をこの世に送り、私たちのすべての罪と痛みを身代わりに背負って十字架で死んでくださいました。</p>
+              <div class="p-3 bg-rose-50 rounded-xl border border-rose-200 text-rose-900 text-xs">
+                ❤️ これが人類史上最大の「身代わりの愛」です。
+              </div>
+            `,
+            verse: '「しかし私たちがまだ罪人であったとき、キリストが私たちのために死んでくださったことにより、神は私たちに対するご自身の愛を明らかにしておられます。」',
+            ref: 'ローマ人への手紙 5章8節',
+            note: '「もし大切な人の代わりに罪をかぶって死ねる人がいたら…それがイエス様なんです」と、愛の深さを強調します。'
+          },
+          {
+            badge: '⚪ 4. 白色（赦しと復活）',
+            tagline: '雪のような清め',
+            title: 'イエス様は3日目によみがえり、\n心を雪のように白く清めてくださいます',
+            body: `
+              <p>白色は、罪の完全な赦しと、新しい命の始まりを表しています。</p>
+              <p>イエス様は死に打ち勝って3日目に復活されました！イエス様を信じる人の過去の過ちや心の傷はすべて洗い流され、雪のように白く新しくされます。</p>
+            `,
+            verse: '「たとい、あなたがたの罪が緋のように赤くても、雪のように白くなる。」',
+            ref: 'イザヤ書 1章18節',
+            note: '「リセットボタンを押して、新しく生まれ変われる恵みがあるんです」と伝えると響きやすいです。'
+          },
+          {
+            badge: '🟢 5. 緑色（成長と希望）',
+            tagline: '神様と共に歩む人生',
+            title: '木々が青々と育つように、\n神様と共に永遠の希望を歩みます',
+            body: `
+              <p>緑色は、新しい命の成長、聖霊の助け、そして教会という温かい家族を表しています。</p>
+              <p>救われた後も、私たちは一人ではありません。神様がいつも一緒にいてくださり、祈りに答え、豊かな実を結ぶ人生へと導いてくださいます。</p>
+            `,
+            verse: '「わたしはぶどうの木、あなたがたはその枝です。人がわたしにとどまり、わたしもその人にとどまっているなら、その人は多くの実を結びます。」',
+            ref: 'ヨハネの福音書 15章5節',
+            note: '「キリスト教は孤独な修行ではなく、神様や仲間と一緒に楽しく歩む旅なんですよ」と教会や交わりの温もりを添えます。'
+          }
+        ]
+      },
+
+      // 2. FOUR SPIRITUAL LAWS (4つの法則)
+      four_laws: {
+        title: '4つの法則コース',
+        slides: [
+          {
+            badge: '第1の法則',
+            tagline: '神の愛と計画',
+            title: '神はあなたを愛しておられ、\nあなたの人生のために素晴らしい計画をお持ちです',
+            body: `
+              <p>自然界に物理的な法則があるように、神と人との間にも霊的な法則があります。</p>
+              <p>神様はあなたを深く愛し、ただ生き延びるだけでなく、満ち足りた意味のある人生を生きることを願っておられます。</p>
+            `,
+            verse: '「わたしが来たのは、羊がいのちを得、またそれを豊かに持つためである。」',
+            ref: 'ヨハネの福音書 10章10節',
+            note: '「なぜ人間は生きているのか？」という存在の目的に焦点を当てます。'
+          },
+          {
+            badge: '第2の法則',
+            tagline: '人の罪と断絶',
+            title: '人は罪のために神から離れ、\n神の愛と計画を知ることも体験することもできません',
+            body: `
+              <p>人間は神の指示に従わず、自分の思い通りに生きようとしました（自己中心の心）。これが聖書の語る「罪」です。</p>
+              <p>聖なる神と罪ある人間との間には深い断絶があり、自力（哲学・善行・道徳）では越えられません。</p>
+              <div class="mt-2 text-center">
+                <button onclick="openInteractiveModal('bridge')" class="px-3 py-2 rounded-xl bg-slate-800 text-white text-xs font-bold hover:bg-slate-700 transition-colors">
+                  🌉 「断絶と架け橋」の図を見る
+                </button>
+              </div>
+            `,
+            verse: '「罪の報酬は死です。しかし神の賜物は、私たちの主キリスト・イエスにある永遠のいのちです。」',
+            ref: 'ローマ人への手紙 6章23節',
+            note: '「良い人でも、神様との関係が切れていると心の根本の渇きは癒やされない」という点を優しく解説します。'
+          },
+          {
+            badge: '第3の法則',
+            tagline: '唯一の解決：イエス・キリスト',
+            title: 'イエス・キリストこそが、\n人の罪に対する神の唯一の解決です',
+            body: `
+              <p>キリストを通してのみ、私たちは神の愛と計画を知り、体験することができます。</p>
+              <p>イエス様は私たちの身代わりに十字架で死に、3日目に復活されました。キリストが神と人を結ぶ唯一の橋となられたのです。</p>
+            `,
+            verse: '「わたしが道であり、真理であり、いのちなのです。わたしを通してでなければ、だれも父のみもとに行くことはできません。」',
+            ref: 'ヨハネの福音書 14章6節',
+            note: '他の宗教を否定・批判するのではなく、「身代わりの死と復活によって罪を解決してくださったのはイエス様だけ」という事実を伝えます。'
+          },
+          {
+            badge: '第4の法則',
+            tagline: '個人的な受け入れ',
+            title: '私たちはイエス・キリストを\n個人的に救い主として迎え入れる必要があります',
+            body: `
+              <p>知識として知るだけでなく、個人的に心の中にイエス様をお迎えするとき、私たちは神の子どもとされ、永遠のいのちをいただきます。</p>
+              <p>あなたの心の中心（王座）には、いま誰が座っているでしょうか？</p>
+              <div class="mt-2 text-center">
+                <button onclick="openInteractiveModal('throne')" class="px-3 py-2 rounded-xl bg-amber-700 text-white text-xs font-bold hover:bg-amber-800 transition-colors">
+                  👑 「心の王座」シミュレーション
+                </button>
+              </div>
+            `,
+            verse: '「見よ、わたしは戸の外に立ってたたいている。だれでも、わたしの声を聞いて戸をあけるなら、わたしはその人のところにはいって、彼とともに食事をし、彼もわたしとともに食事をする。」',
+            ref: 'ヨハネの黙示録 3章20節',
+            note: '「イエス様は無理やり心に入ってきません。あなたがドアを開けるのを待っておられます」と語りかけます。'
+          }
+        ]
+      },
+
+      // 3. CONCERNS & THEMES (お悩み・関心別)
+      concerns: {
+        title: 'お悩み・関心別コース',
+        slides: [
+          {
+            badge: '導入：今の関心',
+            tagline: '心に寄り添う対話',
+            title: 'いま、あなたの心が求めているものは\nどれに近いですか？',
+            body: `
+              <div class="grid grid-cols-1 gap-2 pt-1">
+                <button onclick="selectConcernTopic(0)" class="p-3 text-left rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 transition-colors text-xs font-bold text-amber-950 flex items-center justify-between">
+                  <span>🕊️ 心の平安・疲れの癒やしがほしい</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
+                <button onclick="selectConcernTopic(1)" class="p-3 text-left rounded-xl bg-sky-50 hover:bg-sky-100 border border-sky-200 transition-colors text-xs font-bold text-sky-950 flex items-center justify-between">
+                  <span>🧭 なぜ生きるのか？生きる意味と目的</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
+                <button onclick="selectConcernTopic(2)" class="p-3 text-left rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-colors text-xs font-bold text-emerald-950 flex items-center justify-between">
+                  <span>🤝 人間関係のしんどさ・自分を赦せない</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
+                <button onclick="selectConcernTopic(3)" class="p-3 text-left rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200 transition-colors text-xs font-bold text-purple-950 flex items-center justify-between">
+                  <span>🔍 科学や宇宙の起源・聖書の真実性</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
+              </div>
+            `,
+            verse: '「すべて疲れた人、重荷を負っている人はわたしのもとに来なさい。わたしがあなたがたを休ませてあげます。」',
+            ref: 'マタイの福音書 11章28節',
+            note: '相手が選んだテーマをじっくり聞き、「そうですよね、分かります」とまず深く共感しましょう。'
+          },
+          {
+            badge: 'ステップ 2',
+            tagline: '渇きの根本原因',
+            title: '人間のすべての悩みは、\n「創造主との断絶」から始まっています',
+            body: `
+              <p>魚が水から出ると苦しむように、スマホが充電器から外れるとバッテリーが切れるように、人間も命の源である神様から切り離されているときに、心に尽きない渇きや不安を覚えます。</p>
+              <p>成功や物質、娯楽では、魂の深い穴を埋めることはできません。</p>
+            `,
+            verse: '「わたしの民は二つの悪を行なった。生ける水の泉であるわたしを捨てて、水をためることのできない、こわれた水ためを自分たちのために掘ったのだ。」',
+            ref: 'エレミヤ書 2章13節',
+            note: '「何かで埋めようとしても、また空っぽになる感覚ってありませんか？」と問いかけます。'
+          },
+          {
+            badge: 'ステップ 3',
+            tagline: '本当のやすらぎ',
+            title: '神様はあなたをあるがまま愛し、\n安らぎと回復を用意しています',
+            body: `
+              <p>キリストは、あなたの苦しみ、弱さ、孤独をすべて理解しておられます。なぜなら、自ら人となって苦しまれ、私たちの身代わりに十字架にかかられたからです。</p>
+              <p>キリストに信頼するとき、世が与えることのできない深い平安が心に注がれます。</p>
+            `,
+            verse: '「わたしはあなたがたに平安を残します。わたしの平安を与えます。わたしは、世が与えるのとは違って、あなたがたに与えます。」',
+            ref: 'ヨハネの福音書 14章27節',
+            note: 'キリストがただの偉人ではなく、今も生きて励ましてくださる存在であることを証しします。'
+          }
+        ]
+      },
+
+      // 4. QUICK 3-MINUTES (3分クイック)
+      quick: {
+        title: '3分クイック・ダイジェスト',
+        slides: [
+          {
+            badge: '⚡ 3分でわかる神の愛',
+            tagline: '神の愛とあなたの価値',
+            title: 'あなたは神様に愛されるために\n生まれてきました',
+            body: `
+              <p>聖書の一番大切なメッセージは、「神様はあなたを無条件に愛している」ということです。</p>
+              <p>成績や仕事の成果に関係なく、あなたの存在そのものが神様にとってかけがえのない宝物です。</p>
+            `,
+            verse: '「神はそのひとり子を世に遣わし、その方によって私たちにいのちを得させてくださいました。」',
+            ref: 'ヨハネの手紙第一 4章9節',
+            note: 'テンポよく明るく伝えます。'
+          },
+          {
+            badge: '⚡ 十字架の恵み',
+            tagline: '赦しと新しいスタート',
+            title: 'イエス・キリストの十字架は、\nあなたの罪と痛みを背負うためのものでした',
+            body: `
+              <p>私たちは知らず知らずのうちに神様から離れ、自己中心に生きてしまいます。イエス様はそのすべての過ちを赦すために十字架で身代わりとなって死に、復活されました。</p>
+              <p>この救いは、行いではなく「恵みのプレゼント」です。</p>
+            `,
+            verse: '「あなたがたは、恵みのゆえに、信仰によって救われたのです。それは、神の賜物です。」',
+            ref: 'エペソ人への手紙 2章8節',
+            note: 'プレゼントは受け取るだけで自分のものになる、と例えます。'
+          },
+          {
+            badge: '⚡ 心を開くとき',
+            tagline: '今日から始まる新しい命',
+            title: '心の中にイエス様をお迎えして、\n新しい人生をスタートしませんか？',
+            body: `
+              <p>「神様、私を愛してくださってありがとう。私の心に入ってください」と祈るだけで、神様はあなたの内に住んでくださいます。</p>
+            `,
+            verse: '「だれでもキリストのうちにあるなら、その人は新しく造られた者です。古いものは過ぎ去った、見よ、すべてが新しくなった。」',
+            ref: 'コリント人への手紙第二 5章17節',
+            note: 'もしよければ一緒に祈ってみない？とスムーズに決心のステップへ繋げます。'
+          }
+        ]
+      }
+    };
+
+    // ---------- CONTROLLER FUNCTIONS ----------
+    function updateProgressIndicators() {
+      const container = document.getElementById('progress-container');
+      const slides = PRESENTATION_DATA[currentMode].slides;
+      container.innerHTML = '';
+
+      for (let i = 0; i < slides.length; i++) {
+        const bar = document.createElement('div');
+        bar.className = `flex-1 h-full rounded-full transition-all duration-300 cursor-pointer ${
+          i <= currentSlideIndex ? 'bg-amber-600' : 'bg-slate-200'
+        }`;
+        bar.onclick = () => jumpToSlide(i);
+        container.appendChild(bar);
+      }
+    }
+
+    function renderSlide() {
+      const modeData = PRESENTATION_DATA[currentMode];
+      const slide = modeData.slides[currentSlideIndex];
+
+      // Update Header Info
+      document.getElementById('current-mode-badge').innerText = modeData.title;
+      document.getElementById('slide-number-text').innerText = `${currentSlideIndex + 1} / ${modeData.slides.length}`;
+      updateProgressIndicators();
+
+      // Update Slide Elements
+      const card = document.getElementById('slide-card');
+      card.classList.remove('fade-in');
+      void card.offsetWidth; // trigger reflow
+      card.classList.add('fade-in');
+
+      document.getElementById('slide-badge').innerText = slide.badge;
+      document.getElementById('slide-tagline').innerText = slide.tagline;
+      document.getElementById('slide-title').innerText = slide.title;
+      document.getElementById('slide-body-content').innerHTML = slide.body;
+      document.getElementById('slide-verse-text').innerText = slide.verse;
+      document.getElementById('slide-verse-ref').innerText = slide.ref;
+      document.getElementById('presenter-note-text').innerText = slide.note;
+
+      // Update Nav Buttons
+      const prevBtn = document.getElementById('btn-prev-slide');
+      if (currentSlideIndex === 0) {
+        prevBtn.innerHTML = `<i data-lucide="home" class="w-4 h-4"></i><span>ホーム</span>`;
+      } else {
+        prevBtn.innerHTML = `<i data-lucide="arrow-left" class="w-4 h-4"></i><span>前へ</span>`;
+      }
+
+      const nextBtnText = document.getElementById('next-btn-text');
+      if (currentSlideIndex === modeData.slides.length - 1) {
+        nextBtnText.innerText = '受け入れの祈りへ';
+      } else {
+        nextBtnText.innerText = '次へ進む';
+      }
+
+      // Re-init lucide icons in dynamic elements
+      lucide.createIcons();
+    }
+
+    function startPresentation(mode) {
+      currentMode = mode;
+      currentSlideIndex = 0;
+
+      document.getElementById('view-home').classList.add('hidden');
+      document.getElementById('view-decision').classList.add('hidden');
+      document.getElementById('view-presentation').classList.remove('hidden');
+      document.getElementById('presentation-header').classList.remove('hidden');
+
+      renderSlide();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goToHome() {
+      document.getElementById('view-presentation').classList.add('hidden');
+      document.getElementById('view-decision').classList.add('hidden');
+      document.getElementById('presentation-header').classList.add('hidden');
+      document.getElementById('view-home').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function nextSlide() {
+      const modeData = PRESENTATION_DATA[currentMode];
+      if (currentSlideIndex < modeData.slides.length - 1) {
+        currentSlideIndex++;
+        renderSlide();
+      } else {
+        // Go to Decision / Prayer View
+        document.getElementById('view-presentation').classList.add('hidden');
+        document.getElementById('view-decision').classList.remove('hidden');
+        currentPrayerIndex = 0;
+        updatePrayerHighlights();
+        lucide.createIcons();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function prevSlide() {
+      if (currentSlideIndex > 0) {
+        currentSlideIndex--;
+        renderSlide();
+      } else {
+        goToHome();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function jumpToSlide(index) {
+      currentSlideIndex = index;
+      renderSlide();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Toggle Presenter Hints
+    function togglePresenterHint() {
+      isPresenterHintVisible = !isPresenterHintVisible;
+      const box = document.getElementById('presenter-note-box');
+      const btnText = document.getElementById('hint-btn-text');
+      const btn = document.getElementById('toggle-hint-btn');
+
+      if (isPresenterHintVisible) {
+        box.classList.remove('hidden');
+        btnText.innerText = 'ヒントON';
+        btn.classList.add('bg-white', 'text-amber-800');
+        btn.classList.remove('bg-slate-100', 'text-slate-400');
+      } else {
+        box.classList.add('hidden');
+        btnText.innerText = 'ヒントOFF';
+        btn.classList.remove('bg-white', 'text-amber-800');
+        btn.classList.add('bg-slate-100', 'text-slate-400');
+      }
+    }
+
+    // Concerns Quick Topic Select
+    function selectConcernTopic(topicIdx) {
+      nextSlide();
+    }
+
+    // Prayer Highlight Advancement
+    function advancePrayerLine() {
+      currentPrayerIndex = (currentPrayerIndex + 1) % 6;
+      updatePrayerHighlights();
+    }
+
+    function updatePrayerHighlights() {
+      for (let i = 0; i < 6; i++) {
+        const el = document.getElementById(`pline-${i}`);
+        if (i === currentPrayerIndex) {
+          el.className = "p-2 rounded-xl transition-colors bg-amber-200/70 border border-amber-300 font-bold text-amber-950 scale-[1.01]";
+        } else {
+          el.className = "p-2 rounded-xl transition-colors opacity-60 text-slate-700";
+        }
+      }
+    }
+
+    // Share Summary via Web Share API
+    function shareSummary() {
+      const shareData = {
+        title: '神様からの愛のメッセージ | 福音ナビゲーター',
+        text: `【神様からの愛のメッセージ】\n\n「わたしの目には、あなたは高価で尊い。わたしはあなたを愛している。」(聖書)\n\n神様はあなたをかけがえのない存在として造られ、愛しておられます。イエス・キリストの十字架を通して、いつでも心に平安と新しい命が与えられます。\n\nいつでも気軽に教会や聖書のお話を聞いてみてくださいね！`,
+        url: window.location.href
+      };
+
+      if (navigator.share) {
+        navigator.share(shareData).catch((err) => console.log('Share canceled or failed', err));
+      } else {
+        navigator.clipboard.writeText(shareData.text);
+        alert('メッセージをクリップボードにコピーしました！LINEやメール等に貼り付けて相手に送ることができます。');
+      }
+    }
+
+    // ---------- KNOWLEDGE MODAL LOGIC ----------
+    function openKnowledgeModal() {
+      document.getElementById('modal-knowledge').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeKnowledgeModal() {
+      document.getElementById('modal-knowledge').classList.add('hidden');
+    }
+
+    function switchKnowledgeTab(tab) {
+      const tabs = ['bible', 'church', 'faith', 'qa'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tab-btn-${t}`);
+        const content = document.getElementById(`tab-content-${t}`);
+        if (t === tab) {
+          btn.classList.add('border-amber-700', 'text-amber-900');
+          btn.classList.remove('border-transparent', 'text-slate-500');
+          content.classList.remove('hidden');
+        } else {
+          btn.classList.remove('border-amber-700', 'text-amber-900');
+          btn.classList.add('border-transparent', 'text-slate-500');
+          content.classList.add('hidden');
+        }
+      });
+      lucide.createIcons();
+    }
+
+    // ---------- INTERACTIVE VISUALS MODAL LOGIC ----------
+    function openInteractiveModal(type) {
+      const modal = document.getElementById('modal-interactive');
+      modal.classList.remove('hidden');
+      
+      const throneEl = document.getElementById('interactive-throne');
+      const bridgeEl = document.getElementById('interactive-bridge');
+
+      if (type === 'throne') {
+        throneEl.classList.remove('hidden');
+        bridgeEl.classList.add('hidden');
+        setThroneState('self');
+      } else {
+        throneEl.classList.add('hidden');
+        bridgeEl.classList.remove('hidden');
+        resetBridge();
+      }
+      lucide.createIcons();
+    }
+
+    function closeInteractiveModal() {
+      document.getElementById('modal-interactive').classList.add('hidden');
+    }
+
+    function setThroneState(state) {
+      const selfView = document.getElementById('throne-self-view');
+      const christView = document.getElementById('throne-christ-view');
+      const btnSelf = document.getElementById('throne-btn-self');
+      const btnChrist = document.getElementById('throne-btn-christ');
+
+      if (state === 'self') {
+        selfView.classList.remove('hidden');
+        christView.classList.add('hidden');
+        btnSelf.className = 'py-2 rounded-xl bg-white shadow-xs text-slate-900 transition-all font-bold';
+        btnChrist.className = 'py-2 rounded-xl text-slate-500 hover:text-slate-900 transition-all font-medium';
+      } else {
+        selfView.classList.add('hidden');
+        christView.classList.remove('hidden');
+        btnChrist.className = 'py-2 rounded-xl bg-white shadow-xs text-amber-900 transition-all font-bold';
+        btnSelf.className = 'py-2 rounded-xl text-slate-500 hover:text-slate-900 transition-all font-medium';
+      }
+    }
+
+    function resetBridge() {
+      document.getElementById('bridge-failed-arrow').classList.add('hidden');
+      document.getElementById('bridge-cross').classList.add('hidden');
+    }
+
+    function triggerBridgeEffort(type) {
+      const failArrow = document.getElementById('bridge-failed-arrow');
+      const crossBridge = document.getElementById('bridge-cross');
+
+      if (type === 'fail') {
+        crossBridge.classList.add('hidden');
+        failArrow.classList.remove('hidden');
+      } else {
+        failArrow.classList.add('hidden');
+        crossBridge.classList.remove('hidden');
+      }
+    }
+
+    function openModeSelectModal() {
+      goToHome();
+    }
+
+    // Initialize Lucide Icons on Load
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
